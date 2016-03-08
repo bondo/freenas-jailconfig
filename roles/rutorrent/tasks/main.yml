@@ -1,0 +1,63 @@
+---
+
+- name: install rutorrent dependencies
+  pkgng: name={{ item }} state=present
+  with_items: [ffmpeg, mediainfo, unrar]
+
+- name: create rutorrent user
+  user: name=rutorrent groups=media,rtorrent state=present
+        home=/usr/local/www/rutorrent
+        createhome=no
+
+- name: create rutorrent webdir
+  file: path=/usr/local/www/rutorrent state=directory
+        owner=root group=wheel mode=0755
+
+- name: copy rutorrent archive
+  copy: src=rutorrent-3.7.tar.gz dest=/usr/local/libdata/ansible/archives
+        owner=root group=wheel mode=644
+
+- name: unpack rutorrent
+  command: tar -xvzf /usr/local/libdata/ansible/archives/rutorrent-3.7.tar.gz -C /usr/local/www/rutorrent
+           creates=/usr/local/www/rutorrent/index.html
+  register: unpack_rtorrent
+
+- name: set base permissions on rutorrent files
+  file: path=/usr/local/www/rutorrent state=directory
+        recurse=yes
+        owner=root group=wheel mode='u=rwX,go=rX'
+  when: unpack_rtorrent|changed
+
+- name: change owner of share/ to rutorrent
+  file: path=/usr/local/www/rutorrent/share state=directory
+        recurse=yes
+        owner=rutorrent group=wheel mode='u=rwX,go=rX'
+
+- name: configure rutorrent
+  template: src=config.php dest=/usr/local/www/rutorrent/conf/config.php
+            owner=root group=wheel mode=644
+
+- name: create php-fpm pool folder
+  file: path=/usr/local/etc/fpm-pool.d state=directory
+        owner=root group=wheel mode=0755
+
+- name: enable php-fpm pool configs
+  lineinfile: dest=/usr/local/etc/php-fpm.conf
+              line="include=etc/fpm-pool.d/*.conf"
+  notify: restart php-fpm
+
+- name: create rutorrent php pool
+  template: src=php-pool.conf dest=/usr/local/etc/fpm-pool.d/rutorrent.conf
+            owner=root group=wheel mode=644
+  notify: restart php-fpm
+
+- name: create the nginx vhost
+  template: src=nginx-vhost.conf dest=/usr/local/etc/nginx/sites-available/rutorrent
+            owner=root group=wheel mode=644
+  notify: reload nginx
+
+- name: enable the vhost
+  file: src=/usr/local/etc/nginx/sites-available/rutorrent
+        dest=/usr/local/etc/nginx/sites-enabled/rutorrent
+        state=link
+  notify: reload nginx

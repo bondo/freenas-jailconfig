@@ -2,10 +2,10 @@
 
 - name: install nginx
   pkgng: name=nginx state=present
-  notify: start nginx
+  notify: restart nginx
 
 - name: configure nginx
-  template: src=nginx.conf.j2 dest=/usr/local/etc/nginx/nginx.conf
+  template: src=nginx.conf dest=/usr/local/etc/nginx/nginx.conf
             owner=root group=wheel mode=0644
   notify: restart nginx
 

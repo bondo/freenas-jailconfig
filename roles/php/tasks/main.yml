@@ -1,0 +1,14 @@
+---
+
+- name: install php
+  pkgng: name=php56 state=present
+  notify: restart php-fpm
+
+- name: install php extensions
+  pkgng: name=php56-extensions state=present
+  notify: restart php-fpm
+
+- name: configure php
+  template: src=php.ini dest=/usr/local/etc/php.ini
+            owner=root group=wheel mode=644
+  notify: restart php-fpm
