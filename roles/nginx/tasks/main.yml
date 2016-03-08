@@ -1,0 +1,16 @@
+---
+
+- name: install nginx
+  pkgng: name=nginx state=present
+  notify: start nginx
+
+- name: configure nginx
+  template: src=nginx.conf.j2 dest=/usr/local/etc/nginx/nginx.conf
+            owner=root group=wheel mode=0644
+  notify: restart nginx
+
+- name: create nginx config folders
+  file: path=/usr/local/etc/nginx/{{ item }} state=directory
+        owner=root group=wheel mode=0755
+  with_items: [conf.d, sites-available, sites-enabled]
+  notify: restart nginx

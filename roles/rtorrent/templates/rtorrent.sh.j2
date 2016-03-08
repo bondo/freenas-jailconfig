@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# PROVIDE: rtorrent
+# REQUIRE: DAEMON cleanvar
+# KEYWORD: shutdown
+
+rtorrent_home=/usr/local/libdata/rtorrent
+
+. /etc/rc.subr
+
+name=rtorrent
+rcvar=rtorrent_enable
+procname=/usr/lib/rtorrent
+command=/usr/local/bin/dtach
+command_args="-n ${rtorrent_home}/rtorrent.dtach /usr/local/bin/rtorrent"
+rtorrent_chdir=${rtorrent_home}
+rtorrent_user=rtorrent
+
+load_rc_config $name
+run_rc_command "$@"

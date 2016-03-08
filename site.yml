@@ -1,0 +1,9 @@
+---
+
+- hosts: jails
+  roles:
+    - pre_setup
+
+- hosts: rtorrent@freenas.local
+  roles:
+    - rutorrent

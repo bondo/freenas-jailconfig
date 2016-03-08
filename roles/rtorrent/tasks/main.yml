@@ -1,0 +1,26 @@
+---
+
+- name: install rtorrent
+  pkgng: name=rtorrent state=present
+
+- name: install dtach for running rtorrent
+  pkgng: name=dtach state=present
+
+- name: create rtorrent user
+  user: name=rtorrent groups=media state=present
+        home=/usr/local/libdata/rtorrent
+        createhome=no
+
+- name: create rtorrent user home dir
+  file: path=/usr/local/libdata/rtorrent state=directory
+        owner=rtorrent group=rtorrent mode=0755
+
+- name: configure rtorrent
+  template: src=rtorrent.rc.j2 dest=/usr/local/libdata/rtorrent/.rtorrent.rc
+            owner=rtorrent group=rtorrent mode=0644
+  notify: restart rtorrent
+
+- name: create rtorrent init script
+  template: src=rtorrent.sh.j2 dest=/usr/local/etc/rc.d/rtorrent
+            owner=root group=wheel mode=755
+  notify: start rtorrent

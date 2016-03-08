@@ -1,0 +1,13 @@
+---
+
+# - name: update pkg
+#   command: pkg update
+
+# - name: upgrade all packages on the system
+#   openbsd_pkg: name=* state=latest
+
+# - name: convert to pkgng
+#   command: pkg2ng
+
+- name: create the media group
+  group: name=media gid=816 state=present

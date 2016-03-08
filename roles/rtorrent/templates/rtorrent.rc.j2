@@ -1,0 +1,6 @@
+scgi_local = /usr/local/libdata/rtorrent/rpc.socket
+
+# Set correct access rights to the socket file ----------+
+# so both, lighttpd and rtorrent, could perform          |
+# read-write operations                                  v
+schedule = scgi_permission,0,0,"execute.nothrow=chmod,\"g+w,o=\",/usr/local/libdata/rtorrent/rpc.socket"
