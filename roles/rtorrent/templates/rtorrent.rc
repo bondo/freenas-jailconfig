@@ -5,3 +5,4 @@ scgi_local = /usr/local/libdata/rtorrent/rpc.socket
 # read-write operations                                  v
 schedule = scgi_permission,0,0,"execute.nothrow=chmod,\"g+w,o=\",/usr/local/libdata/rtorrent/rpc.socket"
 session = ~/.rtorrent.session
+directory = /mnt/downloads/bittorrent/incomplete

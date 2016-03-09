@@ -9,6 +9,10 @@
         home=/usr/local/www/rutorrent
         createhome=no
 
+- name: add the www user to the rtorrent group
+  user: name=www groups=rtorrent append=yes
+  notify: restart nginx
+
 - name: create rutorrent webdir
   file: path=/usr/local/www/rutorrent state=directory
         owner=root group=wheel mode=0755
