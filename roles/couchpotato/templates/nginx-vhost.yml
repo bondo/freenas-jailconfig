@@ -1,0 +1,23 @@
+upstream php5-fpm {
+  server unix:/var/run/php-fpm.rutorrent.sock;
+}
+upstream rtorrent {
+  server unix:/usr/local/libdata/rtorrent/rpc.socket;
+}
+server {
+  listen {{ ansible_default_ipv4.address }}:80;
+  root /usr/local/www/rutorrent;
+  location /rutorrent {
+    rewrite ^/rutorrent(/.*)$ $1 last;
+  }
+  location /RPC2 {
+    include scgi_params;
+    scgi_param SCRIPT_NAME /RPC2;
+    scgi_pass rtorrent;
+  }
+  location ~ ^(/php|/plugins).+\.php$ {
+    include fastcgi_params;
+    fastcgi_param SCRIPT_FILENAME $document_root/$fastcgi_script_name;
+    fastcgi_pass php5-fpm;
+  }
+}

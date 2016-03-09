@@ -1,0 +1,35 @@
+---
+
+- name: install couchpotato dependencies
+  pkgng: name={{ item }} state=present
+  with_items: [python, py27-sqlite3, fpc-libcurl, docbook-xml, git-lite]
+
+- name: create couchpotato user
+  user: name=couchpotato groups=media state=present
+        home=/usr/local/libdata/couchpotato
+        createhome=no
+
+- name: create couchpotato dir
+  file: path=/usr/local/libdata/couchpotato state=directory
+        owner=root group=wheel mode=0755
+
+- name: clone couchpotato
+  git: repo=https://github.com/CouchPotato/CouchPotatoServer.git
+       dest=/usr/local/libdata/couchpotato state=directory
+  notify: restart couchpotato
+
+- name: link init script
+  file: src=/usr/local/libdata/couchpotato/init/freebsd
+        dest=/usr/local/etc/rc.d/couchpotato
+        state=link mode=755
+
+- name: create the nginx vhost
+  template: src=nginx-vhost.conf dest=/usr/local/etc/nginx/sites-available/couchpotato
+            owner=root group=wheel mode=644
+  notify: reload nginx
+
+- name: enable the vhost
+  file: src=/usr/local/etc/nginx/sites-available/couchpotato
+        dest=/usr/local/etc/nginx/sites-enabled/couchpotato
+        state=link
+  notify: reload nginx

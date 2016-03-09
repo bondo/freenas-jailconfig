@@ -1,0 +1,7 @@
+---
+
+- name: start couchpotato
+  service: name=couchpotato enabled=yes state=started
+
+- name: restart couchpotato
+  service: name=couchpotato enabled=yes state=restarted
