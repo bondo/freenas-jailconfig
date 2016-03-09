@@ -37,6 +37,11 @@
         recurse=yes
         owner=rutorrent group=wheel mode='u=rwX,go=rX'
 
+- name: copy labels to rutorrent tracklabels plugin
+  copy: src=labels/{{ item }} dest=/usr/local/www/rutorrent/plugins/tracklabels/labels
+        owner=root group=wheel mode=644
+  with_items: [couchpotato.png, sonarr.png]
+
 - name: configure rutorrent
   template: src=config.php dest=/usr/local/www/rutorrent/conf/config.php
             owner=root group=wheel mode=644
