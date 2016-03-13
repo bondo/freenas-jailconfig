@@ -51,8 +51,9 @@
         owner=root group=wheel mode=0755
 
 - name: enable php-fpm pool configs
-  lineinfile: dest=/usr/local/etc/php-fpm.conf
-              line="include=etc/fpm-pool.d/*.conf"
+  lineinfile:
+    dest: /usr/local/etc/php-fpm.conf
+    line: include=etc/fpm-pool.d/*.conf
   notify: restart php-fpm
 
 - name: create rutorrent php pool
