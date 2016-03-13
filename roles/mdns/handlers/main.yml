@@ -1,0 +1,15 @@
+---
+
+- name: start avahi
+  service: name=avahi-daemon enabled=yes state=started
+           pattern=avahi-daemon
+
+- name: restart avahi
+  service: name=avahi-daemon enabled=yes state=restarted
+           pattern=avahi-daemon
+
+- name: start dbus
+  service: name=dbus enabled=yes state=started
+
+- name: restart dbus
+  service: name=dbus enabled=yes state=restarted

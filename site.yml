@@ -3,6 +3,7 @@
 - hosts: jails
   roles:
     - pre_setup
+    - mdns
 
 - hosts: rtorrent@freenas.local
   roles:

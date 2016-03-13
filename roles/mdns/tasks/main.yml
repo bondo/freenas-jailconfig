@@ -1,0 +1,20 @@
+---
+
+- name: install mdns-daemon
+  pkgng: name=dns/mdnsd state=present
+
+- name: install nss_mdns
+  pkgng: name=dns/nss_mdns state=present
+
+- name: enable mdns resolution
+  lineinfile:
+    dest: /etc/nsswitch.conf
+    regexp: "^hosts:"
+    line: "hosts: files dns mdns"
+
+- name: start dbus
+  service: name=dbus enabled=yes state=started
+
+- name: start avahi
+  service: name=avahi-daemon enabled=yes state=started
+           pattern=avahi-daemon
