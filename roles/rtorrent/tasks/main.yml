@@ -32,4 +32,4 @@
 - name: create rtorrent init script
   template: src=rtorrent.sh dest=/usr/local/etc/rc.d/rtorrent
             owner=root group=wheel mode=755
-  notify: start rtorrent
+  notify: restart rtorrent
