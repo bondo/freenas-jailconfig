@@ -1,6 +1,9 @@
 ---
 
-# Also: pkg update && pkg upgrade -y
+# Also:
+# jls
+# sudo jailme [num] sh
+# pkg update && pkg upgrade -y
 
 - name: create ansible dirs
   file: path=/usr/local/libdata/{{ item }} state=directory
