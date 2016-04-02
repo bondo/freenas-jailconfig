@@ -12,3 +12,7 @@
 - hosts: rtorrent@freenas.local
   roles:
     - rutorrent
+
+- hosts: sabnzbd@freenas.local
+  roles:
+    - sabnzbd

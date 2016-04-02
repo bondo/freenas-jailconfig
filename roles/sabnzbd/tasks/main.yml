@@ -1,0 +1,62 @@
+---
+
+- name: install sabnzbd dependencies
+  pkgng: name={{ item }} state=present
+  with_items:
+    - openssl
+    - py27-openssl
+    - py27-sqlite3
+    - py27-cheetah
+    - py27-yenc
+    - par2cmdline
+    - unrar
+    - unzip
+    - p7zip
+
+- name: create sabnzbd user
+  user: name=sabnzbd groups=media state=present
+        home=/usr/local/libdata/sabnzbd
+        createhome=no
+
+- name: add the www user to the sabnzbd group
+  user: name=www groups=sabnzbd append=yes
+  notify: restart nginx
+
+- name: create sabnzbd home dir
+  file: path=/usr/local/libdata/sabnzbd state=directory
+        owner=sabnzbd group=media mode=0755
+
+- name: create sabnzbd lib dir
+  file: path=/usr/local/lib/sabnzbd state=directory
+        owner=root group=wheel mode=0755
+
+- name: copy sabnzbd archive
+  copy: src=SABnzbd-1.0.0-src.tar.gz dest=/usr/local/libdata/ansible/archives
+        owner=root group=wheel mode=644
+
+- name: unpack sabnzbd to lib
+  command: tar -xvzf /usr/local/libdata/ansible/archives/SABnzbd-1.0.0-src.tar.gz -C /usr/local/lib/sabnzbd
+           creates=/usr/local/lib/sabnzbd/SABnzbd.py
+  register: unpack_sabnzbd
+
+- name: set base permissions on sabnzbd files
+  file: path=/usr/local/libdata/sabnzbd state=directory
+        recurse=yes
+        owner=root group=wheel mode='u=rwX,go=rX'
+  when: unpack_sabnzbd|changed
+
+- name: create sabnzbd init script
+  template: src=sabnzbd.sh dest=/usr/local/etc/rc.d/sabnzbd
+            owner=root group=wheel mode=755
+  notify: restart sabnzbd
+
+- name: create the nginx vhost
+  template: src=nginx-vhost.conf dest=/usr/local/etc/nginx/sites-available/sabnzbd
+            owner=root group=wheel mode=644
+  notify: reload nginx
+
+- name: enable the vhost
+  file: src=/usr/local/etc/nginx/sites-available/sabnzbd
+        dest=/usr/local/etc/nginx/sites-enabled/sabnzbd
+        state=link
+  notify: reload nginx

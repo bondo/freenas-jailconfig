@@ -1,0 +1,7 @@
+---
+
+- name: start sabnzbd
+  service: name=sabnzbd enabled=yes state=started
+
+- name: restart sabnzbd
+  service: name=sabnzbd enabled=yes state=restarted
