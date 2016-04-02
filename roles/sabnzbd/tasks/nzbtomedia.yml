@@ -1,0 +1,19 @@
+---
+
+- name: install nzbtomedia dependencies
+  pkgng: name={{ item }} state=present
+  with_items:
+    - ffmpeg
+    - unrar
+    - unzip
+    - p7zip
+
+- name: clone nzbtomedia
+  git: repo=https://github.com/clinton-hall/nzbToMedia.git
+       dest=/usr/local/libdata/sabnzbd/scripts
+       update=no
+
+- name: configure nzbtomedia
+  template: src={{ playbook_dir ~ '/assets/sabnzbd/autoProcessMedia.cfg' }}
+            dest=/usr/local/libdata/sabnzbd/scripts/autoProcessMedia.cfg
+            owner=root group=wheel mode=755

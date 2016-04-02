@@ -39,11 +39,18 @@
            creates=/usr/local/lib/sabnzbd/SABnzbd.py
   register: unpack_sabnzbd
 
-- name: set base permissions on sabnzbd files
-  file: path=/usr/local/libdata/sabnzbd state=directory
+- name: set permissions on sabnzbd files
+  file: path=/usr/local/lib/sabnzbd state=directory
         recurse=yes
         owner=root group=wheel mode='u=rwX,go=rX'
   when: unpack_sabnzbd|changed
+
+- name: create sabnzbd script dir in home
+  file: path=/usr/local/libdata/sabnzbd/scripts state=directory
+        owner=sabnzbd group=media mode=0755
+
+- name: configure nzbtomedia
+  include: nzbtomedia.yml
 
 - name: create sabnzbd init script
   template: src=sabnzbd.sh dest=/usr/local/etc/rc.d/sabnzbd
