@@ -15,7 +15,8 @@
 
 - name: clone couchpotato
   git: repo=https://github.com/CouchPotato/CouchPotatoServer.git
-       dest=/usr/local/libdata/couchpotato state=directory
+       dest=/usr/local/libdata/couchpotato
+       update=no
   notify: restart couchpotato
 
 - name: link init script
