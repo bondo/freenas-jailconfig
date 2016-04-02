@@ -11,9 +11,9 @@ sabnzbd_bin=/usr/local/lib/sabnzbd/SABnzbd.py
 
 name=sabnzbd
 rcvar=sabnzbd_enable
-procname=${sabnzbd_bin}
+pidfile=${sabnzbd_home}/sabnzbd.pid
 command=/usr/local/bin/python
-command_args="${sabnzbd_bin} --config-file ${sabnzbd_home}/sabnzbd.ini --server localhost:8080 --daemon"
+command_args="${sabnzbd_bin} --config-file ${sabnzbd_home}/sabnzbd.ini --pidfile ${pidfile} --server localhost:8080 --daemon"
 sabnzbd_chdir=${sabnzbd_home}
 sabnzbd_user=sabnzbd
 
