@@ -1,7 +1,6 @@
 ---
 
-- name: create the media group
-  group: name=media gid=816 state=present
+# Also: pkg update && pkg upgrade -y
 
 - name: create ansible dirs
   file: path=/usr/local/libdata/{{ item }} state=directory

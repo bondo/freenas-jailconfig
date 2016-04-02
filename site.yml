@@ -5,6 +5,10 @@
     - pre_setup
     - mdns
 
+- hosts: media
+  roles:
+    - media_group
+
 - hosts: rtorrent@freenas.local
   roles:
     - rutorrent

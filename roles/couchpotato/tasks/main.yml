@@ -2,7 +2,7 @@
 
 - name: install couchpotato dependencies
   pkgng: name={{ item }} state=present
-  with_items: [python, py27-sqlite3, fpc-libcurl, docbook-xml, git-lite]
+  with_items: [py27-sqlite3, fpc-libcurl, docbook-xml, git-lite]
 
 - name: create couchpotato user
   user: name=couchpotato groups=media state=present
