@@ -12,8 +12,15 @@
   git: repo=https://github.com/clinton-hall/nzbToMedia.git
        dest=/usr/local/libdata/sabnzbd/scripts
        update=no
+  register: clone_nzbtomedia
+
+- name: set permissions on nzbtomedia files
+  file: path=/usr/local/lib/sabnzbd/scripts state=directory
+        recurse=yes
+        owner=sabnzbd group=media mode='u=rwX,go=rX'
+  when: clone_nzbtomedia|changed
 
 - name: configure nzbtomedia
   template: src={{ playbook_dir ~ '/assets/sabnzbd/autoProcessMedia.cfg' }}
             dest=/usr/local/libdata/sabnzbd/scripts/autoProcessMedia.cfg
-            owner=root group=wheel mode=755
+            owner=sabnzbd group=media mode=644
