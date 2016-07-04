@@ -17,20 +17,18 @@
   file: path=/usr/local/www/rutorrent state=directory
         owner=root group=wheel mode=0755
 
-- name: copy rutorrent archive
-  copy: src=rutorrent-3.7.tar.gz dest=/usr/local/libdata/ansible/archives
-        owner=root group=wheel mode=644
-
-- name: unpack rutorrent
-  command: tar -xvzf /usr/local/libdata/ansible/archives/rutorrent-3.7.tar.gz -C /usr/local/www/rutorrent
-           creates=/usr/local/www/rutorrent/index.html
-  register: unpack_rtorrent
+- name: clone rutorrent
+  git: repo=https://github.com/Novik/ruTorrent.git
+       dest=/usr/local/www/rutorrent
+       version=ac2db1536302bdc5b27aff6b15d54b0e9837fa59
+       update=no
+  register: rutorrent_cloned
 
 - name: set base permissions on rutorrent files
   file: path=/usr/local/www/rutorrent state=directory
         recurse=yes
         owner=root group=wheel mode='u=rwX,go=rX'
-  when: unpack_rtorrent|changed
+  when: rutorrent_cloned|changed
 
 - name: change owner of share/ to rutorrent
   file: path=/usr/local/www/rutorrent/share state=directory

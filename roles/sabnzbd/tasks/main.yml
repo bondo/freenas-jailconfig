@@ -30,20 +30,19 @@
   file: path=/usr/local/lib/sabnzbd state=directory
         owner=root group=wheel mode=0755
 
-- name: copy sabnzbd archive
-  copy: src=SABnzbd-1.0.0-src.tar.gz dest=/usr/local/libdata/ansible/archives
-        owner=root group=wheel mode=644
-
-- name: unpack sabnzbd to lib
-  command: tar -xvzf /usr/local/libdata/ansible/archives/SABnzbd-1.0.0-src.tar.gz -C /usr/local/lib/sabnzbd
-           creates=/usr/local/lib/sabnzbd/SABnzbd.py
-  register: unpack_sabnzbd
+- name: clone sabnzbd
+  git: repo=https://github.com/sabnzbd/sabnzbd.git
+       dest=/usr/local/lib/sabnzbd
+       version=1.0.3
+       update=no
+  register: sabnzbd_cloned
+  notify: restart sabnzbd
 
 - name: set permissions on sabnzbd files
   file: path=/usr/local/lib/sabnzbd state=directory
         recurse=yes
         owner=root group=wheel mode='u=rwX,go=rX'
-  when: unpack_sabnzbd|changed
+  when: sabnzbd_cloned|changed
 
 - name: create sabnzbd script dir in home
   file: path=/usr/local/libdata/sabnzbd/scripts state=directory
