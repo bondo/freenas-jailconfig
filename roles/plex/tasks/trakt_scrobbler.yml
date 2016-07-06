@@ -5,10 +5,11 @@
            sha256sum=e3d85bd5351298aecddf250b0d9e857e6e0aed38cf96b1f8052a5d99b4127890
   register: trakt_scrobbler_downloaded
 
-- command: tar -xvzf /usr/local/libdata/ansible/downloads/plex-trakt-scrobbler-v1.0.3.3.tar.gz
+- name: install plex trakt scrobbler
+  command: tar -xvzf /usr/local/libdata/ansible/downloads/plex-trakt-scrobbler-v1.0.3.3.tar.gz
            -C /usr/local/plexdata/Plex\ Media\ Server/Plug-ins/
            --strip-components 1
            Plex-Trakt-Scrobbler-1.0.3.3/Trakttv.bundle
            creates=/usr/local/plexdata/Plex\ Media\ Server/Plug-ins/Trakttv.bundle/CREDITS.md
-  when: trakt_scrobbler_downloaded
+  when: trakt_scrobbler_downloaded|changed
   notify: restart plex
