@@ -6,3 +6,4 @@ scgi_local = /usr/local/libdata/rtorrent/rpc.socket
 schedule = scgi_permission,0,0,"execute.nothrow=chmod,\"g+w,o=\",/usr/local/libdata/rtorrent/rpc.socket"
 session = ~/.rtorrent.session
 directory = /mnt/downloads/bittorrent/incomplete
+encryption = require,allow_incoming,require_RC4
