@@ -3,6 +3,7 @@
 - name: install nzbtomedia dependencies
   pkgng: name={{ item }} state=present
   with_items:
+    - py27-sqlite3
     - ffmpeg
     - unrar
     - unzip
