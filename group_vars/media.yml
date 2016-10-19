@@ -1,3 +1,2 @@
-couchpotato_api_key: "{{ lookup('file', playbook_dir ~ '/assets/api_keys/couchpotato') }}"
 sabnzbd_api_key: "{{ lookup('file', playbook_dir ~ '/assets/api_keys/sabnzbd') }}"
 sonarr_api_key: "{{ lookup('file', playbook_dir ~ '/assets/api_keys/sonarr') }}"
