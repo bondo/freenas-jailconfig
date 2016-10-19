@@ -1,0 +1,26 @@
+---
+
+- name: install nzbtomedia dependencies
+  pkgng: name={{ item }} state=present
+  with_items:
+    - ffmpeg
+    - unrar
+    - unzip
+    - p7zip
+
+- name: clone nzbtomedia
+  git: repo=https://github.com/clinton-hall/nzbToMedia.git
+       dest=/usr/local/libdata/rtorrent/nzbtomedia
+       update=no
+  register: clone_nzbtomedia
+
+- name: set permissions on nzbtomedia files
+  file: path=/usr/local/libdata/rtorrent/nzbtomedia state=directory
+        recurse=yes
+        owner=rtorrent group=rtorrent mode='u=rwX,go=rX'
+  when: clone_nzbtomedia|changed
+
+- name: configure nzbtomedia
+  template: src=autoProcessMedia.cfg
+            dest=/usr/local/libdata/rtorrent/nzbtomedia/autoProcessMedia.cfg
+            owner=rtorrent group=rtorrent mode=644

@@ -7,3 +7,4 @@ schedule = scgi_permission,0,0,"execute.nothrow=chmod,\"g+w,o=\",/usr/local/libd
 session = ~/.rtorrent.session
 directory = /mnt/downloads/bittorrent/incomplete
 encryption = require,allow_incoming,require_RC4
+system.method.set_key = event.download.finished,TorrentToMedia,"execute={/usr/local/bin/python,/usr/local/libdata/rtorrent/nzbtomedia/TorrentToMedia.py,\"$d.get_base_path=\",\"$d.get_name=\",\"$d.get_custom1=\",\"$d.get_hash=\"}"

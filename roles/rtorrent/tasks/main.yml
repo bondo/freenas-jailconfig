@@ -29,6 +29,9 @@
   template: src=set_home.sh dest=/usr/local/libdata/rtorrent/set_home.sh
             owner=rtorrent group=rtorrent mode=755
 
+- name: configure nzbtomedia
+  include: nzbtomedia.yml
+
 - name: create rtorrent init script
   template: src=rtorrent.sh dest=/usr/local/etc/rc.d/rtorrent
             owner=root group=wheel mode=755
