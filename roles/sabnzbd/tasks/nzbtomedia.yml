@@ -15,7 +15,7 @@
   register: clone_nzbtomedia
 
 - name: set permissions on nzbtomedia files
-  file: path=/usr/local/lib/sabnzbd/scripts state=directory
+  file: path=/usr/local/libdata/sabnzbd/scripts state=directory
         recurse=yes
         owner=sabnzbd group=media mode='u=rwX,go=rX'
   when: clone_nzbtomedia|changed
