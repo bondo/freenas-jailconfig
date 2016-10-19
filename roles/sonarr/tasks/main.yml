@@ -9,8 +9,9 @@
   notify: restart sonarr
 
 - name: allow sonarr to auto-update
-  file: path=/usr/local/share/sonarr
-        owner=sonarr group=wheel recurse=yes
+  file: path=/usr/local/share/sonarr state=directory
+        recurse=yes
+        owner=sonarr group=wheel mode='u=rwX,go=rX'
 
 - name: start sonarr
   service: name=sonarr state=started enabled=yes
