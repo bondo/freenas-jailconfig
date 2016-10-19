@@ -21,6 +21,6 @@
   when: clone_nzbtomedia|changed
 
 - name: configure nzbtomedia
-  template: src={{ playbook_dir ~ '/assets/sabnzbd/autoProcessMedia.cfg' }}
+  template: src=autoProcessMedia.cfg
             dest=/usr/local/libdata/sabnzbd/scripts/autoProcessMedia.cfg
             owner=sabnzbd group=media mode=644
