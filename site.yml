@@ -20,3 +20,7 @@
 - hosts: plexmediaserver@freenas.local
   roles:
     - plex
+
+- hosts: sonarr@freenas.local
+  roles:
+    - sonarr

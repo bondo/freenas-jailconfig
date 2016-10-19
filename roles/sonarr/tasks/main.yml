@@ -1,0 +1,16 @@
+---
+
+- name: install sonarr
+  pkgng: name=sonarr state=present
+  notify: restart sonarr
+
+- name: add the sonarr user to the media group
+  user: name=sonarr groups=media append=yes
+  notify: restart sonarr
+
+- name: allow sonarr to auto-update
+  file: path=/usr/local/share/sonarr
+        owner=sonarr group=wheel recurse=yes
+
+- name: start sonarr
+  service: name=sonarr state=started enabled=yes
