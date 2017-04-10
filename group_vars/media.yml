@@ -1,2 +1,3 @@
 sabnzbd_api_key: "{{ lookup('file', playbook_dir ~ '/assets/api_keys/sabnzbd') }}"
 sonarr_api_key: "{{ lookup('file', playbook_dir ~ '/assets/api_keys/sonarr') }}"
+radarr_api_key: "{{ lookup('file', playbook_dir ~ '/assets/api_keys/radarr') }}"

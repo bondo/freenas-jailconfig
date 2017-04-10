@@ -24,3 +24,7 @@
 - hosts: sonarr@freenas.local
   roles:
     - sonarr
+
+- hosts: radarr@freenas.local
+  roles:
+    - radarr
