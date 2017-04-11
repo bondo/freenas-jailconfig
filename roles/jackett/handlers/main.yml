@@ -1,0 +1,7 @@
+---
+
+- name: start jackett
+  service: name=jackett state=started
+
+- name: restart jackett
+  service: name=jackett state=restarted

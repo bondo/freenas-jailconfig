@@ -1,0 +1,45 @@
+---
+
+- name: install jackett dependencies
+  pkgng: name={{ item }} state=present
+  with_items: [lang/mono, ftp/curl]
+
+
+- name: create jackett user
+  user: name=jackett state=present
+        home=/usr/local/www/jackett
+        createhome=no
+
+- name: create jackett home
+  file: path=/usr/local/www/jackett state=directory
+        owner=root group=wheel mode=0755
+
+- name: create jackett datadir
+  file: path=/var/db/jackett state=directory
+        owner=jackett group=wheel mode=0755
+
+- name: download jackett
+  get_url: url=https://github.com/Jackett/Jackett/releases/download/v0.7.1287/Jackett.Binaries.Mono.tar.gz
+           dest=/usr/local/libdata/ansible/downloads/Jackett.Binaries.Mono.tar.gz
+           sha256sum=9ada8b0d2926213daa77df9b3bb903b1b87565373d7b29fdca35cd9d37d55b92
+  register: jackett_downloaded
+
+- name: install jackett
+  command: tar -xvzf /usr/local/libdata/ansible/downloads/Jackett.Binaries.Mono.tar.gz
+           -C /usr/local/www/jackett
+           --strip-components 1
+           Jackett
+           creates=/usr/local/www/jackett/LICENSE
+  when: jackett_downloaded|changed
+
+- name: allow jackett to write to .config
+  file: path=/usr/local/www/jackett/.config state=directory
+        owner=jackett group=wheel mode='u=rwX,go=rX'
+
+- name: create jackett init script
+  template: src=jackett.sh dest=/usr/local/etc/rc.d/jackett
+            owner=root group=wheel mode=755
+  notify: restart jackett
+
+- name: enable jackett service
+  service: name=jackett enabled=yes

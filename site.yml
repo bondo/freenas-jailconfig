@@ -28,3 +28,7 @@
 - hosts: radarr@freenas.local
   roles:
     - radarr
+
+- hosts: jackett@freenas.local
+  roles:
+    - jackett
