@@ -1,0 +1,20 @@
+---
+
+- name: download plex youtube tv
+  get_url: url=https://github.com/kolsys/YouTubeTV.bundle/archive/v4.6.tar.gz
+           dest=/usr/local/libdata/ansible/downloads/plex-youtube-v4.6.tar.gz
+           sha256sum=594d3ae2cb23f29fd8aa077e083697cea3b9c8330a7f402dc2bb42cfc253cf1a
+  register: youtube_tv_downloaded
+
+- name: create youtube bundle dir
+  file: path=/usr/local/plexdata/Plex\ Media\ Server/Plug-ins/YouTubeTV.bundle
+        state=directory
+
+- name: install plex youtube tv
+  command: tar -xvzf /usr/local/libdata/ansible/downloads/plex-youtube-v4.6.tar.gz
+           -C /usr/local/plexdata/Plex\ Media\ Server/Plug-ins/YouTubeTV.bundle
+           --strip-components 1
+           YouTubeTV.bundle-4.6/
+           creates=/usr/local/plexdata/Plex\ Media\ Server/Plug-ins/YouTubeTV.bundle/README.md
+  when: youtube_tv_downloaded|changed
+  notify: restart plex

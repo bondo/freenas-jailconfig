@@ -10,5 +10,8 @@
 - name: install hello hue plugin
   include: hello_hue.yml
 
+- name: install youtube tv plugin
+  include: youtube.yml
+
 - name: start plex
   service: name=plexmediaserver state=started enabled=yes
