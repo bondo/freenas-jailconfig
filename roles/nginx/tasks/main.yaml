@@ -4,13 +4,33 @@
   pkgng: name=nginx state=present
   notify: restart nginx
 
-- name: configure nginx
-  template: src=nginx.conf dest=/usr/local/etc/nginx/nginx.conf
-            owner=root group=wheel mode=0644
-  notify: restart nginx
+- name: clear out nginx default www files
+  file: path=/usr/local/www/{{ item }} state=absent
+  with_items:
+    - nginx
+    - nginx-dist
 
 - name: create nginx config folders
   file: path=/usr/local/etc/nginx/{{ item }} state=directory
         owner=root group=wheel mode=0755
-  with_items: [conf.d, sites-available, sites-enabled]
-  notify: restart nginx
+  with_items:
+    - conf.d
+    - sites-available
+    - sites-enabled
+
+- name: configure nginx
+  template: src=nginx.conf dest=/usr/local/etc/nginx/nginx.conf
+            owner=root group=wheel mode=0644
+  notify: reload nginx
+
+- name: configure nginx ssl session cache
+  template: src=ssl_session_cache.conf dest=/usr/local/etc/nginx/conf.d/ssl_session_cache.conf
+            owner=root group=wheel mode=0644
+  notify: reload nginx
+  when: nginx_ssl
+
+- name: generate diffie-hellman group
+  command: openssl dhparam -out /usr/local/etc/nginx/dhparams.pem 2048
+           creates=/usr/local/etc/nginx/dhparams.pem
+  notify: reload nginx
+  when: nginx_ssl
