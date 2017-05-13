@@ -6,29 +6,22 @@
     - mdns
 
 - hosts: media
-  roles:
-    - media_group
+  roles: [media_group]
 
 - hosts: rtorrent@freenas.local
-  roles:
-    - rutorrent
+  roles: [rutorrent]
 
 - hosts: sabnzbd@freenas.local
-  roles:
-    - sabnzbd
+  roles: [sabnzbd]
 
 - hosts: plexmediaserver@freenas.local
-  roles:
-    - plex
+  roles: [plex]
 
 - hosts: sonarr@freenas.local
-  roles:
-    - sonarr
+  roles: [sonarr]
 
 - hosts: radarr@freenas.local
-  roles:
-    - radarr
+  roles: [radarr]
 
 - hosts: jackett@freenas.local
-  roles:
-    - jackett
+  roles: [jackett]
