@@ -1,10 +1,5 @@
 ---
 
-# Also:
-# jls
-# sudo jailme [num] sh
-# pkg update && pkg upgrade -y
-
 - name: create ansible dirs
   file: path=/usr/local/libdata/{{ item }} state=directory
         mode=0755 owner=root group=wheel
