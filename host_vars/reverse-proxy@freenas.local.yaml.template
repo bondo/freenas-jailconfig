@@ -1,0 +1,27 @@
+---
+
+reverse_proxy_server_name: example.com
+reverse_proxy_plex_server_name: plex.example.com
+reverse_proxy_plex_address: 10.134.102.10
+reverse_proxy_upstream_locations:
+  - name: sabnzbd
+    location_template: sabnzbd-location.conf
+    port: 80
+    address: 10.134.102.11
+  - name: plex
+    location_template: plex-location.conf
+  - name: rutorrent
+    port: 80
+    address: 10.134.102.14
+  - name: jackett
+    port: 9117
+    address: 10.134.102.16
+  - name: radarr
+    port: 7878
+    address: 10.134.102.15
+  - name: sonarr
+    port: 8989
+    address: 10.134.102.12
+  - name: unifi
+    port: 8443
+    address: 10.134.102.28

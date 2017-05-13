@@ -8,6 +8,9 @@
 - hosts: media
   roles: [media_group]
 
+- hosts: reverse-proxy@freenas.local
+  roles: [reverse_proxy]
+
 - hosts: rtorrent@freenas.local
   roles: [rutorrent]
 

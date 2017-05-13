@@ -1,0 +1,21 @@
+---
+
+- name: install acme-client
+  pkgng: name=acme-client state=present
+
+- name: remove the default acme challenge dir
+  file: path=/usr/local/www/acme state=absent
+
+- name: create the private key & certificate
+  command: >
+    /usr/local/bin/acme-client -N -n
+    -C /usr/local/www/public/.well-known/acme-challenge
+    {{ reverse_proxy_server_name }}
+    {{ reverse_proxy_plex_server_name }}
+  args:
+    creates: /usr/local/etc/ssl/acme/fullchain.pem
+  notify: reload nginx
+
+- name: configure acme-client to run weekly
+  template: src=letsencrypt.conf dest=/etc/periodic.conf
+            owner=root group=wheel mode=0755
