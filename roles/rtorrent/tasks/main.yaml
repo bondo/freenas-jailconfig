@@ -30,7 +30,7 @@
             owner=rtorrent group=rtorrent mode=755
 
 - name: configure nzbtomedia
-  include: nzbtomedia.yml
+  include: nzbtomedia.yaml
 
 - name: create rtorrent init script
   template: src=rtorrent.sh dest=/usr/local/etc/rc.d/rtorrent

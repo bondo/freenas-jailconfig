@@ -49,7 +49,7 @@
         owner=sabnzbd group=media mode=0755
 
 - name: configure nzbtomedia
-  include: nzbtomedia.yml
+  include: nzbtomedia.yaml
 
 - name: create sabnzbd init script
   template: src=sabnzbd.sh dest=/usr/local/etc/rc.d/sabnzbd
