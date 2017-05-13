@@ -1,0 +1,20 @@
+---
+
+# Guide: https://wiki.mattrude.com/FreeNAS/Unifi_Controller_Install
+# fstab and portsnap parts do not seem to be necessary
+
+- name: install unifi dependencies
+  pkgng: name={{ item }} state=present
+  with_items: [openjdk8, texinfo]
+
+- name: install mongodb
+  pkgng: name=mongodb state=present
+  notify: start mongodb
+
+- name: install unifi
+  command: make install
+           chdir=/usr/ports/net-mgmt/unifi5/
+           creates=/usr/local/etc/rc.d/unifi
+  environment:
+    BATCH: "yes"
+  notify: start unifi

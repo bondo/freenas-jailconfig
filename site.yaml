@@ -25,3 +25,6 @@
 
 - hosts: jackett@freenas.local
   roles: [jackett]
+
+- hosts: unifi@freenas.local
+  roles: [unifi]
