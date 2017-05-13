@@ -7,14 +7,14 @@
   register: youtube_tv_downloaded
 
 - name: create youtube bundle dir
-  file: path=/usr/local/plexdata/Plex\ Media\ Server/Plug-ins/YouTubeTV.bundle
+  file: path="/usr/local/plexdata/Plex Media Server/Plug-ins/YouTubeTV.bundle"
         state=directory
 
 - name: install plex youtube tv
   command: tar -xvzf /usr/local/libdata/ansible/downloads/plex-youtube-v4.6.tar.gz
-           -C /usr/local/plexdata/Plex\ Media\ Server/Plug-ins/YouTubeTV.bundle
+           -C "/usr/local/plexdata/Plex Media Server/Plug-ins/YouTubeTV.bundle"
            --strip-components 1
            YouTubeTV.bundle-4.6/
-           creates=/usr/local/plexdata/Plex\ Media\ Server/Plug-ins/YouTubeTV.bundle/README.md
+           creates="/usr/local/plexdata/Plex Media Server/Plug-ins/YouTubeTV.bundle/README.md"
   when: youtube_tv_downloaded|changed
   notify: restart plex

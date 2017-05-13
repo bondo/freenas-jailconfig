@@ -7,14 +7,14 @@
   register: hello_hue_downloaded
 
 - name: create hello hue bundle dir
-  file: path=/usr/local/plexdata/Plex\ Media\ Server/Plug-ins/HelloHue.bundle
+  file: path="/usr/local/plexdata/Plex Media Server/Plug-ins/HelloHue.bundle"
         state=directory
 
 - name: install hello hue
   command: tar -xvzf /usr/local/libdata/ansible/downloads/hello-hue-1.1.7.tar.gz
-           -C /usr/local/plexdata/Plex\ Media\ Server/Plug-ins/HelloHue.bundle
+           -C "/usr/local/plexdata/Plex Media Server/Plug-ins/HelloHue.bundle"
            --strip-components 1
            HelloHue-1.1.7
-           creates=/usr/local/plexdata/Plex\ Media\ Server/Plug-ins/HelloHue.bundle/README.md
+           creates="/usr/local/plexdata/Plex Media Server/Plug-ins/HelloHue.bundle/README.md"
   when: hello_hue_downloaded|changed
   notify: restart plex
