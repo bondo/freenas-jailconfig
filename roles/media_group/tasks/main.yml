@@ -1,4 +1,4 @@
 ---
 
 - name: create the media group
-  group: name=media gid=816 state=present
+  group: name=media gid=8675309 state=present
