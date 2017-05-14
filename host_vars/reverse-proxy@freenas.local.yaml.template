@@ -20,3 +20,4 @@ reverse_proxy_subdirs:
   - name: unifi
     port: 8443
     address: 10.134.102.28
+reverse_proxy_htpasswd: "example:$2y$05$8rEPtbMhnek8Rnnra/t5FeE0/WzGW6YX42kmFu19D9XZVEaaG.4iS"
