@@ -1,7 +1,7 @@
 ---
 
 - name: start rtorrent
-  service: name=rtorrent state=started
+  service: name=rtorrent enabled=yes state=started
 
 - name: restart rtorrent
-  service: name=rtorrent state=restarted
+  service: name=rtorrent enabled=yes state=restarted
