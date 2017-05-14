@@ -1,3 +1,5 @@
+# sshjail fetched from https://github.com/austinhyde/ansible-sshjail
+
 [jails]
 rtorrent@freenas.local ansible_connection=sshjail ansible_python_interpreter=/usr/local/bin/python2.7
 sabnzbd@freenas.local ansible_connection=sshjail ansible_python_interpreter=/usr/local/bin/python2.7
