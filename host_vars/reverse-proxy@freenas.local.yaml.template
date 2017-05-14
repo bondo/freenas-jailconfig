@@ -20,3 +20,8 @@ reverse_proxy_subdirs:
   - name: unifi
     port: 8443
     address: 10.134.102.28
+reverse_proxy_google_oauth:
+  client_id: "CLIENTID.apps.googleusercontent.com"
+  client_secret: "CLIENTSECRET"
+  token_secret: "{{ lookup('password', playbook_dir ~ '/assets/reverse_proxy_google_oauth length=32') }}"
+  whitelist: "example@gmail.com"
