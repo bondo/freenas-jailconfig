@@ -4,20 +4,8 @@
   fail: msg="reverse_proxy_domain is undefined. Set it in host_vars/reverse-proxy@freenas.local.yaml"
   when: reverse_proxy_domain is not defined
 
-- name: copy public assets
-  copy: src=public dest=/usr/local/www/
-        owner=root group=wheel mode=644
-
-- name: create public vhost
-  template: src=public-vhost.conf dest=/usr/local/etc/nginx/sites-available/public
-            owner=root group=wheel mode=644
-  notify: reload nginx
-
-- name: enable public vhost
-  file: src=/usr/local/etc/nginx/sites-available/public
-        dest=/usr/local/etc/nginx/sites-enabled/public
-        state=link
-  notify: reload nginx
+- name: configure public site
+  include: public.yaml
 
 - name: flush handlers to reload nginx config
   meta: flush_handlers
