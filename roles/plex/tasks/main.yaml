@@ -4,6 +4,9 @@
   pkgng: name=plexmediaserver state=present
   notify: restart plex
 
+- name: flush handlers to start plex (plexdata dir needed in other tasks)
+  meta: flush_handlers
+
 - name: install trakt scrobble plugin
   include: trakt_scrobbler.yaml
 
