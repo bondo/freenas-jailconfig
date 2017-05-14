@@ -25,9 +25,6 @@
 - name: configure letsencrypt
   include: letsencrypt.yaml
 
-- name: install nginx-google-oauth
-  include: google-oauth.yaml
-
 - name: configure nginx proxy params
   template: src=proxy_params dest=/usr/local/etc/nginx/proxy_params
             owner=root group=wheel mode=0644
