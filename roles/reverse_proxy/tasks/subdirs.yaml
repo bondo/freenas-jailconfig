@@ -1,0 +1,37 @@
+---
+
+- name: copy reverse-proxy assets
+  copy: src=secure dest=/usr/local/www/
+        owner=root group=wheel mode=644
+
+- name: create reverse-proxy config structure
+  file: path=/usr/local/etc/nginx/{{ item }} state=directory
+        owner=root group=wheel mode=0755
+  with_items:
+    - reverse-proxy
+    - reverse-proxy/locations
+    - reverse-proxy/upstreams
+
+- name: configure locations
+  template: src={{ item.location_template | default("subdirs-location.conf") }}
+            dest=/usr/local/etc/nginx/reverse-proxy/locations/{{ item.name }}
+            owner=root group=wheel mode=0644
+  notify: reload nginx
+  with_items: "{{ reverse_proxy_subdirs }}"
+
+- name: configure upstreams
+  template: src=subdirs-upstream.conf dest=/usr/local/etc/nginx/reverse-proxy/upstreams/{{ item.name }}
+            owner=root group=wheel mode=0644
+  notify: reload nginx
+  with_items: "{{ reverse_proxy_subdirs }}"
+
+- name: create subdirs vhost
+  template: src=subdirs-vhost.conf dest=/usr/local/etc/nginx/sites-available/reverse-proxy
+            owner=root group=wheel mode=644
+  notify: reload nginx
+
+- name: enable subdirs vhost
+  file: src=/usr/local/etc/nginx/sites-available/reverse-proxy
+        dest=/usr/local/etc/nginx/sites-enabled/reverse-proxy
+        state=link
+  notify: reload nginx

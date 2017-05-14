@@ -1,6 +1,5 @@
 ---
 
-reverse_proxy_server_name: null
-reverse_proxy_plex_server_name: null
-reverse_proxy_plex_address: null
-reverse_proxy_upstream_locations: []
+reverse_proxy_domain: null
+reverse_proxy_alt_domains: []
+reverse_proxy_subdirs: []

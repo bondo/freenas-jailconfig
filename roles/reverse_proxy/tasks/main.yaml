@@ -1,16 +1,8 @@
 ---
 
-- name: check if reverse_proxy_server_name is defined
-  fail: msg="reverse_proxy_server_name is undefined. Set it in host_vars/reverse-proxy@freenas.local.yaml"
-  when: reverse_proxy_server_name is not defined
-
-- name: check if reverse_proxy_plex_server_name is defined
-  fail: msg="reverse_proxy_plex_server_name is undefined. Set it in host_vars/reverse-proxy@freenas.local.yaml"
-  when: reverse_proxy_plex_server_name is not defined
-
-- name: check if reverse_proxy_plex_address is defined
-  fail: msg="reverse_proxy_plex_address is undefined. Set it in host_vars/reverse-proxy@freenas.local.yaml"
-  when: reverse_proxy_plex_address is not defined
+- name: check if reverse_proxy_domain is defined
+  fail: msg="reverse_proxy_domain is undefined. Set it in host_vars/reverse-proxy@freenas.local.yaml"
+  when: reverse_proxy_domain is not defined
 
 - name: copy public assets
   copy: src=public dest=/usr/local/www/
@@ -38,50 +30,8 @@
             owner=root group=wheel mode=0644
   notify: reload nginx
 
-- name: create reverse-proxy config structure
-  file: path=/usr/local/etc/nginx/{{ item }} state=directory
-        owner=root group=wheel mode=0755
-  with_items:
-    - reverse-proxy
-    - reverse-proxy/locations
-    - reverse-proxy/upstreams
+- name: configure subdirs
+  include: subdirs.yaml
 
-- name: configure locations
-  template: src={{ item.location_template | default("location.conf") }}
-            dest=/usr/local/etc/nginx/reverse-proxy/locations/{{ item.name }}
-            owner=root group=wheel mode=0644
-  notify: reload nginx
-  with_items: "{{ reverse_proxy_upstream_locations }}"
-
-- name: configure upstreams
-  template: src=upstream.conf dest=/usr/local/etc/nginx/reverse-proxy/upstreams/{{ item.name }}
-            owner=root group=wheel mode=0644
-  notify: reload nginx
-  when: item.address is defined
-  with_items: "{{ reverse_proxy_upstream_locations }}"
-
-- name: copy reverse-proxy assets
-  copy: src=secure dest=/usr/local/www/
-        owner=root group=wheel mode=644
-
-- name: create plex vhost
-  template: src=plex-vhost.conf dest=/usr/local/etc/nginx/sites-available/plex
-            owner=root group=wheel mode=644
-  notify: reload nginx
-
-- name: enable plex vhost
-  file: src=/usr/local/etc/nginx/sites-available/plex
-        dest=/usr/local/etc/nginx/sites-enabled/plex
-        state=link
-  notify: reload nginx
-
-- name: create reverse-proxy vhost
-  template: src=reverse-proxy-vhost.conf dest=/usr/local/etc/nginx/sites-available/reverse-proxy
-            owner=root group=wheel mode=644
-  notify: reload nginx
-
-- name: enable reverse-proxy vhost
-  file: src=/usr/local/etc/nginx/sites-available/reverse-proxy
-        dest=/usr/local/etc/nginx/sites-enabled/reverse-proxy
-        state=link
-  notify: reload nginx
+- name: configure altdomains
+  include: alt-domains.yaml
