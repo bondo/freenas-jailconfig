@@ -17,6 +17,8 @@
     - conf.d
     - sites-available
     - sites-enabled
+    - mods-available
+    - mods-enabled
 
 - name: configure nginx
   template: src=nginx.conf dest=/usr/local/etc/nginx/nginx.conf
