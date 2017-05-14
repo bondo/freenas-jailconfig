@@ -17,7 +17,7 @@
 - hosts: sabnzbd@freenas.local
   roles: [sabnzbd]
 
-- hosts: plexmediaserver@freenas.local
+- hosts: plex@freenas.local
   roles: [plex]
 
 - hosts: sonarr@freenas.local

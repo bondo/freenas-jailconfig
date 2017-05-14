@@ -3,7 +3,7 @@
 [jails]
 rtorrent@freenas.local ansible_connection=sshjail ansible_python_interpreter=/usr/local/bin/python2.7
 sabnzbd@freenas.local ansible_connection=sshjail ansible_python_interpreter=/usr/local/bin/python2.7
-plexmediaserver@freenas.local ansible_connection=sshjail ansible_python_interpreter=/usr/local/bin/python2.7
+plex@freenas.local ansible_connection=sshjail ansible_python_interpreter=/usr/local/bin/python2.7
 sonarr@freenas.local ansible_connection=sshjail ansible_python_interpreter=/usr/local/bin/python2.7
 radarr@freenas.local ansible_connection=sshjail ansible_python_interpreter=/usr/local/bin/python2.7
 jackett@freenas.local ansible_connection=sshjail ansible_python_interpreter=/usr/local/bin/python2.7
@@ -13,6 +13,6 @@ reverse-proxy@freenas.local ansible_connection=sshjail ansible_python_interprete
 [media]
 rtorrent@freenas.local
 sabnzbd@freenas.local
-plexmediaserver@freenas.local
+plex@freenas.local
 sonarr@freenas.local
 radarr@freenas.local
