@@ -1,5 +1,15 @@
 ---
 
+- name: create nginx ssl cert trust dir
+  file: path=/usr/local/etc/ssl/nginx_trusted state=directory
+        owner=root group=wheel mode=0755
+
+- name: copy trusted certificates
+  copy: src={{ item.trust_ssl }} dest=/usr/local/etc/ssl/nginx_trusted/{{ item.trust_ssl|basename }}
+  when: item.trust_ssl is defined
+  notify: reload nginx
+  with_items: "{{ reverse_proxy_alt_domains }}"
+
 - name: create alternative domain vhosts
   template: src=alt-domains-vhost.conf dest=/usr/local/etc/nginx/sites-available/{{ item.name }}
             owner=root group=wheel mode=644
