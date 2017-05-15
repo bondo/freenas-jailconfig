@@ -13,13 +13,9 @@
 - name: configure letsencrypt
   include: letsencrypt.yaml
 
-- name: configure htpasswd file
-  copy:
-    dest: /usr/local/etc/nginx/htpasswd
-    content: "{{ reverse_proxy_htpasswd }}"
-    owner: root
-    group: www
-    mode: 0440
+- name: copy htpasswd file
+  copy: src="{{ reverse_proxy_htpasswd }}" dest=/usr/local/etc/nginx/htpasswd
+        owner=root group=www mode=0440
 
 - name: configure nginx proxy params
   template: src=proxy_params dest=/usr/local/etc/nginx/proxy_params

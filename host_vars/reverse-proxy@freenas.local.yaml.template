@@ -1,6 +1,8 @@
 ---
 
-reverse_proxy_htpasswd: "example:$2y$05$8rEPtbMhnek8Rnnra/t5FeE0/WzGW6YX42kmFu19D9XZVEaaG.4iS"
+# Generate htpasswd file with:
+# htpasswd -cB assets/reverse_proxy/htpasswd username
+reverse_proxy_htpasswd: '{{ playbook_dir }}/assets/reverse_proxy/htpasswd'
 reverse_proxy_server_name: example.com
 reverse_proxy_alt_domains:
   - name: unifi
