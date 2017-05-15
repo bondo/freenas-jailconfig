@@ -14,16 +14,10 @@
     - .well-known
     - .well-known/acme-challenge
 
-- name: create the private key & certificate
-  command: >
-    /usr/local/bin/acme-client -N -n
-    -C /usr/local/www/public/.well-known/acme-challenge
-    {{ reverse_proxy_domain }}
-    {{ reverse_proxy_alt_domains|map(attribute='domain')|join(' ') }}
-  args:
-    creates: /usr/local/etc/ssl/acme/fullchain.pem
-  notify: reload nginx
-
 - name: configure acme-client to run weekly
   template: src=letsencrypt.conf dest=/etc/periodic.conf
             owner=root group=wheel mode=0755
+  # config file changes might not impact the certificate
+  # but there's no harm in running a request.
+  # acme-client will know what's up.
+  notify: request letsencrypt certificate

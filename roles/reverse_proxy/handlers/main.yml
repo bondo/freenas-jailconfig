@@ -1,0 +1,9 @@
+---
+
+- name: request letsencrypt certificate
+  command: >
+    /usr/local/bin/acme-client -N -n -e
+    -C /usr/local/www/public/.well-known/acme-challenge
+    {{ reverse_proxy_domain }}
+    {{ reverse_proxy_alt_domains|map(attribute='domain')|join(' ') }}
+  notify: reload nginx
