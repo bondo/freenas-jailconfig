@@ -7,6 +7,8 @@ reverse_proxy_alt_domains:
     domain: unifi.example.com
     address: 10.134.102.3:8443
     trust_ssl: '{{ playbook_dir }}/assets/reverse_proxy/certs/unifi.pem'
+    # Fetch the PEM cert with
+    # echo | openssl s_client -showcerts -servername 10.134.102.3 -connect 10.134.102.3:8443 2>/dev/null | openssl x509 -inform pem -outform pem -out assets/reverse_proxy/certs/unifi.pem
   - name: plex
     domain: plex.example.com
     address: 10.134.102.10:32400
