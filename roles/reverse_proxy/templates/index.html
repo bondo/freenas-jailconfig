@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Reverse Proxy</title>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+	integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+	crossorigin="anonymous"></script>
+	<style>
+		body {
+			background-color: #F9F9F9;
+			display: flex;
+			flex-wrap: wrap;
+			height: 100%;
+		}
+		div {
+			flex-grow: 1;
+		}
+		a {
+			position: relative;
+			display: inline-block;
+
+			margin: 20px;
+			cursor: pointer;
+
+			filter: blur(2px);
+			transition: all .3s ease;
+		}
+		a:hover {
+			filter: blur(0);
+			transform: scale(0.9);
+		}
+		a img {
+			width: 400px;
+			height: auto;
+			transition: all .3s ease;
+		}
+		a img.foreground {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		a:hover img.foreground {
+			transform: scale(1.2);
+		}
+
+		h1 {
+			width: 200px;
+
+			/* place at bottom vertically */
+			position: absolute;
+			bottom: 0;
+			margin-bottom: 0;
+			/* center horizontally */
+			left: 50%;
+			margin-left: -100px;
+			text-align: center;
+
+			font-family: "Helvetica Neue", sans-serif;
+			font-weight: bold;
+			font-size: 22px;
+			color: #000000;
+			text-shadow: 0px 0px 4px #FFFFFF;
+
+			/* not visible initially */
+			opacity: 0;
+			transition: all .3s ease;
+		}
+		a:hover h1 {
+			/* vertically center */
+			bottom: 50%;
+			transform: translateY(-50%);
+
+			transform: scale(1.2);
+			opacity: 1;
+		}
+	</style>
+</head>
+<body>
+<script type="text/javascript">
+	'use strict';
+	var apps = [
+{% for link in reverse_proxy_links %}
+		{
+			name: "{{ link.name }}",
+			link: "{{ link.link }}",
+			background: "img/{{ link.background|basename }}",
+			foreground: "img/{{ link.foreground|basename }}",
+		},
+{% endfor %}
+	];
+	for(let app of apps) {
+		$("body").append($(`
+			<div>
+				<a href="${app.link}">
+					<img class="background" src="${app.background}" />
+					<img class="foreground" src="${app.foreground}" />
+					<h1>${app.name}</h1>
+				</a>
+			</div>
+		`))
+	}
+</script>
+</body>
+</html>

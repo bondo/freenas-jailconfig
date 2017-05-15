@@ -6,6 +6,14 @@
 - name: remove the default acme challenge dir
   file: path=/usr/local/www/acme state=absent
 
+- name: create .well-known dir
+  file: path=public dest=/usr/local/www/public/{{ item }}
+        state=directory
+        owner=root group=wheel mode=755
+  with_items:
+    - .well-known
+    - .well-known/acme-challenge
+
 - name: create the private key & certificate
   command: >
     /usr/local/bin/acme-client -N -n

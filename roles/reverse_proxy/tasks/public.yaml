@@ -1,7 +1,11 @@
 ---
 
-- name: copy public assets
-  copy: src=public dest=/usr/local/www/
+- name: create public dir
+  file: path=/usr/local/www/public state=directory
+        owner=root group=wheel mode=755
+
+- name: create 50x.html
+  copy: src=50x.html dest=/usr/local/www/public/50x.html
         owner=root group=wheel mode=644
 
 - name: create public vhost
