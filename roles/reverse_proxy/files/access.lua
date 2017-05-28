@@ -1,4 +1,4 @@
--- From: https://github.com/cloudflare/nginx-google-oauth
+-- From: https://github.com/cloudflare/nginx-google-oauth (modified to support ngo_enabled)
 -- Copyright 2015-2016 CloudFlare
 -- Copyright 2014-2015 Aaron Westendorf
 
@@ -9,6 +9,7 @@ local uri         = ngx.var.uri
 local uri_args    = ngx.req.get_uri_args()
 local scheme      = ngx.var.scheme
 
+local enabled        = ngx.var.ngo_enabled ~= "false" or false
 local client_id      = ngx.var.ngo_client_id
 local client_secret  = ngx.var.ngo_client_secret
 local token_secret   = ngx.var.ngo_token_secret
@@ -239,6 +240,6 @@ end
 
 handle_signout()
 
-if not is_authorized() then
+if enabled and not is_authorized() then
   authorize()
 end
