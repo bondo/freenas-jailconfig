@@ -46,12 +46,9 @@
            chdir=/usr/local/libdata/ansible/downloads/lua-resty-http-0.10
            creates=/usr/local/lib/lua/5.1/resty
 
-- name: install google-oauth lua module to nginx
-  get_url: url=https://raw.githubusercontent.com/cloudflare/nginx-google-oauth/55799855193f419d70b26ad1b9c259664393bca4/access.lua
-           dest=/usr/local/etc/nginx/reverse-proxy/google-oauth.lua
-           sha256sum=23c8093a60771efa674683b2f2ac7676f80982770136d96df5cc0902abed2896
-           owner=root group=wheel mode=644
-  notify: reload nginx
+- name: copy google-oauth lua module to nginx
+  copy: src=access.lua dest=/usr/local/etc/nginx/reverse-proxy/google-oauth.lua
+        owner=root group=wheel mode=644
 
 - name: create google-oauth module configuration
   template: src=google-oauth.conf dest=/usr/local/etc/nginx/reverse-proxy/google-oauth.conf
