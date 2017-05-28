@@ -13,7 +13,7 @@
   with_items: "{{ reverse_proxy_alt_domains }}"
 
 - name: enable alternative domain vhosts
-  file: src=/usr/local/etc/nginx/sites-available/{{ item.name }}
+  file: src=../sites-available/{{ item.name }}
         dest=/usr/local/etc/nginx/sites-enabled/{{ item.name }}
         state=link
   notify: reload nginx

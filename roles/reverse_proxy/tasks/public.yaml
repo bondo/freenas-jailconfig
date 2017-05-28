@@ -14,7 +14,7 @@
   notify: reload nginx
 
 - name: enable public vhost
-  file: src=/usr/local/etc/nginx/sites-available/public
+  file: src=../sites-available/public
         dest=/usr/local/etc/nginx/sites-enabled/public
         state=link
   notify: reload nginx

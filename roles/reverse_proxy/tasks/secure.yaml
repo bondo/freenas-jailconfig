@@ -32,7 +32,7 @@
   notify: reload nginx
 
 - name: enable secure vhost
-  file: src=/usr/local/etc/nginx/sites-available/secure
+  file: src=../sites-available/secure
         dest=/usr/local/etc/nginx/sites-enabled/secure
         state=link
   notify: reload nginx
