@@ -26,6 +26,9 @@
   file: path=/usr/local/etc/ssl/nginx_trusted state=directory
         owner=root group=wheel mode=0755
 
+- name: configure secure site
+  include: secure.yaml
+
 - name: configure subdirs
   include: subdirs.yaml
 

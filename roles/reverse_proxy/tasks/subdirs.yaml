@@ -1,31 +1,5 @@
 ---
 
-- name: create secure dir
-  file: path=/usr/local/www/secure state=directory
-        owner=root group=wheel mode=755
-
-- name: create 50x.html
-  copy: src=50x.html dest=/usr/local/www/secure/50x.html
-        owner=root group=wheel mode=644
-
-- name: create index.html
-  template: src=index.html dest=/usr/local/www/secure/index.html
-            owner=root group=wheel mode=644
-
-- name: create index images dir
-  file: path=/usr/local/www/secure/img state=directory
-        owner=root group=wheel mode=755
-
-- name: copy index.html background images
-  copy: src={{ item.background }} dest=/usr/local/www/secure/img/
-        owner=root group=wheel mode=644
-  with_items: '{{ reverse_proxy_links }}'
-
-- name: copy index.html foreground images
-  copy: src={{ item.foreground }} dest=/usr/local/www/secure/img/
-        owner=root group=wheel mode=644
-  with_items: '{{ reverse_proxy_links }}'
-
 - name: create reverse-proxy config structure
   file: path=/usr/local/etc/nginx/{{ item }} state=directory
         owner=root group=wheel mode=0755
@@ -52,14 +26,3 @@
             owner=root group=wheel mode=0644
   notify: reload nginx
   with_items: "{{ reverse_proxy_subdirs }}"
-
-- name: create subdirs vhost
-  template: src=subdirs-vhost.conf dest=/usr/local/etc/nginx/sites-available/reverse-proxy
-            owner=root group=wheel mode=644
-  notify: reload nginx
-
-- name: enable subdirs vhost
-  file: src=/usr/local/etc/nginx/sites-available/reverse-proxy
-        dest=/usr/local/etc/nginx/sites-enabled/reverse-proxy
-        state=link
-  notify: reload nginx
