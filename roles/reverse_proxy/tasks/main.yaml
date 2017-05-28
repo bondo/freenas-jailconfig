@@ -22,6 +22,10 @@
             owner=root group=wheel mode=0644
   notify: reload nginx
 
+- name: create nginx ssl cert trust dir
+  file: path=/usr/local/etc/ssl/nginx_trusted state=directory
+        owner=root group=wheel mode=0755
+
 - name: configure subdirs
   include: subdirs.yaml
 

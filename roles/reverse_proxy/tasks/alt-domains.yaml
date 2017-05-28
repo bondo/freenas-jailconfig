@@ -1,9 +1,5 @@
 ---
 
-- name: create nginx ssl cert trust dir
-  file: path=/usr/local/etc/ssl/nginx_trusted state=directory
-        owner=root group=wheel mode=0755
-
 - name: copy trusted certificates
   copy: src={{ item.trust_ssl }} dest=/usr/local/etc/ssl/nginx_trusted/{{ item.trust_ssl|basename }}
   when: item.trust_ssl is defined
