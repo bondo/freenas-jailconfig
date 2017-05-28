@@ -1,7 +1,12 @@
 ---
 
-reverse_proxy_htpasswd: ""
 reverse_proxy_domain: null
 reverse_proxy_alt_domains: []
 reverse_proxy_subdirs: []
 reverse_proxy_links: []
+reverse_proxy_google_oauth:
+  client_id: null
+  client_secret: null
+  token_secret: null
+  whitelist: null
+  resolvers: null

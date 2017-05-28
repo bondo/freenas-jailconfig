@@ -1,8 +1,25 @@
 ---
 
-# Generate htpasswd file with:
-# htpasswd -cB assets/reverse_proxy/htpasswd username
-reverse_proxy_htpasswd: '{{ playbook_dir }}/assets/reverse_proxy/htpasswd'
+# Unfortunately nginx needs to be installed manually to support lua
+# Do this by entering the jail with `sudo jailme reverse-proxy sh`
+# and then running:
+# pkg install texinfo; cd /usr/ports/www/nginx; make config
+# Select LUA in the modules prompt and answer yes to all subsequent prompts
+# After that run: `make install`
+# See https://github.com/cloudflare/nginx-google-oauth#configuring-oauth-access
+# for instructions on how to create a client ID and secret.
+# Make sure to allow all reverse_proxy_alt_domains subdomains as redirect URIs
+reverse_proxy_google_oauth:
+  client_id: "CLIENTID.apps.googleusercontent.com"
+  client_secret: "CLIENTSECRET"
+  token_secret: "{{ lookup('password', playbook_dir ~ '/assets/reverse_proxy_google_oauth length=32') }}"
+  whitelist:
+    - example@gmail.com
+  # nginx requires its own resolvers to be specified, set them here
+  resolvers:
+    - "10.134.102.1"
+    - "8.8.8.8"
+    - "8.8.4.4"
 reverse_proxy_domain: example.com
 reverse_proxy_alt_domains:
   - name: unifi
