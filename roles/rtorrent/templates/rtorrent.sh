@@ -19,7 +19,7 @@ rtorrent_chdir=${rtorrent_home}
 rtorrent_user=rtorrent
 argument_precmd=
 
-mkdir $dtach_dir
+[ -d $dtach_dir ] || mkdir $dtach_dir
 chown $rtorrent_user $dtach_dir
 load_rc_config $name
 run_rc_command "$@"
