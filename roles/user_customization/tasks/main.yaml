@@ -1,0 +1,24 @@
+---
+
+- name: install user packages
+  pkgng: name={{ item }} state=present
+  with_items: "{{ user_packages }}"
+
+- name: set the user shell
+  user: name=root state=present shell={{ root_shell }}
+
+- name: install git repos
+  git: repo={{ item.remote }}
+       dest={{ item.path }} version=master
+       accept_hostkey=yes force=no update=no
+  with_items: "{{ git_repos }}"
+  when: item.private is not defined or not item.private
+
+- name: create private homeshick repos
+  shell: git init {{ item.path }} && \
+         (cd {{ item.path }} &&
+          git remote add origin {{ item.remote }} &&
+          printf '[branch "master"]\n  remote = origin\n  merge = refs/heads/master' >> .git/config)
+         creates={{ item.path }}
+  with_items: "{{ git_repos }}"
+  when: item.private is defined and item.private

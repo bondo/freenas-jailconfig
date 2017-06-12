@@ -4,6 +4,7 @@
   roles:
     - pre_setup
     - mdns
+    - user_customization
 
 - hosts: media
   roles: [media_group]

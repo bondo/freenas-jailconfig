@@ -1,0 +1,5 @@
+---
+
+root_shell: /bin/sh
+user_packages: []
+git_repos: []
