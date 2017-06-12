@@ -5,33 +5,44 @@
     - pre_setup
     - mdns
     - user_customization
+  tags: [all]
 
 - hosts: media
   roles: [media_group]
+  tags: [media]
 
 - hosts: reverse-proxy@freenas.local
   roles: [reverse_proxy]
+  tags: [app]
 
 - hosts: rtorrent@freenas.local
   roles: [rutorrent]
+  tags: [app]
 
 - hosts: sabnzbd@freenas.local
   roles: [sabnzbd]
+  tags: [app]
 
 - hosts: plex@freenas.local
   roles: [plex]
+  tags: [app]
 
 - hosts: sonarr@freenas.local
   roles: [sonarr]
+  tags: [app]
 
 - hosts: radarr@freenas.local
   roles: [radarr]
+  tags: [app]
 
 - hosts: jackett@freenas.local
   roles: [jackett]
+  tags: [app]
 
 - hosts: unifi@freenas.local
   roles: [unifi]
+  tags: [app]
 
 - hosts: dnscrypt-proxy@freenas.local
   roles: [dnscrypt-proxy]
+  tags: [app]
