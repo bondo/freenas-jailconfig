@@ -1,0 +1,38 @@
+---
+
+- name: install dnscrypt-proxy
+  pkgng: name=dnscrypt-proxy state=present
+  notify: restart dnscrypt-proxy
+
+- name: configure dnscrypt-proxy resolver
+  lineinfile:
+    dest: /etc/rc.conf
+    line: dnscrypt_proxy_resolver={{ dnscrypt_resolver_name }}
+  notify: restart dnscrypt-proxy
+
+- name: configure dnscrypt-proxy resolver
+  lineinfile:
+    dest: /etc/rc.conf
+    line: dnscrypt_proxy_resolver="{{ dnscrypt_resolver_name }}"
+  notify: restart dnscrypt-proxy
+
+- name: configure dnscrypt-proxy listening interface
+  lineinfile:
+    dest: /etc/rc.conf
+    line: dnscrypt_proxy_flags="-a 127.0.0.1:5300"
+  notify: restart dnscrypt-proxy
+
+- name: install unbound
+  pkgng: name=unbound state=present
+  notify: restart unbound
+
+- name: configure unbound
+  template: src=unbound.conf dest=/usr/local/etc/unbound/unbound.conf
+            owner=root group=wheel mode=644
+  notify: restart unbound
+
+- name: start dnscrypt-proxy
+  service: name=dnscrypt-proxy state=started enabled=yes
+
+- name: start unbound
+  service: name=unbound state=started enabled=yes

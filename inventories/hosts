@@ -9,6 +9,7 @@ radarr@freenas.local ansible_connection=sshjail ansible_python_interpreter=/usr/
 jackett@freenas.local ansible_connection=sshjail ansible_python_interpreter=/usr/local/bin/python2.7
 unifi@freenas.local ansible_connection=sshjail ansible_python_interpreter=/usr/local/bin/python2.7
 reverse-proxy@freenas.local ansible_connection=sshjail ansible_python_interpreter=/usr/local/bin/python2.7
+dnscrypt-proxy@freenas.local ansible_connection=sshjail ansible_python_interpreter=/usr/local/bin/python2.7
 
 [media]
 rtorrent@freenas.local

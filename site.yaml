@@ -32,3 +32,6 @@
 
 - hosts: unifi@freenas.local
   roles: [unifi]
+
+- hosts: dnscrypt-proxy@freenas.local
+  roles: [dnscrypt-proxy]
