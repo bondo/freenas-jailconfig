@@ -3,6 +3,5 @@
 - name: start sonarr
   service: name=sonarr enabled=yes state=started
 
-
 - name: restart sonarr
   service: name=sonarr enabled=yes state=restarted
