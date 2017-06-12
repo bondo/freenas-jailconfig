@@ -44,7 +44,7 @@
 - name: install resty.http
   command: make install LUA_INCLUDE_DIR=/usr/local/include/luajit-2.0/ LUA_LIB_DIR=/usr/local/share/luajit-2.0.5/
            chdir=/usr/local/libdata/ansible/downloads/lua-resty-http-0.10
-           creates=/usr/local/lib/lua/5.1/resty
+           creates=/usr/local/share/luajit-2.0.5/resty/http.lua
 
 - name: copy google-oauth lua module to nginx
   copy: src=access.lua dest=/usr/local/etc/nginx/reverse-proxy/google-oauth.lua
