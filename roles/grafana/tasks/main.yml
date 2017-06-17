@@ -16,6 +16,11 @@
             owner=root group=wheel mode=0644
   notify: restart grafana
 
+- name: install grafana plugins
+  command: grafana-cli plugins install {{ item }}
+           creates=/var/db/grafana/plugins/{{ item }}
+  with_items: "{{ grafana_plugins }}"
+
 - name: configure influxdb
   template: src=influxd.conf dest=/usr/local/etc/influxd.conf
             owner=root group=wheel mode=0644

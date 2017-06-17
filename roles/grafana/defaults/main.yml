@@ -2,3 +2,4 @@
 
 grafana_root_url: null
 grafana_secret_key: null
+grafana_plugins: []
