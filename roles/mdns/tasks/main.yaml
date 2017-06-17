@@ -12,9 +12,11 @@
     regexp: "^hosts:"
     line: "hosts: files dns mdns"
 
-- name: start dbus
-  service: name=dbus enabled=yes state=started
+- name: enable dbus
+  service: name=dbus enabled=yes
+  notify: start dbus
 
-- name: start avahi
-  service: name=avahi-daemon enabled=yes state=started
+- name: enable avahi-daemon
+  service: name=avahi-daemon enabled=yes
            pattern=avahi-daemon
+  notify: start avahi

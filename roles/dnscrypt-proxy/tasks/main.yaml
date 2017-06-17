@@ -31,8 +31,10 @@
             owner=root group=wheel mode=644
   notify: restart unbound
 
-- name: start dnscrypt-proxy
-  service: name=dnscrypt-proxy state=started enabled=yes
+- name: enable dnscrypt-proxy
+  service: name=dnscrypt-proxy enabled=yes
+  notify: start dnscrypt-proxy
 
-- name: start unbound
-  service: name=unbound state=started enabled=yes
+- name: enable unbound
+  service: name=unbound enabled=yes
+  notify: start unbound

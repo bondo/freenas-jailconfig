@@ -13,5 +13,6 @@
         recurse=yes
         owner=radarr group=wheel mode='u=rwX,go=rX'
 
-- name: start radarr
-  service: name=radarr state=started enabled=yes
+- name: enable radarr
+  service: name=radarr enabled=yes
+  notify: start radarr

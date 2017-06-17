@@ -41,5 +41,6 @@
             owner=root group=wheel mode=755
   notify: restart jackett
 
-- name: enable jackett service
+- name: enable jackett
   service: name=jackett enabled=yes
+  notify: start jackett

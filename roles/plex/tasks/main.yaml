@@ -16,5 +16,6 @@
 - name: install youtube tv plugin
   include: youtube.yaml
 
-- name: start plex
-  service: name=plexmediaserver state=started enabled=yes
+- name: enable plex
+  service: name=plexmediaserver enabled=yes
+  notify: start plex

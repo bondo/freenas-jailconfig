@@ -13,5 +13,6 @@
         recurse=yes
         owner=sonarr group=wheel mode='u=rwX,go=rX'
 
-- name: start sonarr
-  service: name=sonarr state=started enabled=yes
+- name: enable sonarr
+  service: name=sonarr enabled=yes
+  notify: start sonarr
