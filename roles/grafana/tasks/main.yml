@@ -33,15 +33,6 @@
             owner=root group=wheel mode=0644
   notify: restart influxdb
 
-- name: flush handlers to start influxdb before creating database
-  meta: flush_handlers
-
-- name: create influxdb databases
-  command: influx -execute 'CREATE DATABASE {{ item }}'
-  with_items:
-    - collectd
-    - telegraf
-
 - name: configure telegraf
   template: src=telegraf.conf dest=/usr/local/etc/telegraf.conf
             owner=root group=wheel mode=0644
@@ -58,3 +49,12 @@
 - name: enable grafana
   service: name=grafana enabled=yes
   notify: start grafana
+
+- name: flush handlers to start influxdb before creating database
+  meta: flush_handlers
+
+- name: create influxdb databases
+  command: influx -execute 'CREATE DATABASE {{ item }}'
+  with_items:
+    - collectd
+    - telegraf
