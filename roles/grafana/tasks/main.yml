@@ -8,8 +8,15 @@
   pkgng: name=influxdb state=present
   notify: restart influxdb
 
-- name: install collectd
-  pkgng: name=collectd5 state=present
+- name: install telegraf
+  pkgng: name=telegraf state=present
+  notify: restart telegraf
+
+- name: install other dependencies
+  pkgng: name={{ item }} state=present
+  with_items:
+    - collectd5
+    - ipmitool
 
 - name: configure grafana
   template: src=grafana.conf dest=/usr/local/etc/grafana.conf
@@ -29,12 +36,24 @@
 - name: flush handlers to start influxdb before creating database
   meta: flush_handlers
 
-- name: create monitoring database
-  command: influx -execute 'CREATE DATABASE monitoring'
+- name: create influxdb databases
+  command: influx -execute 'CREATE DATABASE {{ item }}'
+  with_items:
+    - collectd
+    - telegraf
+
+- name: configure telegraf
+  template: src=telegraf.conf dest=/usr/local/etc/telegraf.conf
+            owner=root group=wheel mode=0644
+  notify: restart telegraf
 
 - name: enable influxdb
   service: name=influxd enabled=yes
   notify: start influxdb
+
+- name: enable telegraf
+  service: name=telegraf enabled=yes
+  notify: start telegraf
 
 - name: enable grafana
   service: name=grafana enabled=yes
