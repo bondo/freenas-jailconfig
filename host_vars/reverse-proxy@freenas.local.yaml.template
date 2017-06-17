@@ -33,9 +33,14 @@ reverse_proxy_alt_domains:
     address: 10.134.102.10:32400
 reverse_proxy_subdirs:
   - name: sabnzbd
-    location_template: sabnzbd-location.conf
     address: 10.134.102.11:80
     forward_subdir_name: yes  # determines whether the forwarded request should contain the subdir
+    inline_config: |
+      # Don't authenticate API access, let sabnzbd do that
+      location /sabnzbd/api {
+        set $ngo_enabled  "false";
+        proxy_pass http://sabnzbd;
+      }
   - name: rutorrent
     address: 10.134.102.14:80
   - name: jackett
