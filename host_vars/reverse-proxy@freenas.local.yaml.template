@@ -51,9 +51,9 @@ reverse_proxy_subdirs:
   - name: sonarr
     address: 10.134.102.12:8989
     forward_subdir_name: yes
-  - name: grafana
+  - name: stats
     address: 10.134.102.25:3000
-    forward_subdir_name: no  # default is no, but especially important here
+    forward_subdir_name: no  # default is no, but especially important for grafana
 reverse_proxy_links:
   - name: Unifi
     link: unifi/

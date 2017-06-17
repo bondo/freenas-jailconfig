@@ -6,9 +6,9 @@
 #     Server "10.134.102.25" "25826"
 # </Plugin>
 # Then copy the typesdb from FreeNAS to the jail:
-# sudo cp /usr/local/share/collectd/types.db /mnt/jails/grafana/usr/local/share/collectd/types.db
+# sudo cp /usr/local/share/collectd/types.db /mnt/jails/stats/usr/local/share/collectd/types.db
 
-grafana_root_url: https://example.com/grafana
-grafana_secret_key: "{{ lookup('password', playbook_dir ~ '/assets/grafana/secret_key length=32 chars=ascii_letters') }}"
+grafana_root_url: https://example.com/stats
+grafana_secret_key: "{{ lookup('password', playbook_dir ~ '/assets/stats/grafana_secret_key length=32 chars=ascii_letters') }}"
 grafana_plugins:
   - briangann-gauge-panel
