@@ -43,6 +43,8 @@ reverse_proxy_subdirs:
     address: 10.134.102.15:7878
   - name: sonarr
     address: 10.134.102.12:8989
+  - name: grafana
+    address: 10.134.102.25:3000
 reverse_proxy_links:
   - name: Unifi
     link: unifi/

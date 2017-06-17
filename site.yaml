@@ -46,3 +46,7 @@
 - hosts: dnscrypt-proxy@freenas.local
   roles: [dnscrypt-proxy]
   tags: [app]
+
+- hosts: grafana@freenas.local
+  roles: [grafana]
+  tags: [app]

@@ -1,0 +1,6 @@
+---
+
+# Go to FreeNAS -> "System" -> "Advanced" and set "Remote Graphite Server Hostname"
+# to the jail IP in order to ship stats to InfluxDB
+grafana_root_url: https://example.com/grafana
+grafana_secret_key: "{{ lookup('password', playbook_dir ~ '/assets/grafana/secret_key length=32 chars=ascii_letters') }}"

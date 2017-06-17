@@ -1,0 +1,30 @@
+---
+
+- name: install grafana
+  pkgng: name=grafana4 state=present
+  notify: restart grafana
+
+- name: install influxdb
+  pkgng: name=influxdb state=present
+  notify: restart influxdb
+
+- name: configure grafana
+  template: src=grafana.conf dest=/usr/local/etc/grafana.conf
+            owner=root group=wheel mode=0644
+  notify: restart grafana
+
+- name: configure influxdb
+  template: src=influxd.conf dest=/usr/local/etc/influxd.conf
+            owner=root group=wheel mode=0644
+  notify: restart influxdb
+
+- name: create monitoring database
+  command: influx -execute 'CREATE DATABASE monitoring'
+
+- name: enable influxdb
+  service: name=influxd enabled=yes
+  notify: start influxdb
+
+- name: enable grafana
+  service: name=grafana enabled=yes
+  notify: start grafana
