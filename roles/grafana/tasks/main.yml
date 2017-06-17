@@ -8,6 +8,9 @@
   pkgng: name=influxdb state=present
   notify: restart influxdb
 
+- name: install collectd
+  pkgng: name=collectd5 state=present
+
 - name: configure grafana
   template: src=grafana.conf dest=/usr/local/etc/grafana.conf
             owner=root group=wheel mode=0644
@@ -17,6 +20,9 @@
   template: src=influxd.conf dest=/usr/local/etc/influxd.conf
             owner=root group=wheel mode=0644
   notify: restart influxdb
+
+- name: flush handlers to start influxdb before creating database
+  meta: flush_handlers
 
 - name: create monitoring database
   command: influx -execute 'CREATE DATABASE monitoring'
