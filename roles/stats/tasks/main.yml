@@ -17,6 +17,12 @@
   with_items:
     - collectd5
     - ipmitool
+    - net-snmp
+
+- name: link snmptranslate to /usr/bin so telegraf can use it
+  file: src=/usr/local/bin/snmptranslate
+        dest=/usr/bin/snmptranslate
+        state=link
 
 - name: configure grafana
   template: src=grafana.conf dest=/usr/local/etc/grafana.conf

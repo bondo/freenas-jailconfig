@@ -12,3 +12,23 @@ grafana_root_url: https://example.com/stats
 grafana_secret_key: "{{ lookup('password', playbook_dir ~ '/assets/stats/grafana_secret_key length=32 chars=ascii_letters') }}"
 grafana_plugins:
   - briangann-gauge-panel
+telegraf_snmp:
+  agents: ["10.134.102.1"]
+  fields: |
+    name = "router"
+    [[inputs.snmp.field]]
+      name = "hostname"
+      oid = "SNMPv2-MIB::sysName.0"
+      is_tag = true
+    [[inputs.snmp.field]]
+      name = "if7_in_octects"
+      oid = "IF-MIB::ifInOctets.7"
+    [[inputs.snmp.field]]
+      name = "if7_out_octects"
+      oid = "IF-MIB::ifOutOctets.7"
+    [[inputs.snmp.field]]
+      name = "if8_in_octects"
+      oid = "IF-MIB::ifInOctets.8"
+    [[inputs.snmp.field]]
+      name = "if8_out_octects"
+      oid = "IF-MIB::ifOutOctets.8"
