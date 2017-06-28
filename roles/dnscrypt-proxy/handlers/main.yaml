@@ -1,13 +1,13 @@
 ---
 
 - name: start dnscrypt-proxy
-  service: name=dnscrypt-proxy enabled=yes state=started
+  service: name=dnscrypt-proxy state=started
 
 - name: restart dnscrypt-proxy
-  service: name=dnscrypt-proxy enabled=yes state=restarted
+  service: name=dnscrypt-proxy state=restarted
 
 - name: start unbound
-  service: name=unbound enabled=yes state=started
+  service: name=unbound state=started
 
 - name: restart unbound
-  service: name=unbound enabled=yes state=restarted
+  service: name=unbound state=restarted

@@ -66,3 +66,7 @@
         dest=/usr/local/etc/nginx/sites-enabled/sabnzbd
         state=link
   notify: reload nginx
+
+- name: enable sabnzbd
+  service: name=sabnzbd enabled=yes
+  notify: start sabnzbd

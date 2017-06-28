@@ -2,7 +2,6 @@
 
 - name: install dnscrypt-proxy
   pkgng: name=dnscrypt-proxy state=present
-  notify: restart dnscrypt-proxy
 
 - name: configure dnscrypt-proxy resolver
   lineinfile:

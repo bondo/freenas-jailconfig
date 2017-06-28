@@ -1,7 +1,7 @@
 ---
 
 - name: start php-fpm
-  service: name=php-fpm enabled=yes state=started
+  service: name=php-fpm state=started
 
 - name: restart php-fpm
-  service: name=php-fpm enabled=yes state=restarted
+  service: name=php-fpm state=restarted

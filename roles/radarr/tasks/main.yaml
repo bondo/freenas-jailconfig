@@ -2,7 +2,6 @@
 
 - name: install radarr
   pkgng: name=radarr state=present
-  notify: restart radarr
 
 - name: add the radarr user to the media group
   user: name=radarr groups=media append=yes

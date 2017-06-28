@@ -2,15 +2,12 @@
 
 - name: install grafana
   pkgng: name=grafana4 state=present
-  notify: restart grafana
 
 - name: install influxdb
   pkgng: name=influxdb state=present
-  notify: restart influxdb
 
 - name: install telegraf
   pkgng: name=telegraf state=present
-  notify: restart telegraf
 
 - name: install other dependencies
   pkgng: name={{ item }} state=present

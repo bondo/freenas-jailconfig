@@ -2,7 +2,6 @@
 
 - name: install sonarr
   pkgng: name=sonarr state=present
-  notify: restart sonarr
 
 - name: add the sonarr user to the media group
   user: name=sonarr groups=media append=yes

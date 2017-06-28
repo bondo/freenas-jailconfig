@@ -1,8 +1,7 @@
 ---
 
 - name: start radarr
-  service: name=radarr enabled=yes state=started
-
+  service: name=radarr state=started
 
 - name: restart radarr
-  service: name=radarr enabled=yes state=restarted
+  service: name=radarr state=restarted

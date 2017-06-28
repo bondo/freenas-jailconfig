@@ -2,7 +2,6 @@
 
 - name: install rtorrent
   pkgng: name=rtorrent state=present
-  notify: restart rtorrent
 
 - name: install dtach for running rtorrent
   pkgng: name=dtach state=present
@@ -36,3 +35,7 @@
   template: src=rtorrent.sh dest=/usr/local/etc/rc.d/rtorrent
             owner=root group=wheel mode=755
   notify: restart rtorrent
+
+- name: enable rtorrent
+  service: name=rtorrent enabled=yes
+  notify: start rtorrent

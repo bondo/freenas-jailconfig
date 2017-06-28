@@ -4,7 +4,6 @@
   pkgng: name={{ item }} state=present
   with_items: [lang/mono, ftp/curl]
 
-
 - name: create jackett user
   user: name=jackett state=present
         home=/usr/local/www/jackett

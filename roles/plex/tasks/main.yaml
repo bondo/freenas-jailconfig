@@ -2,7 +2,6 @@
 
 - name: install plex
   pkgng: name=plexmediaserver state=present
-  notify: restart plex
 
 - name: flush handlers to start plex (plexdata dir needed in other tasks)
   meta: flush_handlers
