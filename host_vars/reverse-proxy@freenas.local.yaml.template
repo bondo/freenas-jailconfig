@@ -54,6 +54,9 @@ reverse_proxy_subdirs:
   - name: stats
     address: 10.134.102.25:3000
     forward_subdir_name: no  # default is no, but especially important for grafana
+  - name: logs
+    address: 10.134.102.26:5601
+    forward_subdir_name: no
 reverse_proxy_links:
   - name: Unifi
     link: unifi/

@@ -1,0 +1,22 @@
+---
+
+- name: start elasticsearch
+  service: name=elasticsearch enabled=yes state=started
+
+- name: restart elasticsearch
+  service: name=elasticsearch enabled=yes state=restarted
+
+- name: start logstash
+  service: name=logstash enabled=yes state=started
+
+- name: restart logstash
+  service: name=logstash enabled=yes state=restarted
+
+- name: start kibana
+  service: name=kibana enabled=yes state=started
+
+- name: restart kibana
+  service: name=kibana enabled=yes state=restarted
+
+- name: restart ipfw
+  service: name=ipfw enabled=yes state=restarted

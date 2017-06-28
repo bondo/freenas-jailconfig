@@ -50,3 +50,7 @@
 - hosts: stats@freenas.local
   roles: [stats]
   tags: [app]
+
+- hosts: logs@freenas.local
+  roles: [logs]
+  tags: [app]

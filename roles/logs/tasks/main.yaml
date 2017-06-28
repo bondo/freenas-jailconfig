@@ -1,0 +1,51 @@
+---
+
+- name: install elasticsearch
+  pkgng: name=elasticsearch5 state=present
+  notify: restart elasticsearch
+
+- name: install logstash
+  pkgng: name=logstash5 state=present
+  notify: restart logstash
+
+- name: install kibana
+  pkgng: name=kibana5 state=present
+  notify: restart kibana
+
+- name: configure kibana
+  template: src=kibana.yml dest=/usr/local/etc/kibana.yml
+            owner=root group=wheel mode=0644
+  notify: restart kibana
+
+- name: configure logstash
+  template: src=logstash.conf dest=/usr/local/etc/logstash/logstash.conf
+            owner=root group=wheel mode=0644
+  notify: restart logstash
+
+- name: enable ipfw for port forwarding
+  lineinfile:
+    dest: /etc/rc.conf
+    line: firewall_enable="YES"
+  notify: restart ipfw
+
+- name: set ipfw firewall rules location
+  lineinfile:
+    dest: /etc/rc.conf
+    line: firewall_script="/etc/ipfw.rules"
+  notify: restart ipfw
+
+- name: configure ipfw
+  template: src=ipfw.rules dest=/etc/ipfw.rules
+            owner=root group=wheel mode=0755
+
+- name: enable elasticsearch
+  service: name=elasticsearch enabled=yes
+  notify: start elasticsearch
+
+- name: enable logstash
+  service: name=logstash enabled=yes
+  notify: start logstash
+
+- name: enable kibana
+  service: name=kibana enabled=yes
+  notify: start kibana
