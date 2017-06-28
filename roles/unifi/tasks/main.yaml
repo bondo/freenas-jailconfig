@@ -9,7 +9,6 @@
 
 - name: install mongodb
   pkgng: name=mongodb state=present
-  notify: start mongodb
 
 - name: install unifi
   command: make install
@@ -17,4 +16,11 @@
            creates=/usr/local/etc/rc.d/unifi
   environment:
     BATCH: "yes"
+
+- name: enable mongodb
+  service: name=mongodb enabled=yes
+  notify: start mongod
+
+- name: enable unifi
+  service: name=unifi enabled=yes
   notify: start unifi
