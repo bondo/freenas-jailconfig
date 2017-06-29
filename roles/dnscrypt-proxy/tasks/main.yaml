@@ -6,14 +6,9 @@
 - name: configure dnscrypt-proxy resolver
   lineinfile:
     dest: /etc/rc.conf
-    line: dnscrypt_proxy_resolver={{ dnscrypt_resolver_name }}
-  notify: restart dnscrypt-proxy
-
-- name: configure dnscrypt-proxy resolver
-  lineinfile:
-    dest: /etc/rc.conf
     line: dnscrypt_proxy_resolver="{{ dnscrypt_resolver_name }}"
   notify: restart dnscrypt-proxy
+  tags: [config]
 
 - name: configure dnscrypt-proxy listening interface
   lineinfile:
