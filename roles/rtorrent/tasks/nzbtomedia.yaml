@@ -25,3 +25,4 @@
   template: src=autoProcessMedia.cfg
             dest=/usr/local/libdata/rtorrent/nzbtomedia/autoProcessMedia.cfg
             owner=rtorrent group=rtorrent mode=644
+  tags: [config]

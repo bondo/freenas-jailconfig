@@ -21,3 +21,4 @@
   # but there's no harm in running a request.
   # acme-client will know what's up.
   notify: request letsencrypt certificate
+  tags: [config]

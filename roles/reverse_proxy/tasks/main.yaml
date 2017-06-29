@@ -24,6 +24,7 @@
   template: src=proxy_params dest=/usr/local/etc/nginx/proxy_params
             owner=root group=wheel mode=0644
   notify: reload nginx
+  tags: [config]
 
 - name: create nginx ssl cert trust dir
   file: path=/usr/local/etc/ssl/nginx_trusted state=directory

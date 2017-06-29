@@ -11,6 +11,7 @@
             owner=root group=wheel mode=644
   notify: reload nginx
   with_items: "{{ reverse_proxy_alt_domains }}"
+  tags: [config]
 
 - name: enable alternative domain vhosts
   file: src=../sites-available/{{ item.name }}
@@ -25,3 +26,4 @@
             owner=root group=wheel mode=0644
   notify: reload nginx
   with_items: "{{ reverse_proxy_alt_domains }}"
+  tags: [config]

@@ -43,6 +43,7 @@
 - name: configure rutorrent
   template: src=config.php dest=/usr/local/www/rutorrent/conf/config.php
             owner=root group=wheel mode=644
+  tags: [config]
 
 - name: create php-fpm pool folder
   file: path=/usr/local/etc/fpm-pool.d state=directory
@@ -58,11 +59,13 @@
   template: src=php-pool.conf dest=/usr/local/etc/fpm-pool.d/rutorrent.conf
             owner=root group=wheel mode=644
   notify: restart php-fpm
+  tags: [config]
 
 - name: create the nginx vhost
   template: src=nginx-vhost.conf dest=/usr/local/etc/nginx/sites-available/rutorrent
             owner=root group=wheel mode=644
   notify: reload nginx
+  tags: [config]
 
 - name: enable the vhost
   file: src=/usr/local/etc/nginx/sites-available/rutorrent

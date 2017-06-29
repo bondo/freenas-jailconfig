@@ -11,6 +11,7 @@
   template: src=php.ini dest=/usr/local/etc/php.ini
             owner=root group=wheel mode=644
   notify: restart php-fpm
+  tags: [config]
 
 - name: enable php-fpm
   service: name=php-fpm enabled=yes

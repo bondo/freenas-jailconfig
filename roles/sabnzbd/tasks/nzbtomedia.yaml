@@ -25,3 +25,4 @@
   template: src=autoProcessMedia.cfg
             dest=/usr/local/libdata/sabnzbd/scripts/autoProcessMedia.cfg
             owner=sabnzbd group=media mode=644
+  tags: [config]

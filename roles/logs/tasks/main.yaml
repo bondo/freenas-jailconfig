@@ -16,27 +16,32 @@
   template: src=kibana.yml dest=/usr/local/etc/kibana.yml
             owner=root group=wheel mode=0644
   notify: restart kibana
+  tags: [config]
 
 - name: configure logstash
   template: src=logstash.conf dest=/usr/local/etc/logstash/logstash.conf
             owner=root group=wheel mode=0644
   notify: restart logstash
+  tags: [config]
 
 - name: enable ipfw for port forwarding
   lineinfile:
     dest: /etc/rc.conf
     line: firewall_enable="YES"
   notify: restart ipfw
+  tags: [config]
 
 - name: set ipfw firewall rules location
   lineinfile:
     dest: /etc/rc.conf
     line: firewall_script="/etc/ipfw.rules"
   notify: restart ipfw
+  tags: [config]
 
 - name: configure ipfw
   template: src=ipfw.rules dest=/etc/ipfw.rules
             owner=root group=wheel mode=0755
+  tags: [config]
 
 - name: enable elasticsearch
   service: name=elasticsearch enabled=yes

@@ -12,6 +12,7 @@
   template: src=public-vhost.conf dest=/usr/local/etc/nginx/sites-available/public
             owner=root group=wheel mode=644
   notify: reload nginx
+  tags: [config]
 
 - name: enable public vhost
   file: src=../sites-available/public

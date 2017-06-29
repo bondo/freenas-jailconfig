@@ -15,6 +15,7 @@
     dest: /etc/rc.conf
     line: dnscrypt_proxy_flags="-a 127.0.0.1:5300"
   notify: restart dnscrypt-proxy
+  tags: [config]
 
 - name: install unbound
   pkgng: name=unbound state=present
@@ -24,6 +25,7 @@
   template: src=unbound.conf dest=/usr/local/etc/unbound/unbound.conf
             owner=root group=wheel mode=644
   notify: restart unbound
+  tags: [config]
 
 - name: enable dnscrypt-proxy
   service: name=dnscrypt-proxy enabled=yes

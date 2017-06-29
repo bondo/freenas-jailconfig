@@ -23,6 +23,7 @@
   template: src=rtorrent.rc dest=/usr/local/libdata/rtorrent/.rtorrent.rc
             owner=rtorrent group=rtorrent mode=644
   notify: restart rtorrent
+  tags: [config]
 
 - name: copy set_home script
   template: src=set_home.sh dest=/usr/local/libdata/rtorrent/set_home.sh

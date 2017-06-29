@@ -23,12 +23,14 @@
   template: src=nginx.conf dest=/usr/local/etc/nginx/nginx.conf
             owner=root group=wheel mode=0644
   notify: reload nginx
+  tags: [config]
 
 - name: configure nginx ssl session cache
   template: src=ssl_session_cache.conf dest=/usr/local/etc/nginx/conf.d/ssl_session_cache.conf
             owner=root group=wheel mode=0644
   notify: reload nginx
   when: nginx_ssl
+  tags: [config]
 
 - name: generate diffie-hellman group
   command: openssl dhparam -out /usr/local/etc/nginx/dhparams.pem 2048

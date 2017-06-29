@@ -6,6 +6,7 @@
   template: src=lua-module.load dest=/usr/local/etc/nginx/mods-available/lua-module.load
             owner=root group=wheel mode=644
   notify: reload nginx
+  tags: [config]
 
 - name: enable nginx lua module
   file: src=/usr/local/etc/nginx/mods-available/lua-module.load
@@ -54,3 +55,4 @@
   template: src=google-oauth.conf dest=/usr/local/etc/nginx/reverse-proxy/google-oauth.conf
             owner=root group=wheel mode=644
   notify: reload nginx
+  tags: [config]

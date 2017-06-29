@@ -60,6 +60,7 @@
   template: src=nginx-vhost.conf dest=/usr/local/etc/nginx/sites-available/sabnzbd
             owner=root group=wheel mode=644
   notify: reload nginx
+  tags: [config]
 
 - name: enable the vhost
   file: src=/usr/local/etc/nginx/sites-available/sabnzbd

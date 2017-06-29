@@ -20,9 +20,11 @@
             owner=root group=wheel mode=0644
   notify: reload nginx
   with_items: "{{ reverse_proxy_subdirs }}"
+  tags: [config]
 
 - name: configure upstreams
   template: src=subdirs-upstream.conf dest=/usr/local/etc/nginx/reverse-proxy/upstreams/{{ item.name }}
             owner=root group=wheel mode=0644
   notify: reload nginx
   with_items: "{{ reverse_proxy_subdirs }}"
+  tags: [config]

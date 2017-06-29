@@ -11,6 +11,7 @@
     dest: /etc/nsswitch.conf
     regexp: "^hosts:"
     line: "hosts: files dns mdns"
+  tags: [config]
 
 - name: enable dbus
   service: name=dbus enabled=yes
