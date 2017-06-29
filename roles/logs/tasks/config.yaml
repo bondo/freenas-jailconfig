@@ -1,0 +1,32 @@
+---
+
+- name: remove default config
+  file: path=/usr/local/etc/logstash/{{ item }} state=absent
+  with_items:
+    - logstash.conf
+    - logstash.conf.sample
+  notify: restart logstash
+
+- name: set logstash config location
+  lineinfile:
+    dest: /etc/rc.conf
+    line: logstash_config="/usr/local/etc/logstash/"
+  notify: restart logstash
+
+- name: configure inputs
+  copy: src=inputs.conf dest=/usr/local/etc/logstash/inputs.conf
+        owner=root group=wheel mode=0644
+  notify: restart logstash
+
+- name: configure filters
+  copy: src=filters/{{ item.name }}.conf dest=/usr/local/etc/logstash/{{ item.prio }}_{{ item.name }}.conf
+        owner=root group=wheel mode=0644
+  with_items:
+    - name: sonarr
+      prio: 50
+  notify: restart logstash
+
+- name: configure outputs
+  copy: src=outputs.conf dest=/usr/local/etc/logstash/outputs.conf
+        owner=root group=wheel mode=0644
+  notify: restart logstash

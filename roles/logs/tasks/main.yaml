@@ -19,12 +19,10 @@
   tags: [config]
 
 - name: configure logstash
-  template: src=logstash.conf dest=/usr/local/etc/logstash/logstash.conf
-            owner=root group=wheel mode=0644
-  notify: restart logstash
+  include: config.yaml
   tags: [config]
 
-- name: enable ipfw for port forwarding
+- name: enable ipfw for port forwarding for syslog server
   lineinfile:
     dest: /etc/rc.conf
     line: firewall_enable="YES"

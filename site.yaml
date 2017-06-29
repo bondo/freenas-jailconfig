@@ -53,4 +53,4 @@
 
 - hosts: logs@freenas.local
   roles: [logs]
-  tags: [app]
+  tags: [app, logs]
