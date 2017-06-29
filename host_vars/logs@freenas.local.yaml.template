@@ -1,0 +1,13 @@
+---
+
+# Configure optional filters
+filters:
+  hosts_map:
+		# Replace values in the [host] field
+    "10.134.102.1": router
+    "10.134.102.5": freenas
+  lrt214:
+		# Special syslog handling for Linksys LRT214,
+		# specify the hostname of the router so the filter
+		# knows when to grok (runs after hosts_map)
+    host: router

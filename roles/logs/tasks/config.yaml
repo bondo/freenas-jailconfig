@@ -18,10 +18,21 @@
         owner=root group=wheel mode=0644
   notify: restart logstash
 
-- name: configure filters
+- name: configure static filters
   copy: src=filters/ dest=/usr/local/etc/logstash/
         owner=root group=wheel mode=0644
   notify: restart logstash
+
+- name: configure templated filters
+  template: src=filters/{{ item.name }} dest=/usr/local/etc/logstash/{{ item.name }}
+        owner=root group=wheel mode=0644
+  notify: restart logstash
+  when: item.include
+  with_items:
+    - name: 10_fixup_hosts.conf
+      include: "{{ filters.hosts_map is defined }}"
+    - name: 45_lrt214.conf
+      include: "{{ filters.lrt214 is defined }}"
 
 - name: configure outputs
   copy: src=outputs.conf dest=/usr/local/etc/logstash/outputs.conf
