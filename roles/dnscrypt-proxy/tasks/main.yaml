@@ -7,6 +7,7 @@
   lineinfile:
     dest: /etc/rc.conf
     line: dnscrypt_proxy_resolver="{{ dnscrypt_resolver_name }}"
+    regexp: ^dnscrypt_proxy_resolver
   notify: restart dnscrypt-proxy
   tags: [config]
 
