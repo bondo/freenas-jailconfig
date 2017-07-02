@@ -34,6 +34,11 @@
     - name: 45_lrt214.conf
       include: "{{ filters.lrt214 is defined }}"
 
+- name: configure patterns
+  copy: src=patterns dest=/usr/local/etc/logstash/
+        owner=root group=wheel mode=0644
+  notify: restart logstash
+
 - name: configure outputs
   copy: src=outputs.conf dest=/usr/local/etc/logstash/outputs.conf
         owner=root group=wheel mode=0644

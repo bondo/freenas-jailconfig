@@ -1,0 +1,2 @@
+SONARR_LOG %{SONARR_TIMESTAMP:timestamp}\|%{WORD:sonarr_loglevel}\|%{WORD:module}\|%{DATA:message}
+SONARR_TIMESTAMP %{YEAR}-%{MONTHNUM}-%{MONTHDAY} %{HOUR}:%{MINUTE}:%{SECOND}.%{NONNEGINT}
