@@ -17,6 +17,12 @@
   environment:
     BATCH: "yes"
 
+- name: monitor unifi logs
+  copy: src=unifi.filebeat.yaml dest=/usr/local/etc/filebeat.d/unifi.yml
+        owner=root group=wheel mode=0644
+  notify: restart filebeat
+  tags: [logs]
+
 - name: enable mongodb
   service: name=mongodb enabled=yes
   notify: start mongod

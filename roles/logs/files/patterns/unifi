@@ -1,0 +1,1 @@
+UNIFI_LOG \[%{TIMESTAMP_ISO8601:timestamp}\] <[^>]+> %{LOGLEVEL:unifi_loglevel} +%{WORD:module} +- +%{DATA:message}
