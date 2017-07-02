@@ -27,6 +27,12 @@
   notify: restart unbound
   tags: [config]
 
+- name: monitor dnscrypt-proxy log
+  copy: src=dnscrypt-proxy.filebeat.yaml dest=/usr/local/etc/filebeat.d/dnscrypt-proxy.yml
+        owner=root group=wheel mode=0644
+  notify: restart filebeat
+  tags: [logs]
+
 - name: enable dnscrypt-proxy
   service: name=dnscrypt-proxy enabled=yes
   notify: start dnscrypt-proxy
