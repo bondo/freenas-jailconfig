@@ -15,6 +15,12 @@
 - name: install youtube tv plugin
   include: youtube.yaml
 
+- name: monitor plex logs
+  copy: src=plex.filebeat.yaml dest=/usr/local/etc/filebeat.d/plex.yml
+        owner=root group=wheel mode=0644
+  notify: restart filebeat
+  tags: [logs]
+
 - name: enable plex
   service: name=plexmediaserver enabled=yes
   notify: start plex
