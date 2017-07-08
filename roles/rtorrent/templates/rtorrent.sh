@@ -22,4 +22,5 @@ argument_precmd=
 [ -d $dtach_dir ] || mkdir $dtach_dir
 chown $rtorrent_user $dtach_dir
 load_rc_config $name
+export PATH="$PATH:/usr/local/bin"
 run_rc_command "$@"

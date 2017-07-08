@@ -18,4 +18,5 @@ sabnzbd_chdir=${sabnzbd_home}
 sabnzbd_user=sabnzbd
 
 load_rc_config $name
+export PATH="$PATH:/usr/local/bin"
 run_rc_command "$@"
