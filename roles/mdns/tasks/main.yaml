@@ -17,6 +17,9 @@
   service: name=dbus enabled=yes
   notify: start dbus
 
+- name: flush handlers to ensure dbus is started before avahi-daemon
+  meta: flush_handlers
+
 - name: enable avahi-daemon
   service: name=avahi-daemon enabled=yes
            pattern=avahi-daemon
