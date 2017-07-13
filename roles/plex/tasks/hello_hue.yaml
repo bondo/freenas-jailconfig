@@ -18,3 +18,8 @@
            creates="/usr/local/plexdata/Plex Media Server/Plug-ins/HelloHue.bundle/README.md"
   when: hello_hue_downloaded|changed
   notify: restart plex
+
+- name: change owner of the hello hue plugin code to plex
+  file: path='/usr/local/plexdata/Plex Media Server/Plug-ins/HelloHue.bundle' state=directory
+        recurse=yes
+        owner=plex group=plex mode='u=rwX,go=rX'

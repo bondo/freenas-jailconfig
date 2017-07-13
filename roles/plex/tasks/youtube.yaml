@@ -18,3 +18,8 @@
            creates="/usr/local/plexdata/Plex Media Server/Plug-ins/YouTubeTV.bundle/README.md"
   when: youtube_tv_downloaded|changed
   notify: restart plex
+
+- name: change owner of the youtube plugin code to plex
+  file: path='/usr/local/plexdata/Plex Media Server/Plug-ins/YouTubeTV.bundle' state=directory
+        recurse=yes
+        owner=plex group=plex mode='u=rwX,go=rX'
