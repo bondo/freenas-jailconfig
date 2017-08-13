@@ -1,0 +1,13 @@
+---
+
+- name: start kdc
+  service: name=kdc state=started
+
+- name: restart kdc
+  service: name=kdc state=restarted
+
+- name: start kadmind
+  service: name=kadmind state=started
+
+- name: restart kadmind
+  service: name=kadmind state=restarted

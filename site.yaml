@@ -54,3 +54,7 @@
 - hosts: logs@freenas.local
   roles: [logs]
   tags: [app, logs]
+
+- hosts: kerberos-kdc@freenas.local
+  roles: [kerberos_kdc]
+  tags: [app]

@@ -1,0 +1,18 @@
+---
+
+- name: install heimdal
+  pkgng: name=heimdal state=present
+
+- name: configure krb5
+  template: src=krb5.conf dest=/etc/krb5.conf
+            owner=root group=wheel mode=755
+
+- name: create kerberos database
+  command: kstash --random-key
+           creates=/var/heimdal/m-key
+
+- name: enable kdc
+  service: name=kdc enabled=yes
+
+- name: enable kadmind
+  service: name=kadmind enabled=yes
