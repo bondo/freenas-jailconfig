@@ -33,6 +33,8 @@
       include: "{{ filters.hosts_map is defined }}"
     - name: 45_lrt214.conf
       include: "{{ filters.lrt214 is defined }}"
+    - name: 45_unifi_ap.conf
+      include: "{{ filters.unifi_ap is defined }}"
 
 - name: configure patterns
   copy: src=patterns dest=/usr/local/etc/logstash/
