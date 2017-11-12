@@ -20,9 +20,11 @@
 - name: clone rutorrent
   git: repo=https://github.com/Novik/ruTorrent.git
        dest=/usr/local/www/rutorrent
-       version=ac2db1536302bdc5b27aff6b15d54b0e9837fa59
-       update=no
+       version=9191af0c0910143a1a0dd4968e64f1db63a2d746
+       update=yes
+       force=yes
   register: rutorrent_cloned
+  notify: restart php-fpm
 
 - name: set base permissions on rutorrent files
   file: path=/usr/local/www/rutorrent state=directory
