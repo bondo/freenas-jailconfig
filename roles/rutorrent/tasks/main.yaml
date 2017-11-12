@@ -26,11 +26,19 @@
   register: rutorrent_cloned
   notify: restart php-fpm
 
+- name: clone rutorrent mobile plugin
+  git: repo=https://github.com/xombiemp/rutorrentMobile.git
+       dest=/usr/local/www/rutorrent/plugins/mobile
+       version=2e177ab2cd670aba2d27f704b5354cfb81b9387d
+       update=yes
+  register: rutorrent_mobile_cloned
+  notify: restart php-fpm
+
 - name: set base permissions on rutorrent files
   file: path=/usr/local/www/rutorrent state=directory
         recurse=yes
         owner=root group=wheel mode='u=rwX,go=rX'
-  when: rutorrent_cloned|changed
+  when: rutorrent_cloned|changed or rutorrent_mobile_cloned|changed
 
 - name: change owner of share/ to rutorrent
   file: path=/usr/local/www/rutorrent/share state=directory
