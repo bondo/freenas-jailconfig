@@ -1,13 +1,8 @@
 ---
 
-# To ship FreeNAS stats to InfluxDB, edit "/usr/local/etc/collectd.conf"
-# and add the following to the end of the file (without the comment marks)
-# cat >> /usr/local/etc/collectd.conf <<<EOF
-# <Plugin "network">
-#     Server "10.134.102.25" "25826"
-# </Plugin>
-# EOF
-# service collectd restart
+# To ship FreeNAS stats to InfluxDB, add the following "Post Init" command
+# in the FreeNAS console:
+# printf '<Plugin "network">\n    Server "10.134.102.25" "25826"\n</Plugin>\n' >> /usr/local/etc/collectd.conf && service collectd restart
 # Then copy the typesdb from FreeNAS to the jail:
 # sudo cp /usr/local/share/collectd/types.db /mnt/jails/stats/usr/local/share/collectd/types.db
 
