@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
+RESTART=false
+if [[ $1 == "restart" ]]; then
+    RESTART=true
+fi
+
 function start_jail {
     local jail=$1
     local services=$2
@@ -14,7 +19,11 @@ function start_jail {
     fi
     for service in $services; do
         printf "    \e[0;34m%s\e[0m " "$service"
-        if [[ $service == "avahi-daemon" ]]; then
+        if $RESTART; then
+            jailme "$jail" service "$service" restart &>/dev/null
+            printf "\e[0;33m↻\e[0m\n"
+            continue
+        elif [[ $service == "avahi-daemon" ]]; then
             avahi_result=$(jailme "$jail" service "$service" start 2>&1 || true)
             if ! grep -q "Daemon already running on PID" <<<"$avahi_result"; then
                 printf "\e[0;33m⬆\e[0m\n"
@@ -22,8 +31,7 @@ function start_jail {
                 printf "\e[0;32m✓\e[0m\n"
             fi
             continue
-        fi
-        if ! jailme "$jail" service "$service" status &>/dev/null; then
+        elif ! jailme "$jail" service "$service" status &>/dev/null; then
             jailme "$jail" service "$service" start &>/dev/null
             printf "\e[0;33m⬆\e[0m\n"
         else
