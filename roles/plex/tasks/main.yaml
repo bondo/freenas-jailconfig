@@ -6,14 +6,17 @@
 - name: flush handlers to start plex (plexdata dir needed in other tasks)
   meta: flush_handlers
 
-- name: install trakt scrobble plugin
-  include: trakt_scrobbler.yaml
+- name: install trakt tv plugin
+  include: trakt_tv.yaml
 
 - name: install hello hue plugin
   include: hello_hue.yaml
 
+- name: install twitch mod plugin
+  include: twitch_mod.yaml
+
 - name: install youtube tv plugin
-  include: youtube.yaml
+  include: youtube_tv.yaml
 
 - name: monitor plex logs
   copy: src=plex.filebeat.yaml dest=/usr/local/etc/filebeat.d/plex.yml

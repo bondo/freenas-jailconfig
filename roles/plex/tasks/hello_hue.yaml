@@ -1,9 +1,9 @@
 ---
 
 - name: download hello hue
-  get_url: url=https://github.com/ledge74/HelloHue/archive/1.1.7.tar.gz
-           dest=/usr/local/libdata/ansible/downloads/hello-hue-1.1.7.tar.gz
-           sha256sum=1edf4868ee08ae1591b3facfba581cfb24ba46c2def90f2218f8f03da24d0558
+  get_url: url=https://github.com/ledge74/HelloHue.bundle/archive/37ea90faf2fdf8d3badddfb5466173329e8e6122.tar.gz
+           dest=/usr/local/libdata/ansible/downloads/hello-hue-37ea90fa.tar.gz
+           sha256sum=00ec7aa1d5da3657419a57b36282273081fed044319d2ac16c2d9ce8b21222b3
   register: hello_hue_downloaded
 
 - name: create hello hue bundle dir
@@ -11,11 +11,11 @@
         state=directory
 
 - name: install hello hue
-  command: tar -xvzf /usr/local/libdata/ansible/downloads/hello-hue-1.1.7.tar.gz
+  command: tar -xvzf /usr/local/libdata/ansible/downloads/hello-hue-37ea90fa.tar.gz
            -C "/usr/local/plexdata/Plex Media Server/Plug-ins/HelloHue.bundle"
            --strip-components 1
-           HelloHue.bundle-1.1.7
-           creates="/usr/local/plexdata/Plex Media Server/Plug-ins/HelloHue.bundle/README.md"
+           HelloHue.bundle-37ea90faf2fdf8d3badddfb5466173329e8e6122
+          #  creates="/usr/local/plexdata/Plex Media Server/Plug-ins/HelloHue.bundle/README.md"
   when: hello_hue_downloaded|changed
   notify: restart plex
 
