@@ -15,6 +15,7 @@
     - collectd5
     - ipmitool
     - net-snmp
+    - smartmontools
 
 - name: link snmptranslate to /usr/bin so telegraf can use it
   file: src=/usr/local/bin/snmptranslate
