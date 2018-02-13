@@ -1,16 +1,16 @@
 {
   "__inputs": [
     {
-      "name": "DS_COLLECTD",
-      "label": "collectd",
+      "name": "DS_TELEGRAF",
+      "label": "telegraf",
       "description": "",
       "type": "datasource",
       "pluginId": "influxdb",
       "pluginName": "InfluxDB"
     },
     {
-      "name": "DS_TELEGRAF",
-      "label": "telegraf",
+      "name": "DS_COLLECTD",
+      "label": "collectd",
       "description": "",
       "type": "datasource",
       "pluginId": "influxdb",
@@ -67,6 +67,162 @@
           "bars": false,
           "dashLength": 10,
           "dashes": false,
+          "datasource": "${DS_TELEGRAF}",
+          "fill": 1,
+          "id": 9,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "System",
+              "dsType": "influxdb",
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "cpu",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "refId": "B",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "usage_system"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "cpu",
+                  "operator": "=",
+                  "value": "cpu-total"
+                }
+              ]
+            },
+            {
+              "alias": "User",
+              "dsType": "influxdb",
+              "groupBy": [
+                {
+                  "params": [
+                    "$__interval"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "cpu",
+              "orderByTime": "ASC",
+              "policy": "default",
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "usage_user"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "cpu",
+                  "operator": "=",
+                  "value": "cpu-total"
+                }
+              ]
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "CPU Usage",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "percent",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
           "datasource": "${DS_COLLECTD}",
           "decimals": null,
           "fill": 1,
@@ -90,7 +246,7 @@
           "renderer": "flot",
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 4,
+          "span": 3,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -269,7 +425,7 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "${DS_COLLECTD}",
-          "fill": 1,
+          "fill": 0,
           "id": 3,
           "legend": {
             "avg": false,
@@ -290,12 +446,12 @@
           "renderer": "flot",
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 4,
+          "span": 3,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "alias": "",
+              "alias": "$measurement",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -338,7 +494,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "System Load",
+          "title": "Runnable tasks in queue",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -354,6 +510,7 @@
           },
           "yaxes": [
             {
+              "decimals": 0,
               "format": "short",
               "label": null,
               "logBase": 1,
@@ -377,7 +534,7 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "${DS_COLLECTD}",
-          "fill": 1,
+          "fill": 0,
           "id": 7,
           "legend": {
             "avg": false,
@@ -398,12 +555,12 @@
           "renderer": "flot",
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 4,
+          "span": 3,
           "stack": false,
           "steppedLine": false,
           "targets": [
             {
-              "alias": "Disk writes $tag_instance",
+              "alias": "$tag_instance read",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -419,12 +576,13 @@
                   "type": "fill"
                 }
               ],
+              "hide": false,
               "measurement": "disk_write",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT derivative(mean(\"value\"), 1s) FROM \"disk_write\" WHERE \"instance\" =~ /ada[1-4]/ AND $timeFilter GROUP BY \"instance\", time($__interval) fill(null)",
+              "query": "SELECT derivative(mean(\"value\"), 1s) FROM \"disk_read\" WHERE \"instance\" =~ /ada[1-4]/ AND $timeFilter GROUP BY \"instance\", time($__interval) fill(null)",
               "rawQuery": true,
-              "refId": "A",
+              "refId": "B",
               "resultFormat": "time_series",
               "select": [
                 [
@@ -449,7 +607,7 @@
               ]
             },
             {
-              "alias": "Disk reads $tag_instance",
+              "alias": "$tag_instance write",
               "dsType": "influxdb",
               "groupBy": [
                 {
@@ -465,12 +623,13 @@
                   "type": "fill"
                 }
               ],
+              "hide": false,
               "measurement": "disk_write",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT derivative(mean(\"value\"), 1s) FROM \"disk_read\" WHERE \"instance\" =~ /ada[1-4]/ AND $timeFilter GROUP BY \"instance\", time($__interval) fill(null)",
+              "query": "SELECT derivative(mean(\"value\"), 1s) FROM \"disk_write\" WHERE \"instance\" =~ /ada[1-4]/ AND $timeFilter GROUP BY \"instance\", time($__interval) fill(null)",
               "rawQuery": true,
-              "refId": "B",
+              "refId": "A",
               "resultFormat": "time_series",
               "select": [
                 [
@@ -514,7 +673,7 @@
           },
           "yaxes": [
             {
-              "format": "decbytes",
+              "format": "Bps",
               "label": null,
               "logBase": 10,
               "max": null,
@@ -549,7 +708,7 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "${DS_TELEGRAF}",
-          "fill": 1,
+          "fill": 0,
           "id": 4,
           "legend": {
             "avg": false,
@@ -958,7 +1117,7 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "${DS_TELEGRAF}",
-          "fill": 1,
+          "fill": 0,
           "id": 5,
           "legend": {
             "avg": false,
@@ -1214,7 +1373,7 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "${DS_COLLECTD}",
-          "fill": 1,
+          "fill": 0,
           "id": 6,
           "legend": {
             "avg": false,
@@ -1278,6 +1437,12 @@
                       "1s"
                     ],
                     "type": "derivative"
+                  },
+                  {
+                    "params": [
+                      "*8"
+                    ],
+                    "type": "math"
                   }
                 ]
               ],
@@ -1286,6 +1451,12 @@
                   "key": "instance",
                   "operator": "=",
                   "value": "bridge0"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type",
+                  "operator": "=",
+                  "value": "if_octets"
                 }
               ]
             },
@@ -1306,6 +1477,7 @@
                   "type": "fill"
                 }
               ],
+              "hide": false,
               "measurement": "interface_tx",
               "orderByTime": "ASC",
               "policy": "default",
@@ -1321,13 +1493,19 @@
                   },
                   {
                     "params": [],
-                    "type": "median"
+                    "type": "mean"
                   },
                   {
                     "params": [
                       "1s"
                     ],
                     "type": "derivative"
+                  },
+                  {
+                    "params": [
+                      " *8"
+                    ],
+                    "type": "math"
                   }
                 ]
               ],
@@ -1335,7 +1513,13 @@
                 {
                   "key": "instance",
                   "operator": "=",
-                  "value": "igb0"
+                  "value": "bridge0"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type",
+                  "operator": "=",
+                  "value": "if_octets"
                 }
               ]
             }
@@ -1382,7 +1566,7 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "${DS_TELEGRAF}",
-          "fill": 1,
+          "fill": 0,
           "id": 8,
           "legend": {
             "avg": false,
@@ -1446,6 +1630,12 @@
                       "1s"
                     ],
                     "type": "derivative"
+                  },
+                  {
+                    "params": [
+                      "*8"
+                    ],
+                    "type": "math"
                   }
                 ]
               ],
@@ -1497,6 +1687,12 @@
                       "1s"
                     ],
                     "type": "derivative"
+                  },
+                  {
+                    "params": [
+                      "*8"
+                    ],
+                    "type": "math"
                   }
                 ]
               ],
@@ -1548,6 +1744,12 @@
                       "1s"
                     ],
                     "type": "derivative"
+                  },
+                  {
+                    "params": [
+                      "*8"
+                    ],
+                    "type": "math"
                   }
                 ]
               ],
@@ -1599,6 +1801,12 @@
                       "1s"
                     ],
                     "type": "derivative"
+                  },
+                  {
+                    "params": [
+                      "*8"
+                    ],
+                    "type": "math"
                   }
                 ]
               ],
@@ -1631,11 +1839,11 @@
           "yaxes": [
             {
               "decimals": null,
-              "format": "Bps",
+              "format": "bps",
               "label": null,
-              "logBase": 2,
+              "logBase": 10,
               "max": null,
-              "min": "0",
+              "min": null,
               "show": true
             },
             {
@@ -1664,7 +1872,7 @@
     "list": []
   },
   "time": {
-    "from": "now-3h",
+    "from": "now/d",
     "to": "now"
   },
   "timepicker": {
@@ -1694,5 +1902,5 @@
   },
   "timezone": "browser",
   "title": "System Load",
-  "version": 31
+  "version": 39
 }
