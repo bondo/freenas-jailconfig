@@ -1,5 +1,7 @@
 ---
 
+# Consider https://github.com/GUI/nginx-upstream-dynamic-servers
+
 # Unfortunately nginx needs to be installed manually to support lua
 # Do this by entering the jail with `sudo jailme reverse-proxy sh`
 # and then running:
