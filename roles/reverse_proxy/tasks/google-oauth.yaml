@@ -2,32 +2,55 @@
 
 # From: https://github.com/cloudflare/nginx-google-oauth
 
-- name: create nginx lua module loading configuration
-  template: src=lua-module.load dest=/usr/local/etc/nginx/mods-available/lua-module.load
-            owner=root group=wheel mode=644
+- name: check if NDK module exists
+  stat:
+    path: /usr/local/libexec/nginx/ndk_http_module.so
+  register: ndk_module
+
+- name: fail when NDK module doesn't exist
+  fail:
+    msg: >
+      The google oauth module requires some modules to be installed
+      that are not part of the default nginx package distribution.
+      You need to compile nginx yourself using ports, please refer to
+      the reverse-proxy host_vars file for instructions (they are fairly simple)
+  when:
+    - not ndk_module.stat.exists
+
+- name: create module loading configurations
+  copy:
+    content: load_module "{{ item.path }}";
+    dest: /usr/local/etc/nginx/mods-available/{{ item.name }}.load
+    owner: root
+    group: wheel
+    mode: 644
   notify: reload nginx
   tags: [config]
+  loop:
+  - name: ndk-module
+    path: /usr/local/libexec/nginx/ndk_http_module.so
+  - name: set-misc-module
+    path: /usr/local/libexec/nginx/ngx_http_set_misc_module.so
+  - name: lua-module
+    path: /usr/local/libexec/nginx/ngx_http_lua_module.so
 
 - name: enable nginx lua module
-  file: src=/usr/local/etc/nginx/mods-available/lua-module.load
-        dest=/usr/local/etc/nginx/mods-enabled/lua-module.load
+  file: src=/usr/local/etc/nginx/mods-available/{{ item.name }}.load
+        dest=/usr/local/etc/nginx/mods-enabled/{{ item.order }}-{{ item.name }}.load
         state=link
   notify: reload nginx
+  loop:
+  - name: ndk-module
+    order: 10
+  - name: set-misc-module
+    order: 40
+  - name: lua-module
+    order: 60
 
-- name: download cjson
-  get_url: url=https://github.com/mpx/lua-cjson/archive/2.1.0.tar.gz
-           dest=/usr/local/libdata/ansible/downloads/lua-cjson-2.1.0.tar.gz
-           sha256sum=8449f696d56edf27a318daa315d324757bf68120306fecbeb28a66b86077d8cd
-
-- name: extract cjson
-  command: tar -xvzf /usr/local/libdata/ansible/downloads/lua-cjson-2.1.0.tar.gz
-           -C /usr/local/libdata/ansible/downloads/
-           creates=/usr/local/libdata/ansible/downloads/lua-cjson-2.1.0
-
-- name: install cjson
-  command: make install LUA_INCLUDE_DIR=/usr/local/include/luajit-2.0/
-           chdir=/usr/local/libdata/ansible/downloads/lua-cjson-2.1.0
-           creates=/usr/local/lib/lua/5.1/cjson.so
+- name: install cjson lua lib
+  pkgng:
+    name: lua51-cjson-2.1.0
+    state: present
 
 - name: download resty.http
   get_url: url=https://github.com/pintsized/lua-resty-http/archive/v0.10.tar.gz

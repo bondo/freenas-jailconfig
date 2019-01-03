@@ -1,8 +1,8 @@
 ---
 
-- name: install nginx make dependencies
-  pkgng: name={{ item }} state=present
-  with_items: [texinfo]
+# - name: install nginx make dependencies
+#   pkgng: name={{ item }} state=present
+#   with_items: [texinfo]
 
 - name: check if reverse_proxy_domain is defined
   fail: msg="reverse_proxy_domain is undefined. Set it in host_vars/reverse-proxy@freenas.local.yaml"

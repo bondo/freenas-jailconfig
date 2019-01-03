@@ -1,43 +1,68 @@
 ---
 
 - name: install nginx
-  pkgng: name=nginx state=present
+  pkgng:
+    name: nginx
+    state: present
+  become: yes
 
 - name: clear out nginx default www files
-  file: path=/usr/local/www/{{ item }} state=absent
+  file:
+    path: /usr/local/www/{{ item }}
+    state: absent
   with_items:
     - nginx
     - nginx-dist
+  become: yes
 
 - name: create nginx config folders
-  file: path=/usr/local/etc/nginx/{{ item }} state=directory
-        owner=root group=wheel mode=0755
+  file:
+    path: /usr/local/etc/nginx/{{ item }}
+    state: directory
+    owner: root
+    group: wheel
+    mode: 0755
   with_items:
     - conf.d
     - sites-available
     - sites-enabled
     - mods-available
     - mods-enabled
+  become: yes
 
 - name: configure nginx
-  template: src=nginx.conf dest=/usr/local/etc/nginx/nginx.conf
-            owner=root group=wheel mode=0644
+  template:
+    src: nginx.conf
+    dest: /usr/local/etc/nginx/nginx.conf
+    owner: root
+    group: wheel
+    mode: 0644
   notify: reload nginx
   tags: [config]
+  become: yes
 
 - name: configure nginx ssl session cache
-  template: src=ssl_session_cache.conf dest=/usr/local/etc/nginx/conf.d/ssl_session_cache.conf
-            owner=root group=wheel mode=0644
+  template:
+    src: ssl_session_cache.conf
+    dest: /usr/local/etc/nginx/conf.d/ssl_session_cache.conf
+    owner: root
+    group: wheel
+    mode: 0644
   notify: reload nginx
   when: nginx_ssl
   tags: [config]
+  become: yes
 
 - name: generate diffie-hellman group
   command: openssl dhparam -out /usr/local/etc/nginx/dhparams.pem 2048
            creates=/usr/local/etc/nginx/dhparams.pem
   notify: reload nginx
   when: nginx_ssl
+  become: yes
 
 - name: enable nginx
-  service: name=nginx enabled=yes
+  service:
+    name: nginx
+    enabled: yes
   notify: start nginx
+  become: yes
