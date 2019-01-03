@@ -19,12 +19,6 @@ all:
         radarr@freenas.local:
           ansible_connection: sshjail
           ansible_python_interpreter: /usr/local/bin/python2.7
-        jackett@freenas.local:
-          ansible_connection: sshjail
-          ansible_python_interpreter: /usr/local/bin/python2.7
-        unifi@freenas.local:
-          ansible_connection: sshjail
-          ansible_python_interpreter: /usr/local/bin/python2.7
         reverse-proxy@freenas.local:
           ansible_connection: sshjail
           ansible_python_interpreter: /usr/local/bin/python2.7
@@ -35,9 +29,6 @@ all:
           ansible_connection: sshjail
           ansible_python_interpreter: /usr/local/bin/python2.7
         logs@freenas.local:
-          ansible_connection: sshjail
-          ansible_python_interpreter: /usr/local/bin/python2.7
-        kerberos-kdc@freenas.local:
           ansible_connection: sshjail
           ansible_python_interpreter: /usr/local/bin/python2.7
     media:

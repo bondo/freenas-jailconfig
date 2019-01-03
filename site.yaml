@@ -35,14 +35,6 @@
   roles: [radarr]
   tags: [app]
 
-- hosts: jackett@freenas.local
-  roles: [jackett]
-  tags: [app]
-
-- hosts: unifi@freenas.local
-  roles: [unifi]
-  tags: [app]
-
 - hosts: dnscrypt-proxy@freenas.local
   roles: [dnscrypt-proxy]
   tags: [app]
@@ -54,7 +46,3 @@
 - hosts: logs@freenas.local
   roles: [logs]
   tags: [app, logs]
-
-- hosts: kerberos-kdc@freenas.local
-  roles: [kerberos_kdc]
-  tags: [app]
