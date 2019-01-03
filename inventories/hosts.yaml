@@ -1,40 +1,43 @@
-# sshjail fetched from https://github.com/austinhyde/ansible-sshjail
-
+---
 all:
+  hosts:
+    freenas:
+      ansible_ssh_host: freenas.local
+      ansible_python_interpreter: /usr/local/bin/python3
   children:
     jails:
       hosts:
-        rtorrent@freenas.local:
-          ansible_connection: sshjail
-          ansible_python_interpreter: /usr/local/bin/python2.7
-        sabnzbd@freenas.local:
-          ansible_connection: sshjail
-          ansible_python_interpreter: /usr/local/bin/python2.7
-        plex@freenas.local:
-          ansible_connection: sshjail
-          ansible_python_interpreter: /usr/local/bin/python2.7
-        sonarr@freenas.local:
-          ansible_connection: sshjail
-          ansible_python_interpreter: /usr/local/bin/python2.7
-        radarr@freenas.local:
-          ansible_connection: sshjail
-          ansible_python_interpreter: /usr/local/bin/python2.7
-        reverse-proxy@freenas.local:
-          ansible_connection: sshjail
-          ansible_python_interpreter: /usr/local/bin/python2.7
-        dnscrypt-proxy@freenas.local:
-          ansible_connection: sshjail
-          ansible_python_interpreter: /usr/local/bin/python2.7
-        stats@freenas.local:
-          ansible_connection: sshjail
-          ansible_python_interpreter: /usr/local/bin/python2.7
-        logs@freenas.local:
-          ansible_connection: sshjail
-          ansible_python_interpreter: /usr/local/bin/python2.7
+        reverse-proxy:
+          ansible_ssh_host: reverse-proxy.local
+          ansible_python_interpreter: /usr/local/bin/python3
+        rtorrent:
+          ansible_ssh_host: rtorrent.local
+          ansible_python_interpreter: /usr/local/bin/python3
+        sabnzbd:
+          ansible_ssh_host: sabnzbd.local
+          ansible_python_interpreter: /usr/local/bin/python3
+        plex:
+          ansible_ssh_host: plex.local
+          ansible_python_interpreter: /usr/local/bin/python3
+        sonarr:
+          ansible_ssh_host: sonarr.local
+          ansible_python_interpreter: /usr/local/bin/python3
+        radarr:
+          ansible_ssh_host: radarr.local
+          ansible_python_interpreter: /usr/local/bin/python3
+        dnscrypt-proxy:
+          ansible_ssh_host: dnscrypt-proxy.local
+          ansible_python_interpreter: /usr/local/bin/python3
+        stats:
+          ansible_ssh_host: stats.local
+          ansible_python_interpreter: /usr/local/bin/python3
+        logs:
+          ansible_ssh_host: logs.local
+          ansible_python_interpreter: /usr/local/bin/python3
     media:
       hosts:
-        rtorrent@freenas.local:
-        sabnzbd@freenas.local:
-        plex@freenas.local:
-        sonarr@freenas.local:
-        radarr@freenas.local:
+        rtorrent:
+        sabnzbd:
+        plex:
+        sonarr:
+        radarr:

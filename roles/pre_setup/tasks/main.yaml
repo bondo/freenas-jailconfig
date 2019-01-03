@@ -1,8 +1,12 @@
 ---
 
 - name: create ansible dirs
-  file: path=/usr/local/libdata/{{ item }} state=directory
-        mode=0755 owner=root group=wheel
+  file:
+    path: /usr/local/libdata/{{ item }}
+    state: directory
+    mode: 0755
+    owner: root
+    group: wheel
   with_items:
     - ansible
     - ansible/downloads

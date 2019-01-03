@@ -1,0 +1,8 @@
+---
+
+# Unless passwordless sudo is enabled for the freenas user, provision this host with:
+# ANSIBLE_BECOME_ASK_PASS=true ANSIBLE_REMOTE_USER=USER ansible-playbook --limit freenas site.yml
+
+jails_path: /mnt/jails/iocage/jails
+jails_auth_keys:
+- "{{ lookup('file', '/home/USERNAME/.ssh/id_rsa.pub') }}"

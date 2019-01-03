@@ -1,5 +1,9 @@
 ---
 
+- hosts: freenas
+  roles:
+    - jails_setup
+
 - hosts: jails
   roles:
     - pre_setup
@@ -11,38 +15,38 @@
   roles: [media_group]
   tags: [media]
 
-- hosts: reverse-proxy@freenas.local
+- hosts: reverse-proxy
   roles: [reverse_proxy]
   tags: [app]
 
-- hosts: rtorrent@freenas.local
+- hosts: rtorrent
   roles: [rutorrent]
   tags: [app]
 
-- hosts: sabnzbd@freenas.local
+- hosts: sabnzbd
   roles: [sabnzbd]
   tags: [app]
 
-- hosts: plex@freenas.local
+- hosts: plex
   roles: [plex]
   tags: [app]
 
-- hosts: sonarr@freenas.local
+- hosts: sonarr
   roles: [sonarr]
   tags: [app]
 
-- hosts: radarr@freenas.local
+- hosts: radarr
   roles: [radarr]
   tags: [app]
 
-- hosts: dnscrypt-proxy@freenas.local
+- hosts: dnscrypt-proxy
   roles: [dnscrypt-proxy]
   tags: [app]
 
-- hosts: stats@freenas.local
+- hosts: stats
   roles: [stats]
   tags: [app]
 
-- hosts: logs@freenas.local
+- hosts: logs
   roles: [logs]
   tags: [app, logs]

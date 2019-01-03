@@ -1,0 +1,7 @@
+---
+
+- include_tasks: setup.yaml
+  loop_control:
+    label: "{{ jail_name }}"
+    loop_var: jail_name
+  loop: "{{ groups['jails'] }}"

@@ -1,5 +1,5 @@
 ---
-# Jails-wide configuration to customize your shell as root during `jailme`
+# Jails-wide configuration to customize your shell as root during `iocage console`
 
 root_shell: /usr/local/bin/zsh
 

@@ -1,0 +1,67 @@
+---
+
+- name: initialize pkg
+  command: iocage exec {{ jail_name }} env ASSUME_ALWAYS_YES=true pkg update
+
+- name: enable sshd
+  lineinfile:
+    dest: "{{ jails_path }}/{{ jail_name }}/root/etc/defaults/rc.conf"
+    line: sshd_enable="YES"
+    regexp: ^sshd_enable
+  register: sshd_conf_result
+  tags: [config]
+  become: yes
+
+- name: start sshd
+  command: iocage exec {{ jail_name }} service sshd start
+  become: yes
+  when: sshd_conf_result is changed
+
+- name: create the ansible user
+  command: iocage exec {{ jail_name }} pw useradd ansible
+           creates="{{ jails_path }}/{{ jail_name }}/root/home/ansible"
+  become: yes
+
+- name: create ssh dir for ansible user
+  file:
+    path: "{{ jails_path }}/{{ jail_name }}/root/home/ansible/.ssh"
+    state: directory
+    mode: 0755
+  become: yes
+
+- name: chown home dir to ansible user
+  command: iocage exec {{ jail_name }} chown -R ansible:ansible "/home/ansible"
+  become: yes
+
+# The authorized_key module expects the user to exist, which it does,
+# but only in the jail. So we use lineinfile as a low-lelvel solution instead.
+- name: setup authorized_keys for ansible user
+  lineinfile:
+    dest: "{{ jails_path }}/{{ jail_name }}/root/home/ansible/.ssh/authorized_keys"
+    line: "{{ key }}"
+    create: yes
+  loop: "{{ jails_auth_keys }}"
+  loop_control:
+    loop_var: key
+    label: "{{ key.split()[-1] }}"
+
+- name: chown authorized_keys to ansible user
+  command: iocage exec {{ jail_name }} chown ansible:ansible "/home/ansible/.ssh/authorized_keys"
+  become: yes
+
+- name: install sudo
+  command: iocage exec {{ jail_name }} pkg install -y sudo
+  become: yes
+
+- name: allow ansible to do passwordless sudo
+  copy:
+    src: sudoers_ansible
+    dest: "{{ jails_path }}/{{ jail_name }}/root/usr/local/etc/sudoers.d/50_ansible"
+    mode: 0440
+    owner: root
+    group: wheel
+  become: yes
+
+- name: install python3
+  command: iocage exec {{ jail_name }} pkg install -y python3
+  become: yes
