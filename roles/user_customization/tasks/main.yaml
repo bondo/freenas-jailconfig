@@ -1,8 +1,10 @@
 ---
 
 - name: install user packages
-  pkgng: name={{ item }} state=present
-  with_items: "{{ user_packages }}"
+  pkgng:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ user_packages }}"
 
 - name: set the user shell
   user: name=root state=present shell={{ root_shell }}
