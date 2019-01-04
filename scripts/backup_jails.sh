@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
 date=$(date +%Y%m%d%H%M%S)
+jails=/mnt/jails/iocage/jails
+backup=/mnt/media/backup/jails
 
 function cleanup {
-    local source=$1
+    local jail=$1
     local destination=$2
-    printf "Failed backing up %s\n" "$source" >&2
+    printf "Failed backing up %s\n" "$jail" >&2
     if [[ -n $destination ]]; then
         rm -rf "$destination"
     fi
@@ -13,41 +15,41 @@ function cleanup {
 }
 
 function backup {
-    local source=${1%/}
-    local destination=${2%/}
+    local jail=$1
+    shift
+    local destination=$backup/$jail
+    local jail_root=$jails/$jail/root
     local start
     local end
     start=$(date +%s)
     # shellcheck disable=SC2064
-    trap "cleanup $source" EXIT
+    trap "cleanup $jail" EXIT
     if [[ ! -e $destination ]]; then
         mkdir "$destination"
         mkdir "$destination/current"
     fi
     mkdir "$destination/$date"
     # shellcheck disable=SC2064
-    trap "cleanup $source $destination/$date" EXIT
-    rsync \
-        --archive \
-        --link-dest="$destination/current" \
-        --log-file="$destination/$date/rsync.log" \
-        "$source/." \
-        "$destination/$date"
-    rm -rf "$destination/current"
+    trap "cleanup $jail $destination/$date" EXIT
+    (
+        cd "$jail_root"
+        rsync \
+            --archive \
+            --link-dest="$destination/current" \
+            --log-file="$destination/$date/rsync.log" \
+            "$@" \
+            "$destination/$date"
+    )
+    rm -r "$destination/current"
     ln -s "$date" "$destination/current"
     trap EXIT
-    printf "Successfully backed up %s\n" "$source"
+    printf "Successfully backed up %s\n" "$jail"
     end=$(date +%s)
     printf "Backup took %d seconds\n" "$((end-start))" >> "$destination/$date/rsync.log"
 }
 
-jails=/mnt/jails
-backup=/mnt/media/backup/jails
-
-(set -e; backup $jails/unifi/usr/local/share/java/unifi/data/backup $backup/unifi)
-(set -e; backup $jails/rtorrent/usr/local/libdata/rtorrent $backup/rtorrent)
-(set -e; backup $jails/sabnzbd/usr/local/libdata/sabnzbd $backup/sabnzbd)
-(set -e; backup $jails/jackett/var/db/jackett $backup/jackett)
-(set -e; backup $jails/sonarr/usr/local/sonarr $backup/sonarr)
-(set -e; backup $jails/radarr/usr/local/radarr $backup/radarr)
-(set -e; backup $jails/plex/usr/local/plexdata $backup/plex)
+(set -e; backup rtorrent usr/local/libdata/rtorrent/.rtorrent.session usr/local/www/rutorrent/share)
+(set -e; backup sabnzbd usr/local/sabnzbd/sabnzbd.ini)
+(set -e; backup sonarr usr/local/sonarr/{nzbdrone.db,nzbdrone.db-shm,nzbdrone.db-wal,config.xml})
+(set -e; backup plex "usr/local/plexdata/Plex Media Server/Preferences.xml" "usr/local/plexdata/Plex Media Server/Plug-in Support/Databases")
+(set -e; backup stats var/db/grafana/grafana.db var/db/influxdb)
