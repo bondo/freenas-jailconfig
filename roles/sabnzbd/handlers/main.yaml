@@ -1,7 +1,11 @@
 ---
 
 - name: start sabnzbd
-  service: name=sabnzbd state=started
+  service:
+    name: sabnzbd
+    state: started
 
 - name: restart sabnzbd
-  service: name=sabnzbd state=restarted
+  service:
+    name: sabnzbd
+    state: restarted

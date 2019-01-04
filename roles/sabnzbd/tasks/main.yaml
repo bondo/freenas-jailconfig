@@ -1,73 +1,48 @@
 ---
 
-- name: install sabnzbd dependencies
-  pkgng: name={{ item }} state=present
-  with_items:
-    - openssl
-    - py27-openssl
-    - py27-sqlite3
-    - py27-cheetah
-    - py27-yenc
-    - par2cmdline
-    - unrar
-    - unzip
-    - p7zip
+- name: install sabnzbd
+  pkgng:
+    name: sabnzbdplus
+    state: present
 
-- name: create sabnzbd user
-  user: name=sabnzbd groups=media state=present
-        home=/usr/local/libdata/sabnzbd
-        createhome=no
-
-- name: add the www user to the sabnzbd group
-  user: name=www groups=sabnzbd append=yes
+- name: add the sabnzbd user to the media group
+  user: name=_sabnzbd groups=media append=yes
   notify: restart nginx
 
-- name: create sabnzbd home dir
-  file: path=/usr/local/libdata/sabnzbd state=directory
-        owner=sabnzbd group=media mode=0755
-
-- name: create sabnzbd lib dir
-  file: path=/usr/local/lib/sabnzbd state=directory
-        owner=root group=wheel mode=0755
-
-- name: clone sabnzbd
-  git: repo=https://github.com/sabnzbd/sabnzbd.git
-       dest=/usr/local/lib/sabnzbd
-       version=1.0.3
-       update=no
-  register: sabnzbd_cloned
-  notify: restart sabnzbd
-
-- name: set permissions on sabnzbd files
-  file: path=/usr/local/lib/sabnzbd state=directory
-        recurse=yes
-        owner=root group=wheel mode='u=rwX,go=rX'
-  when: sabnzbd_cloned|changed
+- name: add the www user to the sabnzbd group
+  user: name=www groups=_sabnzbd append=yes
+  notify: restart nginx
 
 - name: create sabnzbd script dir in home
-  file: path=/usr/local/libdata/sabnzbd/scripts state=directory
-        owner=sabnzbd group=media mode=0755
+  file:
+    path: /usr/local/sabnzbd/scripts
+    state: directory
+    owner: _sabnzbd
+    group: media
+    mode: 0755
 
 - name: configure nzbtomedia
   include: nzbtomedia.yaml
 
-- name: create sabnzbd init script
-  template: src=sabnzbd.sh dest=/usr/local/etc/rc.d/sabnzbd
-            owner=root group=wheel mode=755
-  notify: restart sabnzbd
-
 - name: create the nginx vhost
-  template: src=nginx-vhost.conf dest=/usr/local/etc/nginx/sites-available/sabnzbd
-            owner=root group=wheel mode=644
+  template:
+    src: nginx-vhost.conf
+    dest: /usr/local/etc/nginx/sites-available/sabnzbd
+    owner: root
+    group: wheel
+    mode: 644
   notify: reload nginx
   tags: [config]
 
 - name: enable the vhost
-  file: src=/usr/local/etc/nginx/sites-available/sabnzbd
-        dest=/usr/local/etc/nginx/sites-enabled/sabnzbd
-        state=link
+  file:
+    src: /usr/local/etc/nginx/sites-available/sabnzbd
+    dest: /usr/local/etc/nginx/sites-enabled/sabnzbd
+    state: link
   notify: reload nginx
 
 - name: enable sabnzbd
-  service: name=sabnzbd enabled=yes
+  service:
+    name: sabnzbd
+    enabled: yes
   notify: start sabnzbd

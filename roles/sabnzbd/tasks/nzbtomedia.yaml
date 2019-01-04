@@ -1,28 +1,44 @@
 ---
 
+- name: alias python 2.7 to python
+  file:
+    src: python2.7
+    dest: /usr/local/bin/python
+    state: link
+
 - name: install nzbtomedia dependencies
-  pkgng: name={{ item }} state=present
-  with_items:
+  pkgng:
+    name:
     - py27-sqlite3
     - ffmpeg
     - unrar
     - unzip
     - p7zip
+    state: present
 
 - name: clone nzbtomedia
-  git: repo=https://github.com/clinton-hall/nzbToMedia.git
-       dest=/usr/local/libdata/sabnzbd/scripts
-       update=no
+  git:
+    repo: https://github.com/clinton-hall/nzbToMedia.git
+    dest: /usr/local/sabnzbd/scripts/nzbtomedia
+    version: 12.0.0
+    update: no
   register: clone_nzbtomedia
 
 - name: set permissions on nzbtomedia files
-  file: path=/usr/local/libdata/sabnzbd/scripts state=directory
-        recurse=yes
-        owner=sabnzbd group=media mode='u=rwX,go=rX'
-  when: clone_nzbtomedia|changed
+  file:
+    path: /usr/local/sabnzbd/scripts/nzbtomedia
+    state: directory
+    recurse: yes
+    owner: _sabnzbd
+    group: _sabnzbd
+    mode: 'u=rwX,go=rX'
+  when: clone_nzbtomedia is changed
 
 - name: configure nzbtomedia
-  template: src=autoProcessMedia.cfg
-            dest=/usr/local/libdata/sabnzbd/scripts/autoProcessMedia.cfg
-            owner=sabnzbd group=media mode=644
+  template:
+    src: autoProcessMedia.cfg
+    dest: /usr/local/sabnzbd/scripts/nzbtomedia/autoProcessMedia.cfg
+    owner: _sabnzbd
+    group: _sabnzbd
+    mode: 0644
   tags: [config]
