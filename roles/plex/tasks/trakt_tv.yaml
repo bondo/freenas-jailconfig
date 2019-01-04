@@ -2,22 +2,21 @@
 
 - name: download trakt tv
   get_url:
-    url: https://github.com/trakt/Plex-Trakt-Scrobbler/archive/a6ab5f41527560930a5a69bd876bb82892220703.tar.gz
+    url: https://github.com/trakt/Plex-Trakt-Scrobbler/archive/f9dc5ec3cf7fab07e6a5128f082d82d96dd170ad.tar.gz
     dest: /usr/local/libdata/ansible/downloads/trakt-tv-a6ab5f41.tar.gz
-    sha256sum: dabf2dcff6b544a1c58ab3fcd0224968c27822f8b466659f7d351afc774df32e
+    sha256sum: bb3a37db7ac5c5f21306ce36e7491908a1e8ce48b02fb65f64ea14d54ce09f66
   register: trakt_tv_downloaded
 
 - name: create trakt tv bundle dir
   file:
     path: "/usr/local/plexdata/Plex Media Server/Plug-ins/Trakttv.bundle"
-
     state: directory
 
 - name: install trakt tv
   command: tar -xvzf /usr/local/libdata/ansible/downloads/trakt-tv-a6ab5f41.tar.gz
            -C "/usr/local/plexdata/Plex Media Server/Plug-ins/Trakttv.bundle"
            --strip-components 2
-           Plex-Trakt-Scrobbler-a6ab5f41527560930a5a69bd876bb82892220703/Trakttv.bundle
+           Plex-Trakt-Scrobbler-f9dc5ec3cf7fab07e6a5128f082d82d96dd170ad/Trakttv.bundle
   # args:
   #   creates: "/usr/local/plexdata/Plex Media Server/Plug-ins/Trakttv.bundle/CREDITS.md"
   when: trakt_tv_downloaded|changed
