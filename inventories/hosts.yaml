@@ -31,9 +31,6 @@ all:
         stats:
           ansible_ssh_host: stats.local
           ansible_python_interpreter: /usr/local/bin/python3
-        logs:
-          ansible_ssh_host: logs.local
-          ansible_python_interpreter: /usr/local/bin/python3
     media:
       hosts:
         rtorrent:

@@ -1,2 +1,0 @@
-DNSCRYPT_PROXY_LOG %{DNSCRYPT_PROXY_TIMESTAMP:timestamp} \[%{LOGLEVEL:dnscrypt_proxy_loglevel}\] %{DATA:message}
-DNSCRYPT_PROXY_TIMESTAMP %{DAY} %{MONTH}  ?%{MONTHDAY} %{TIME} %{YEAR}

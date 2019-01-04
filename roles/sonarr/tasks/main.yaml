@@ -21,16 +21,6 @@
     group: wheel
     mode: 'u=rwX,go=rX'
 
-- name: monitor sonarr log
-  copy:
-    src: sonarr.filebeat.yaml
-    dest: /usr/local/etc/filebeat.d/sonarr.yml
-    owner: root
-    group: wheel
-    mode: 0644
-  notify: restart filebeat
-  tags: [logs]
-
 - name: enable sonarr
   service:
     name: sonarr

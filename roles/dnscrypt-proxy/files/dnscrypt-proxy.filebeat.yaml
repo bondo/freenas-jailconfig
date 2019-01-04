@@ -1,7 +1,0 @@
-filebeat:
-  prospectors:
-  - paths: [/var/log/dnscrypt-proxy.log]
-    encoding: utf-8
-    fields:
-      program: dnscrypt-proxy
-    fields_under_root: true

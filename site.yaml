@@ -46,7 +46,3 @@
 - hosts: stats
   roles: [stats]
   tags: [app]
-
-- hosts: logs
-  roles: [logs]
-  tags: [app, logs]

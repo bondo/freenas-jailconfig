@@ -1,3 +1,0 @@
-ipfw add 65000 pass all from any to any
-ipfw add 1000 fwd 127.0.0.1,5140 udp from any to me 514
-ipfw add 1000 fwd 127.0.0.1,5140 tcp from any to me 514

@@ -1,3 +1,0 @@
-PLEX_LOG %{PLEX_TIMESTAMP:timestamp} \[%{BASE16NUM}\] %{LOGLEVEL:plex_loglevel} - %{DATA:message}
-PLEX_TIMESTAMP  %{MONTH} %{MONTHDAY}, %{YEAR} %{TIME}
-PLEX_PLUGIN_LOG %{TIMESTAMP_ISO8601:timestamp} (- [^ ]+ +)?\(%{BASE16NUM}\) :  %{LOGLEVEL:plex_loglevel} \(([^ ]+):%{INT}\) - %{DATA:message}
