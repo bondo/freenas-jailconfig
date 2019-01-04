@@ -2,7 +2,7 @@
 
 - name: install grafana
   pkgng:
-    name: grafana4
+    name: grafana5
     state: present
 
 - name: install influxdb
