@@ -38,6 +38,8 @@
     group: wheel
     mode: 0644
   notify: restart grafana
+  tags:
+  - config
 
 - name: install grafana plugins
   command: grafana-cli plugins install {{ item }}
@@ -51,6 +53,8 @@
     group: wheel
     mode: 0644
   notify: restart influxdb
+  tags:
+  - config
 
 - name: configure telegraf
   template:
@@ -60,6 +64,8 @@
     group: wheel
     mode: 0644
   notify: restart telegraf
+  tags:
+  - config
 
 - name: enable influxdb
   service:

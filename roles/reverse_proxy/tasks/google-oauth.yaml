@@ -34,7 +34,7 @@
   - name: lua-module
     path: /usr/local/libexec/nginx/ngx_http_lua_module.so
 
-- name: enable nginx lua module
+- name: enable required nginx modules
   file:
     src: /usr/local/etc/nginx/mods-available/{{ item.name }}.load
     dest: /usr/local/etc/nginx/mods-enabled/{{ item.order }}-{{ item.name }}.load
