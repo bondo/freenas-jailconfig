@@ -1,3 +1,8 @@
 ---
 
-dnscrypt_resolver_name: dnscrypt.eu-dk
+dnscrypt_resolvers:
+- dnscrypt.eu-dk
+- dnscrypt-de-blahdns-ipv4
+- dnscrypt.nl-ns0
+- dnscrypt.me
+- dnscrypt.uk-ipv4

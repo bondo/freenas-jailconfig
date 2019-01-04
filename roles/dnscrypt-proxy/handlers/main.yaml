@@ -12,10 +12,10 @@
 
 - name: start unbound
   service:
-    name: unbound
+    name: local_unbound
     state: started
 
 - name: restart unbound
   service:
-    name: unbound
+    name: local_unbound
     state: restarted
