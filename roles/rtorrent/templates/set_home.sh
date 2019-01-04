@@ -1,3 +1,3 @@
 #!/bin/sh -x
-export HOME="`eval printf ~$(whoami)`"
+export HOME=$(eval printf ~"$(whoami)")
 exec "$@"

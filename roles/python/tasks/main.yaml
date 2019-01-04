@@ -1,5 +1,0 @@
----
-
-- name: create link from python to python2
-  file: src=python2 dest=/usr/local/bin/python
-        state=link

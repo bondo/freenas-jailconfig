@@ -1,10 +1,6 @@
-scgi_local = /usr/local/libdata/rtorrent/rpc.socket
-
-# Set correct access rights to the socket file ----------+
-# so both, lighttpd and rtorrent, could perform          |
-# read-write operations                                  v
-schedule = scgi_permission,0,0,"execute.nothrow=chmod,\"g+w,o=\",/usr/local/libdata/rtorrent/rpc.socket"
+scgi_local = ~/rpc.socket
+schedule = scgi_permission,0,0,"execute.nothrow=chmod,\"g+w,o=\",~/rpc.socket"
 session = ~/.rtorrent.session
 directory = /mnt/downloads/bittorrent/incomplete
 encryption = require,allow_incoming,require_RC4
-system.method.set_key = event.download.finished,TorrentToMedia,"execute={/usr/local/bin/python,/usr/local/libdata/rtorrent/nzbtomedia/TorrentToMedia.py,\"$d.get_base_path=\",\"$d.get_name=\",\"$d.get_custom1=\",\"$d.get_hash=\"}"
+method.set_key = event.download.finished,TorrentToMedia,"execute=/usr/local/bin/python2,~/nzbtomedia/TorrentToMedia.py,$d.base_path=,$d.name=,$d.custom1=,$d.hash="

@@ -1,63 +1,101 @@
 ---
 
 - name: install rutorrent dependencies
-  pkgng: name={{ item }} state=present
-  with_items: [ffmpeg, mediainfo, unrar]
+  pkgng:
+    name:
+    - ffmpeg
+    - mediainfo
+    - unrar
+    state: present
 
 - name: create rutorrent user
-  user: name=rutorrent groups=media,rtorrent state=present
-        home=/usr/local/www/rutorrent
-        createhome=no
+  user:
+    name: rutorrent
+    groups:
+    - media
+    - rtorrent
+    state: present
+    home: /usr/local/www/rutorrent
+    createhome: no
 
 - name: add the www user to the rtorrent group
-  user: name=www groups=rtorrent append=yes
+  user:
+    name: www
+    groups: rtorrent
+    append: yes
   notify: restart nginx
 
 - name: create rutorrent webdir
-  file: path=/usr/local/www/rutorrent state=directory
-        owner=root group=wheel mode=0755
+  file:
+    path: /usr/local/www/rutorrent
+    state: directory
+    owner: root
+    group: wheel
+    mode: 0755
 
 - name: clone rutorrent
-  git: repo=https://github.com/Novik/ruTorrent.git
-       dest=/usr/local/www/rutorrent
-       version=9191af0c0910143a1a0dd4968e64f1db63a2d746
-       update=yes
-       force=yes
+  git:
+    repo: https://github.com/Novik/ruTorrent.git
+    dest: /usr/local/www/rutorrent
+    version: 8ee59f7fc1b0a77b7048fc1f210d5539449d19f2
+    update: yes
+    force: yes
   register: rutorrent_cloned
   notify: restart php-fpm
 
 - name: clone rutorrent mobile plugin
-  git: repo=https://github.com/xombiemp/rutorrentMobile.git
-       dest=/usr/local/www/rutorrent/plugins/mobile
-       version=2e177ab2cd670aba2d27f704b5354cfb81b9387d
-       update=yes
+  git:
+    repo: https://github.com/xombiemp/rutorrentMobile.git
+    dest: /usr/local/www/rutorrent/plugins/mobile
+    version: 068099105acc7aca6fae94db34deecd9ce08122b
+    update: yes
   register: rutorrent_mobile_cloned
   notify: restart php-fpm
 
 - name: set base permissions on rutorrent files
-  file: path=/usr/local/www/rutorrent state=directory
-        recurse=yes
-        owner=root group=wheel mode='u=rwX,go=rX'
-  when: rutorrent_cloned|changed or rutorrent_mobile_cloned|changed
+  file:
+    path: /usr/local/www/rutorrent
+    state: directory
+    recurse: yes
+    owner: root
+    group: wheel
+    mode: 'u=rwX,go=rX'
+  when: rutorrent_cloned is changed or rutorrent_mobile_cloned is changed
 
 - name: change owner of share/ to rutorrent
-  file: path=/usr/local/www/rutorrent/share state=directory
-        recurse=yes
-        owner=rutorrent group=wheel mode='u=rwX,go=rX'
+  file:
+    path: /usr/local/www/rutorrent/share
+    state: directory
+    recurse: yes
+    owner: rutorrent
+    group: wheel
+    mode: 'u=rwX,go=rX'
 
 - name: copy labels to rutorrent tracklabels plugin
-  copy: src=labels/ dest=/usr/local/www/rutorrent/plugins/tracklabels/labels
-        owner=root group=wheel mode=644
+  copy:
+    src: labels/
+    dest: /usr/local/www/rutorrent/plugins/tracklabels/labels
+    owner: root
+    group: wheel
+    mode: 644
   with_items: [couchpotato.png, sonarr.png]
 
 - name: configure rutorrent
-  template: src=config.php dest=/usr/local/www/rutorrent/conf/config.php
-            owner=root group=wheel mode=644
+  template:
+    src: config.php
+    dest: /usr/local/www/rutorrent/conf/config.php
+    owner: root
+    group: wheel
+    mode: 644
   tags: [config]
 
 - name: create php-fpm pool folder
-  file: path=/usr/local/etc/fpm-pool.d state=directory
-        owner=root group=wheel mode=0755
+  file:
+    path: /usr/local/etc/fpm-pool.d
+    state: directory
+    owner: root
+    group: wheel
+    mode: 0755
 
 - name: enable php-fpm pool configs
   lineinfile:
@@ -66,19 +104,28 @@
   notify: restart php-fpm
 
 - name: create rutorrent php pool
-  template: src=php-pool.conf dest=/usr/local/etc/fpm-pool.d/rutorrent.conf
-            owner=root group=wheel mode=644
+  template:
+    src: php-pool.conf
+    dest: /usr/local/etc/fpm-pool.d/rutorrent.conf
+    owner: root
+    group: wheel
+    mode: 644
   notify: restart php-fpm
   tags: [config]
 
 - name: create the nginx vhost
-  template: src=nginx-vhost.conf dest=/usr/local/etc/nginx/sites-available/rutorrent
-            owner=root group=wheel mode=644
+  template:
+    src: nginx-vhost.conf
+    dest: /usr/local/etc/nginx/sites-available/rutorrent
+    owner: root
+    group: wheel
+    mode: 644
   notify: reload nginx
   tags: [config]
 
 - name: enable the vhost
-  file: src=/usr/local/etc/nginx/sites-available/rutorrent
-        dest=/usr/local/etc/nginx/sites-enabled/rutorrent
-        state=link
+  file:
+    src: /usr/local/etc/nginx/sites-available/rutorrent
+    dest: /usr/local/etc/nginx/sites-enabled/rutorrent
+    state: link
   notify: reload nginx

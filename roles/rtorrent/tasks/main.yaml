@@ -1,42 +1,71 @@
 ---
 
 - name: install rtorrent
-  pkgng: name=rtorrent state=present
+  pkgng:
+    name: rtorrent
+    state: present
 
 - name: install dtach for running rtorrent
-  pkgng: name=dtach state=present
+  pkgng:
+    name: dtach
+    state: present
 
 - name: create rtorrent user
-  user: name=rtorrent groups=media state=present
-        home=/usr/local/libdata/rtorrent
-        createhome=no
+  user:
+    name: rtorrent
+    groups: media
+    state: present
+    home: /usr/local/libdata/rtorrent
+    createhome: no
 
 - name: create rtorrent user home dir
-  file: path=/usr/local/libdata/rtorrent state=directory
-        owner=rtorrent group=rtorrent mode=0755
+  file:
+    path: /usr/local/libdata/rtorrent
+    state: directory
+    owner: rtorrent
+    group: rtorrent
+    mode: 0755
 
 - name: create rtorrent session dir
-  file: path=/usr/local/libdata/rtorrent/.rtorrent.session state=directory
-        owner=rtorrent group=rtorrent mode=0755
+  file:
+    path: /usr/local/libdata/rtorrent/.rtorrent.session
+    state: directory
+    owner: rtorrent
+    group: rtorrent
+    mode: 0755
 
 - name: configure rtorrent
-  template: src=rtorrent.rc dest=/usr/local/libdata/rtorrent/.rtorrent.rc
-            owner=rtorrent group=rtorrent mode=644
+  template:
+    src: rtorrent.rc
+    dest: /usr/local/libdata/rtorrent/.rtorrent.rc
+    owner: rtorrent
+    group: rtorrent
+    mode: 0644
   notify: restart rtorrent
   tags: [config]
 
 - name: copy set_home script
-  template: src=set_home.sh dest=/usr/local/libdata/rtorrent/set_home.sh
-            owner=rtorrent group=rtorrent mode=755
+  template:
+    src: set_home.sh
+    dest: /usr/local/libdata/rtorrent/set_home.sh
+    owner: rtorrent
+    group: rtorrent
+    mode: 0755
 
 - name: configure nzbtomedia
   include: nzbtomedia.yaml
 
 - name: create rtorrent init script
-  template: src=rtorrent.sh dest=/usr/local/etc/rc.d/rtorrent
-            owner=root group=wheel mode=755
+  template:
+    src: rtorrent.sh
+    dest: /usr/local/etc/rc.d/rtorrent
+    owner: root
+    group: wheel
+    mode: 0755
   notify: restart rtorrent
 
 - name: enable rtorrent
-  service: name=rtorrent enabled=yes
+  service:
+    name: rtorrent
+    enabled: yes
   notify: start rtorrent
