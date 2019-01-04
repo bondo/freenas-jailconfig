@@ -35,10 +35,6 @@
   roles: [sonarr]
   tags: [app]
 
-- hosts: radarr
-  roles: [radarr]
-  tags: [app]
-
 - hosts: dnscrypt-proxy
   roles: [dnscrypt-proxy]
   tags: [app]
