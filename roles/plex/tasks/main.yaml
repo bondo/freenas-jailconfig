@@ -17,18 +17,6 @@
 - name: install twitch mod plugin
   include: twitch_mod.yaml
 
-- name: install youtube tv plugin
-  include: youtube_tv.yaml
-
-- name: install web tools plugin
-  include: web_tools.yaml
-
-- name: monitor plex logs
-  copy: src=plex.filebeat.yaml dest=/usr/local/etc/filebeat.d/plex.yml
-        owner=root group=wheel mode=0644
-  notify: restart filebeat
-  tags: [logs]
-
 - name: enable plex
   service:
     name: plexmediaserver
