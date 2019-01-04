@@ -1,5 +1,5 @@
 ---
 
 dependencies:
-  - role: nginx
-    nginx_ssl: yes
+- role: nginx
+  nginx_ssl: yes

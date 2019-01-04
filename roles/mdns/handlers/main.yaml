@@ -1,15 +1,23 @@
 ---
 
 - name: start avahi
-  service: name=avahi-daemon state=started
-           pattern=avahi-daemon
+  service:
+    name: avahi-daemon
+    state: started
+    pattern: avahi-daemon
 
 - name: restart avahi
-  service: name=avahi-daemon state=restarted
-           pattern=avahi-daemon
+  service:
+    name: avahi-daemon
+    state: restarted
+    pattern: avahi-daemon
 
 - name: start dbus
-  service: name=dbus state=started
+  service:
+    name: dbus
+    state: started
 
 - name: restart dbus
-  service: name=dbus state=restarted
+  service:
+    name: dbus
+    state: restarted

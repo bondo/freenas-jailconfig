@@ -1,25 +1,32 @@
 ---
 
 - name: download twitch mod
-  get_url: url=https://github.com/coryo/TwitchMod.bundle/archive/6aecc72bfde03c94225901daaa5834a4b867a1ad.tar.gz
-           dest=/usr/local/libdata/ansible/downloads/twitch-mod-6aecc72b.tar.gz
-           sha256sum=f05762b43c4c557af44c7dfd7d6f91cd82d8c5efb1f87f3f40cd664f7b922213
+  get_url:
+    url: https://github.com/coryo/TwitchMod.bundle/archive/6aecc72bfde03c94225901daaa5834a4b867a1ad.tar.gz
+    dest: /usr/local/libdata/ansible/downloads/twitch-mod-6aecc72b.tar.gz
+    sha256sum: f05762b43c4c557af44c7dfd7d6f91cd82d8c5efb1f87f3f40cd664f7b922213
   register: twitch_mod_downloaded
 
 - name: create twitch mod bundle dir
-  file: path="/usr/local/plexdata/Plex Media Server/Plug-ins/TwitchMod.bundle"
-        state=directory
+  file:
+    path: "/usr/local/plexdata/Plex Media Server/Plug-ins/TwitchMod.bundle"
+    state: directory
 
 - name: install twitch mod
   command: tar -xvzf /usr/local/libdata/ansible/downloads/twitch-mod-6aecc72b.tar.gz
            -C "/usr/local/plexdata/Plex Media Server/Plug-ins/TwitchMod.bundle"
            --strip-components 1
            TwitchMod.bundle-6aecc72bfde03c94225901daaa5834a4b867a1ad
-          #  creates="/usr/local/plexdata/Plex Media Server/Plug-ins/TwitchMod.bundle/README.md"
+  # args:
+  #   creates: "/usr/local/plexdata/Plex Media Server/Plug-ins/TwitchMod.bundle/README.md"
   when: twitch_mod_downloaded|changed
   notify: restart plex
 
 - name: change owner of the twitch mod plugin code to plex
-  file: path='/usr/local/plexdata/Plex Media Server/Plug-ins/TwitchMod.bundle' state=directory
-        recurse=yes
-        owner=plex group=plex mode='u=rwX,go=rX'
+  file:
+    path: '/usr/local/plexdata/Plex Media Server/Plug-ins/TwitchMod.bundle'
+    state: directory
+    recurse: yes
+    owner: plex
+    group: plex
+    mode: 'u=rwX,go=rX'

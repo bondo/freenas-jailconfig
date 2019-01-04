@@ -10,9 +10,9 @@
   file:
     path: /usr/local/www/{{ item }}
     state: absent
-  with_items:
-    - nginx
-    - nginx-dist
+  loop:
+  - nginx
+  - nginx-dist
   become: yes
 
 - name: create nginx config folders
@@ -22,12 +22,12 @@
     owner: root
     group: wheel
     mode: 0755
-  with_items:
-    - conf.d
-    - sites-available
-    - sites-enabled
-    - mods-available
-    - mods-enabled
+  loop:
+  - conf.d
+  - sites-available
+  - sites-enabled
+  - mods-available
+  - mods-enabled
   become: yes
 
 - name: configure nginx
@@ -55,7 +55,8 @@
 
 - name: generate diffie-hellman group
   command: openssl dhparam -out /usr/local/etc/nginx/dhparams.pem 2048
-           creates=/usr/local/etc/nginx/dhparams.pem
+  args:
+    creates: /usr/local/etc/nginx/dhparams.pem
   notify: reload nginx
   when: nginx_ssl
   become: yes

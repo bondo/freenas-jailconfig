@@ -1,27 +1,39 @@
 ---
 
 - name: install filebeat make dependencies
-  pkgng: name={{ item }} state=present
-  with_items: [texinfo]
+  pkgng:
+    name: texinfo
+    state: present
 
 - name: install filebeat
   command: make install
-           chdir=/usr/ports/sysutils/filebeat/
-           creates=/usr/local/etc/rc.d/filebeat
+  args:
+    chdir: /usr/ports/sysutils/filebeat/
+    creates: /usr/local/etc/rc.d/filebeat
   environment:
     BATCH: "yes"
 
 - name: create filebeat config dir
-  file: path=/usr/local/etc/filebeat.d state=directory
-        owner=root group=wheel mode=0755
+  file:
+    path: /usr/local/etc/filebeat.d
+    state: directory
+    owner: root
+    group: wheel
+    mode: 0755
 
 - name: configure filebeat
-  template: src=filebeat.yml dest=/usr/local/etc/filebeat.yml
-            owner=root group=wheel mode=0644
+  template:
+    src: filebeat.yml
+    dest: /usr/local/etc/filebeat.yml
+    owner: root
+    group: wheel
+    mode: 0644
   notify: restart filebeat
   tags: [config]
 
 - name: enable filebeat
-  service: name=filebeat enabled=yes
+  service:
+    name: filebeat
+    enabled: yes
   notify: start filebeat
 

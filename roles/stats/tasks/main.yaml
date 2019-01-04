@@ -1,57 +1,82 @@
 ---
 
 - name: install grafana
-  pkgng: name=grafana4 state=present
+  pkgng:
+    name: grafana4
+    state: present
 
 - name: install influxdb
-  pkgng: name=influxdb state=present
+  pkgng:
+    name: influxdb
+    state: present
 
 - name: install telegraf
-  pkgng: name=telegraf state=present
+  pkgng:
+    name: telegraf
+    state: present
 
 - name: install other dependencies
-  pkgng: name={{ item }} state=present
-  with_items:
+  pkgng:
+    name:
     - collectd5
     - ipmitool
     - net-snmp
     - smartmontools
+    state: present
 
 - name: link snmptranslate to /usr/bin so telegraf can use it
-  file: src=/usr/local/bin/snmptranslate
-        dest=/usr/bin/snmptranslate
-        state=link
+  file:
+    src: /usr/local/bin/snmptranslate
+    dest: /usr/bin/snmptranslate
+    state: link
 
 - name: configure grafana
-  template: src=grafana.conf dest=/usr/local/etc/grafana.conf
-            owner=root group=wheel mode=0644
+  template:
+    src: grafana.conf
+    dest: /usr/local/etc/grafana.conf
+    owner: root
+    group: wheel
+    mode: 0644
   notify: restart grafana
 
 - name: install grafana plugins
   command: grafana-cli plugins install {{ item }}
-           creates=/var/db/grafana/plugins/{{ item }}
-  with_items: "{{ grafana_plugins }}"
+  loop: "{{ grafana_plugins }}"
 
 - name: configure influxdb
-  template: src=influxd.conf dest=/usr/local/etc/influxd.conf
-            owner=root group=wheel mode=0644
+  template:
+    src: influxd.conf
+    dest: /usr/local/etc/influxd.conf
+    owner: root
+    group: wheel
+    mode: 0644
   notify: restart influxdb
 
 - name: configure telegraf
-  template: src=telegraf.conf dest=/usr/local/etc/telegraf.conf
-            owner=root group=wheel mode=0644
+  template:
+    src: telegraf.conf
+    dest: /usr/local/etc/telegraf.conf
+    owner: root
+    group: wheel
+    mode: 0644
   notify: restart telegraf
 
 - name: enable influxdb
-  service: name=influxd enabled=yes
+  service:
+    name: influxd
+    enabled: yes
   notify: start influxdb
 
 - name: enable telegraf
-  service: name=telegraf enabled=yes
+  service:
+    name: telegraf
+    enabled: yes
   notify: start telegraf
 
 - name: enable grafana
-  service: name=grafana enabled=yes
+  service:
+    name: grafana
+    enabled: yes
   notify: start grafana
 
 - name: flush handlers to start influxdb before creating database
@@ -59,6 +84,6 @@
 
 - name: create influxdb databases
   command: influx -execute 'CREATE DATABASE {{ item }}'
-  with_items:
-    - collectd
-    - telegraf
+  loop:
+  - collectd
+  - telegraf

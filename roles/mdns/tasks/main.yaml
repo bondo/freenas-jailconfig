@@ -1,10 +1,14 @@
 ---
 
 - name: install mdns-daemon
-  pkgng: name=dns/mdnsd state=present
+  pkgng:
+    name: dns/mdnsd
+    state: present
 
 - name: install nss_mdns
-  pkgng: name=dns/nss_mdns state=present
+  pkgng:
+    name: dns/nss_mdns
+    state: present
 
 - name: enable mdns resolution
   lineinfile:
@@ -14,13 +18,17 @@
   tags: [config]
 
 - name: enable dbus
-  service: name=dbus enabled=yes
+  service:
+    name: dbus
+    enabled: yes
   notify: start dbus
 
 - name: flush handlers to ensure dbus is started before avahi-daemon
   meta: flush_handlers
 
 - name: enable avahi-daemon
-  service: name=avahi-daemon enabled=yes
-           pattern=avahi-daemon
+  service:
+    name: avahi-daemon
+    enabled: yes
+    pattern: avahi-daemon
   notify: start avahi

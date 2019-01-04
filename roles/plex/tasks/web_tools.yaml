@@ -15,7 +15,8 @@
            -C "/usr/local/plexdata/Plex Media Server/Plug-ins/WebTools.bundle"
            --strip-components 1
            WebTools.bundle-3.0.0
-          #  creates="/usr/local/plexdata/Plex Media Server/Plug-ins/WebTools.bundle/README.md"
+  # args:
+  #   creates: "/usr/local/plexdata/Plex Media Server/Plug-ins/WebTools.bundle/README.md"
   when: web_tools_downloaded|changed
   notify: restart plex
 

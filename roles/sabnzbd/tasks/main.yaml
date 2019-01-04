@@ -6,11 +6,17 @@
     state: present
 
 - name: add the sabnzbd user to the media group
-  user: name=_sabnzbd groups=media append=yes
+  user:
+    name: _sabnzbd
+    groups: media
+    append: yes
   notify: restart nginx
 
 - name: add the www user to the sabnzbd group
-  user: name=www groups=_sabnzbd append=yes
+  user:
+    name: www
+    groups: _sabnzbd
+    append: yes
   notify: restart nginx
 
 - name: create sabnzbd script dir in home
@@ -30,7 +36,7 @@
     dest: /usr/local/etc/nginx/sites-available/sabnzbd
     owner: root
     group: wheel
-    mode: 644
+    mode: 0644
   notify: reload nginx
   tags: [config]
 

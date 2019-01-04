@@ -1,23 +1,38 @@
 ---
 
 - name: install sonarr
-  pkgng: name=sonarr state=present
+  pkgng:
+    name: sonarr
+    state: present
 
 - name: add the sonarr user to the media group
-  user: name=sonarr groups=media append=yes
+  user:
+    name: sonarr
+    groups: media
+    append: yes
   notify: restart sonarr
 
 - name: allow sonarr to auto-update
-  file: path=/usr/local/share/sonarr state=directory
-        recurse=yes
-        owner=sonarr group=wheel mode='u=rwX,go=rX'
+  file:
+    path: /usr/local/share/sonarr
+    state: directory
+    recurse: yes
+    owner: sonarr
+    group: wheel
+    mode: 'u=rwX,go=rX'
 
 - name: monitor sonarr log
-  copy: src=sonarr.filebeat.yaml dest=/usr/local/etc/filebeat.d/sonarr.yml
-        owner=root group=wheel mode=0644
+  copy:
+    src: sonarr.filebeat.yaml
+    dest: /usr/local/etc/filebeat.d/sonarr.yml
+    owner: root
+    group: wheel
+    mode: 0644
   notify: restart filebeat
   tags: [logs]
 
 - name: enable sonarr
-  service: name=sonarr enabled=yes
+  service:
+    name: sonarr
+    enabled: yes
   notify: start sonarr

@@ -1,16 +1,17 @@
 ---
 
-# - name: install nginx make dependencies
-#   pkgng: name={{ item }} state=present
-#   with_items: [texinfo]
-
 - name: check if reverse_proxy_domain is defined
-  fail: msg="reverse_proxy_domain is undefined. Set it in host_vars/reverse-proxy@freenas.local.yaml"
+  fail:
+    msg: "reverse_proxy_domain is undefined. Set it in host_vars/reverse-proxy@freenas.local.yaml"
   when: reverse_proxy_domain is not defined
 
 - name: create reverse-proxy config folder
-  file: path=/usr/local/etc/nginx/reverse-proxy state=directory
-        owner=root group=wheel mode=0755
+  file:
+    path: /usr/local/etc/nginx/reverse-proxy
+    state: directory
+    owner: root
+    group: wheel
+    mode: 0755
 
 - name: configure public site
   include: public.yaml
@@ -25,14 +26,22 @@
   include: google-oauth.yaml
 
 - name: configure nginx proxy params
-  template: src=proxy_params dest=/usr/local/etc/nginx/proxy_params
-            owner=root group=wheel mode=0644
+  template:
+    src: proxy_params
+    dest: /usr/local/etc/nginx/proxy_params
+    owner: root
+    group: wheel
+    mode: 0644
   notify: reload nginx
   tags: [config]
 
 - name: create nginx ssl cert trust dir
-  file: path=/usr/local/etc/ssl/nginx_trusted state=directory
-        owner=root group=wheel mode=0755
+  file:
+    path: /usr/local/etc/ssl/nginx_trusted
+    state: directory
+    owner: root
+    group: wheel
+    mode: 0755
 
 - name: configure secure site
   include: secure.yaml

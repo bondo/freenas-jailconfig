@@ -1,7 +1,9 @@
 ---
 
 - name: install plex
-  pkgng: name=plexmediaserver state=present
+  pkgng:
+    name: plexmediaserver
+    state: present
 
 - name: flush handlers to start plex (plexdata dir needed in other tasks)
   meta: flush_handlers
@@ -28,5 +30,7 @@
   tags: [logs]
 
 - name: enable plex
-  service: name=plexmediaserver enabled=yes
+  service:
+    name: plexmediaserver
+    enabled: yes
   notify: start plex

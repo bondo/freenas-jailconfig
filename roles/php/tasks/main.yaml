@@ -1,18 +1,28 @@
 ---
 
 - name: install php
-  pkgng: name=php56 state=present
+  pkgng:
+    name: php56
+    state: present
 
 - name: install php extensions
-  pkgng: name=php56-extensions state=present
+  pkgng:
+    name: php56-extensions
+    state: present
   notify: restart php-fpm
 
 - name: configure php
-  template: src=php.ini dest=/usr/local/etc/php.ini
-            owner=root group=wheel mode=644
+  template:
+    src: php.ini
+    dest: /usr/local/etc/php.ini
+    owner: root
+    group: wheel
+    mode: 0644
   notify: restart php-fpm
   tags: [config]
 
 - name: enable php-fpm
-  service: name=php-fpm enabled=yes
+  service:
+    name: php-fpm
+    enabled: yes
   notify: start php-fpm

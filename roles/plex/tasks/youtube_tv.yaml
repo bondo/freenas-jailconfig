@@ -15,7 +15,8 @@
            -C "/usr/local/plexdata/Plex Media Server/Plug-ins/YouTubeTV.bundle"
            --strip-components 1
            YouTubeTV.bundle-e7a099f2f08348b5c676592aee61696569cf03f8
-          #  creates="/usr/local/plexdata/Plex Media Server/Plug-ins/YouTubeTV.bundle/README.md"
+  # args:
+  #   creates: "/usr/local/plexdata/Plex Media Server/Plug-ins/YouTubeTV.bundle/README.md"
   when: youtube_tv_downloaded|changed
   notify: restart plex
 

@@ -1,22 +1,34 @@
 ---
 
 - name: install acme-client
-  pkgng: name=acme-client state=present
+  pkgng:
+    name: acme-client
+    state: present
 
 - name: remove the default acme challenge dir
-  file: path=/usr/local/www/acme state=absent
+  file:
+    path: /usr/local/www/acme
+    state: absent
 
 - name: create .well-known dir
-  file: path=public dest=/usr/local/www/public/{{ item }}
-        state=directory
-        owner=root group=wheel mode=755
-  with_items:
-    - .well-known
-    - .well-known/acme-challenge
+  file:
+    path: public
+    dest: /usr/local/www/public/{{ item }}
+    state: directory
+    owner: root
+    group: wheel
+    mode: 0755
+  loop:
+  - .well-known
+  - .well-known/acme-challenge
 
 - name: configure acme-client to run weekly
-  template: src=letsencrypt.conf dest=/etc/periodic.conf
-            owner=root group=wheel mode=0755
+  template:
+    src: letsencrypt.conf
+    dest: /etc/periodic.conf
+    owner: root
+    group: wheel
+    mode: 0755
   # config file changes might not impact the certificate
   # but there's no harm in running a request.
   # acme-client will know what's up.
@@ -29,5 +41,6 @@
     -C /usr/local/www/public/.well-known/acme-challenge
     {{ reverse_proxy_domain }}
     {{ reverse_proxy_alt_domains|map(attribute='domain')|join(' ') }}
-    creates=/usr/local/etc/ssl/acme/fullchain.pem
+  args:
+    creates: /usr/local/etc/ssl/acme/fullchain.pem
   notify: reload nginx

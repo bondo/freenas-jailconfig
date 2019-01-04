@@ -5,17 +5,17 @@ root_shell: /usr/local/bin/zsh
 
 # Packages to install
 user_packages:
-  - git
-  - bash
-  - zsh
+- git
+- bash
+- zsh
 
 # Repos to clone.
 # Use "private: yes" to only create the repo and its remote, you can pull it later
 git_repos:
-  - remote: https://github.com/andsens/homeshick.git
-    path: /root/.homesick/repos/homeshick
-  - remote: https://github.com/sorin-ionescu/prezto.git
-    path: /root/.homesick/repos/prezto
-  - remote: git@github.com:andsens/dotfiles
-    path: /root/.homesick/repos/dotfiles
-    private: yes
+- remote: https://github.com/andsens/homeshick.git
+  path: /root/.homesick/repos/homeshick
+- remote: https://github.com/sorin-ionescu/prezto.git
+  path: /root/.homesick/repos/prezto
+- remote: git@github.com:andsens/dotfiles
+  path: /root/.homesick/repos/dotfiles
+  private: yes

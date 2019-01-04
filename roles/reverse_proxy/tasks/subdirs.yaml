@@ -1,29 +1,42 @@
 ---
 
 - name: create reverse-proxy subdirs config structure
-  file: path=/usr/local/etc/nginx/{{ item }} state=directory
-        owner=root group=wheel mode=0755
-  with_items:
-    - reverse-proxy/locations
-    - reverse-proxy/upstreams
+  file:
+    path: /usr/local/etc/nginx/{{ item }}
+    state: directory
+    owner: root
+    group: wheel
+    mode: 0755
+  loop:
+  - reverse-proxy/locations
+  - reverse-proxy/upstreams
 
 - name: copy trusted certificates
-  copy: src={{ item.trust_ssl }} dest=/usr/local/etc/ssl/nginx_trusted/{{ item.trust_ssl|basename }}
+  copy:
+    src: "{{ item.trust_ssl }}"
+    dest: /usr/local/etc/ssl/nginx_trusted/{{ item.trust_ssl|basename }}
   when: item.trust_ssl is defined
   notify: reload nginx
-  with_items: "{{ reverse_proxy_subdirs }}"
+  loop: "{{ reverse_proxy_subdirs }}"
 
 - name: configure locations
-  template: src={{ item.location_template | default("subdirs-location.conf") }}
-            dest=/usr/local/etc/nginx/reverse-proxy/locations/{{ item.name }}
-            owner=root group=wheel mode=0644
+  template:
+    src: "{{ item.location_template | default('subdirs-location.conf') }}"
+    dest: /usr/local/etc/nginx/reverse-proxy/locations/{{ item.name }}
+    owner: root
+    group: wheel
+    mode: 0644
   notify: reload nginx
-  with_items: "{{ reverse_proxy_subdirs }}"
+  loop: "{{ reverse_proxy_subdirs }}"
   tags: [config]
 
 - name: configure upstreams
-  template: src=subdirs-upstream.conf dest=/usr/local/etc/nginx/reverse-proxy/upstreams/{{ item.name }}
-            owner=root group=wheel mode=0644
+  template:
+    src: subdirs-upstream.conf
+    dest: /usr/local/etc/nginx/reverse-proxy/upstreams/{{ item.name }}
+    owner: root
+    group: wheel
+    mode: 0644
   notify: reload nginx
-  with_items: "{{ reverse_proxy_subdirs }}"
+  loop: "{{ reverse_proxy_subdirs }}"
   tags: [config]

@@ -1,18 +1,18 @@
 filebeat:
   prospectors:
-    - paths:
-      - /usr/local/plexdata/Plex Media Server/Logs/Plex DLNA Server.log
-      - /usr/local/plexdata/Plex Media Server/Logs/Plex Media Scanner Analysis.log
-      - /usr/local/plexdata/Plex Media Server/Logs/Plex Media Scanner Chapter Thumbnails.log
-      - /usr/local/plexdata/Plex Media Server/Logs/Plex Media Scanner Deep Analysis.log
-      - /usr/local/plexdata/Plex Media Server/Logs/Plex Media Scanner.log
-      - /usr/local/plexdata/Plex Media Server/Logs/Plex Media Server.log
-      - /usr/local/plexdata/Plex Media Server/Logs/Plex Tuner Service.log
-      - /usr/local/plexdata/Plex Media Server/Logs/PMS Plugin Logs/*.log
-      encoding: utf-8
-      fields:
-        program: plexmediaserver
-      fields_under_root: true
-      multiline:
-        pattern: '^(Traceback|  )'
-        match: after
+  - paths:
+    - /usr/local/plexdata/Plex Media Server/Logs/Plex DLNA Server.log
+    - /usr/local/plexdata/Plex Media Server/Logs/Plex Media Scanner Analysis.log
+    - /usr/local/plexdata/Plex Media Server/Logs/Plex Media Scanner Chapter Thumbnails.log
+    - /usr/local/plexdata/Plex Media Server/Logs/Plex Media Scanner Deep Analysis.log
+    - /usr/local/plexdata/Plex Media Server/Logs/Plex Media Scanner.log
+    - /usr/local/plexdata/Plex Media Server/Logs/Plex Media Server.log
+    - /usr/local/plexdata/Plex Media Server/Logs/Plex Tuner Service.log
+    - /usr/local/plexdata/Plex Media Server/Logs/PMS Plugin Logs/*.log
+    encoding: utf-8
+    fields:
+      program: plexmediaserver
+    fields_under_root: true
+    multiline:
+      pattern: '^(Traceback|  )'
+      match: after

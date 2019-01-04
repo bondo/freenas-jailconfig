@@ -1,25 +1,32 @@
 ---
 
 - name: download hello hue
-  get_url: url=https://github.com/ledge74/HelloHue.bundle/archive/37ea90faf2fdf8d3badddfb5466173329e8e6122.tar.gz
-           dest=/usr/local/libdata/ansible/downloads/hello-hue-37ea90fa.tar.gz
-           sha256sum=00ec7aa1d5da3657419a57b36282273081fed044319d2ac16c2d9ce8b21222b3
+  get_url:
+    url: https://github.com/ledge74/HelloHue.bundle/archive/37ea90faf2fdf8d3badddfb5466173329e8e6122.tar.gz
+    dest: /usr/local/libdata/ansible/downloads/hello-hue-37ea90fa.tar.gz
+    sha256sum: 00ec7aa1d5da3657419a57b36282273081fed044319d2ac16c2d9ce8b21222b3
   register: hello_hue_downloaded
 
 - name: create hello hue bundle dir
-  file: path="/usr/local/plexdata/Plex Media Server/Plug-ins/HelloHue.bundle"
-        state=directory
+  file:
+    path: "/usr/local/plexdata/Plex Media Server/Plug-ins/HelloHue.bundle"
+    state: directory
 
 - name: install hello hue
   command: tar -xvzf /usr/local/libdata/ansible/downloads/hello-hue-37ea90fa.tar.gz
            -C "/usr/local/plexdata/Plex Media Server/Plug-ins/HelloHue.bundle"
            --strip-components 1
            HelloHue.bundle-37ea90faf2fdf8d3badddfb5466173329e8e6122
-          #  creates="/usr/local/plexdata/Plex Media Server/Plug-ins/HelloHue.bundle/README.md"
+  # args:
+  #   creates: "/usr/local/plexdata/Plex Media Server/Plug-ins/HelloHue.bundle/README.md"
   when: hello_hue_downloaded|changed
   notify: restart plex
 
 - name: change owner of the hello hue plugin code to plex
-  file: path='/usr/local/plexdata/Plex Media Server/Plug-ins/HelloHue.bundle' state=directory
-        recurse=yes
-        owner=plex group=plex mode='u=rwX,go=rX'
+  file:
+    path: '/usr/local/plexdata/Plex Media Server/Plug-ins/HelloHue.bundle'
+    state: directory
+    recurse: yes
+    owner: plex
+    group: plex
+    mode: 'u=rwX,go=rX'

@@ -1,39 +1,68 @@
 ---
 
 - name: create secure dir
-  file: path=/usr/local/www/secure state=directory
-        owner=root group=wheel mode=755
+  file:
+    path: /usr/local/www/secure
+    state: directory
+    owner: root
+    group: wheel
+    mode: 0755
 
 - name: create 50x.html
-  copy: src=50x.html dest=/usr/local/www/secure/50x.html
-        owner=root group=wheel mode=644
+  copy:
+    src: 50x.html
+    dest: /usr/local/www/secure/50x.html
+    owner: root
+    group: wheel
+    mode: 0644
 
 - name: create index.html
-  template: src=index.html dest=/usr/local/www/secure/index.html
-            owner=root group=wheel mode=644
+  template:
+    src: index.html
+    dest: /usr/local/www/secure/index.html
+    owner: root
+    group: wheel
+    mode: 0644
 
 - name: create index images dir
-  file: path=/usr/local/www/secure/img state=directory
-        owner=root group=wheel mode=755
+  file:
+    path: /usr/local/www/secure/img
+    state: directory
+    owner: root
+    group: wheel
+    mode: 0755
 
 - name: copy index.html background images
-  copy: src={{ item.background }} dest=/usr/local/www/secure/img/
-        owner=root group=wheel mode=644
-  with_items: '{{ reverse_proxy_links }}'
+  copy:
+    src: "{{ item.background }}"
+    dest: /usr/local/www/secure/img/
+    owner: root
+    group: wheel
+    mode: 0644
+  loop: '{{ reverse_proxy_links }}'
 
 - name: copy index.html foreground images
-  copy: src={{ item.foreground }} dest=/usr/local/www/secure/img/
-        owner=root group=wheel mode=644
-  with_items: '{{ reverse_proxy_links }}'
+  copy:
+    src: "{{ item.foreground }}"
+    dest: /usr/local/www/secure/img/
+    owner: root
+    group: wheel
+    mode: 0644
+  loop: '{{ reverse_proxy_links }}'
 
 - name: create secure vhost
-  template: src=secure-vhost.conf dest=/usr/local/etc/nginx/sites-available/secure
-            owner=root group=wheel mode=644
+  template:
+    src: secure-vhost.conf
+    dest: /usr/local/etc/nginx/sites-available/secure
+    owner: root
+    group: wheel
+    mode: 0644
   notify: reload nginx
   tags: [config]
 
 - name: enable secure vhost
-  file: src=../sites-available/secure
-        dest=/usr/local/etc/nginx/sites-enabled/secure
-        state=link
+  file:
+    src: ../sites-available/secure
+    dest: /usr/local/etc/nginx/sites-enabled/secure
+    state: link
   notify: reload nginx

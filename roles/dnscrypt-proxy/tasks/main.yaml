@@ -1,7 +1,9 @@
 ---
 
 - name: install dnscrypt-proxy
-  pkgng: name=dnscrypt-proxy state=present
+  pkgng:
+    name: dnscrypt-proxy
+    state: present
 
 - name: configure dnscrypt-proxy resolver
   lineinfile:
@@ -19,25 +21,39 @@
   tags: [config]
 
 - name: install unbound
-  pkgng: name=unbound state=present
+  pkgng:
+    name: unbound
+    state: present
   notify: restart unbound
 
 - name: configure unbound
-  template: src=unbound.conf dest=/usr/local/etc/unbound/unbound.conf
-            owner=root group=wheel mode=644
+  template:
+    src: unbound.conf
+    dest: /usr/local/etc/unbound/unbound.conf
+    owner: root
+    group: wheel
+    mode: 0644
   notify: restart unbound
   tags: [config]
 
 - name: monitor dnscrypt-proxy log
-  copy: src=dnscrypt-proxy.filebeat.yaml dest=/usr/local/etc/filebeat.d/dnscrypt-proxy.yml
-        owner=root group=wheel mode=0644
+  copy:
+    src: dnscrypt-proxy.filebeat.yaml
+    dest: /usr/local/etc/filebeat.d/dnscrypt-proxy.yml
+    owner: root
+    group: wheel
+    mode: 0644
   notify: restart filebeat
   tags: [logs]
 
 - name: enable dnscrypt-proxy
-  service: name=dnscrypt-proxy enabled=yes
+  service:
+    name: dnscrypt-proxy
+    enabled: yes
   notify: start dnscrypt-proxy
 
 - name: enable unbound
-  service: name=unbound enabled=yes
+  service:
+    name: unbound
+    enabled: yes
   notify: start unbound

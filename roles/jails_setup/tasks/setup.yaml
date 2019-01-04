@@ -19,7 +19,8 @@
 
 - name: create the ansible user
   command: iocage exec {{ jail_name }} pw useradd ansible
-           creates="{{ jails_path }}/{{ jail_name }}/root/home/ansible"
+  args:
+    creates: "{{ jails_path }}/{{ jail_name }}/root/home/ansible"
   become: yes
 
 - name: create ssh dir for ansible user

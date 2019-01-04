@@ -1,20 +1,30 @@
 ---
 
 - name: install elasticsearch
-  pkgng: name=elasticsearch5 state=present
+  pkgng:
+    name: elasticsearch5
+    state: present
   notify: restart elasticsearch
 
 - name: install logstash
-  pkgng: name=logstash5 state=present
+  pkgng:
+    name: logstash5
+    state: present
   notify: restart logstash
 
 - name: install kibana
-  pkgng: name=kibana5 state=present
+  pkgng:
+    name: kibana5
+    state: present
   notify: restart kibana
 
 - name: configure kibana
-  template: src=kibana.yml dest=/usr/local/etc/kibana.yml
-            owner=root group=wheel mode=0644
+  template:
+    src: kibana.yml
+    dest: /usr/local/etc/kibana.yml
+    owner: root
+    group: wheel
+    mode: 0644
   notify: restart kibana
   tags: [config]
 
@@ -37,18 +47,28 @@
   tags: [config]
 
 - name: configure ipfw
-  template: src=ipfw.rules dest=/etc/ipfw.rules
-            owner=root group=wheel mode=0755
+  template:
+    src: ipfw.rules
+    dest: /etc/ipfw.rules
+    owner: root
+    group: wheel
+    mode: 0755
   tags: [config]
 
 - name: enable elasticsearch
-  service: name=elasticsearch enabled=yes
+  service:
+    name: elasticsearch
+    enabled: yes
   notify: start elasticsearch
 
 - name: enable logstash
-  service: name=logstash enabled=yes
+  service:
+    name: logstash
+    enabled: yes
   notify: start logstash
 
 - name: enable kibana
-  service: name=kibana enabled=yes
+  service:
+    name: kibana
+    enabled: yes
   notify: start kibana

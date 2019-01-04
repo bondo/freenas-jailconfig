@@ -1,29 +1,39 @@
 ---
 
 - name: copy trusted certificates
-  copy: src={{ item.trust_ssl }} dest=/usr/local/etc/ssl/nginx_trusted/{{ item.trust_ssl|basename }}
+  copy:
+    src: "{{ item.trust_ssl }}"
+    dest: /usr/local/etc/ssl/nginx_trusted/{{ item.trust_ssl|basename }}
   when: item.trust_ssl is defined
   notify: reload nginx
-  with_items: "{{ reverse_proxy_alt_domains }}"
+  loop: "{{ reverse_proxy_alt_domains }}"
 
 - name: create alternative domain vhosts
-  template: src=alt-domains-vhost.conf dest=/usr/local/etc/nginx/sites-available/{{ item.name }}
-            owner=root group=wheel mode=644
+  template:
+    src: alt-domains-vhost.conf
+    dest: /usr/local/etc/nginx/sites-available/{{ item.name }}
+    owner: root
+    group: wheel
+    mode: 0644
   notify: reload nginx
-  with_items: "{{ reverse_proxy_alt_domains }}"
+  loop: "{{ reverse_proxy_alt_domains }}"
   tags: [config]
 
 - name: enable alternative domain vhosts
-  file: src=../sites-available/{{ item.name }}
-        dest=/usr/local/etc/nginx/sites-enabled/{{ item.name }}
-        state=link
+  file:
+    src: ../sites-available/{{ item.name }}
+    dest: /usr/local/etc/nginx/sites-enabled/{{ item.name }}
+    state: link
   notify: reload nginx
-  with_items: "{{ reverse_proxy_alt_domains }}"
+  loop: "{{ reverse_proxy_alt_domains }}"
 
 - name: configure alternative domain redirect locations on subdirs domain
-  template: src=alt-domains-location.conf
-            dest=/usr/local/etc/nginx/reverse-proxy/locations/{{ item.name }}
-            owner=root group=wheel mode=0644
+  template:
+    src: alt-domains-location.conf
+    dest: /usr/local/etc/nginx/reverse-proxy/locations/{{ item.name }}
+    owner: root
+    group: wheel
+    mode: 0644
   notify: reload nginx
-  with_items: "{{ reverse_proxy_alt_domains }}"
+  loop: "{{ reverse_proxy_alt_domains }}"
   tags: [config]

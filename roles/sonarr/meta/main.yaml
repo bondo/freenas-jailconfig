@@ -1,5 +1,5 @@
 ---
 
 dependencies:
-  - role: filebeat
-    tags: logs
+- role: filebeat
+  tags: logs

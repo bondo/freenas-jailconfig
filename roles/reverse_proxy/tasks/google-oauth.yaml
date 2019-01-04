@@ -15,7 +15,7 @@
       You need to compile nginx yourself using ports, please refer to
       the reverse-proxy host_vars file for instructions (they are fairly simple)
   when:
-    - not ndk_module.stat.exists
+  - not ndk_module.stat.exists
 
 - name: create module loading configurations
   copy:
@@ -23,7 +23,7 @@
     dest: /usr/local/etc/nginx/mods-available/{{ item.name }}.load
     owner: root
     group: wheel
-    mode: 644
+    mode: 0644
   notify: reload nginx
   tags: [config]
   loop:
@@ -35,9 +35,10 @@
     path: /usr/local/libexec/nginx/ngx_http_lua_module.so
 
 - name: enable nginx lua module
-  file: src=/usr/local/etc/nginx/mods-available/{{ item.name }}.load
-        dest=/usr/local/etc/nginx/mods-enabled/{{ item.order }}-{{ item.name }}.load
-        state=link
+  file:
+    src: /usr/local/etc/nginx/mods-available/{{ item.name }}.load
+    dest: /usr/local/etc/nginx/mods-enabled/{{ item.order }}-{{ item.name }}.load
+    state: link
   notify: reload nginx
   loop:
   - name: ndk-module
@@ -53,29 +54,40 @@
     state: present
 
 - name: download resty.http
-  get_url: url=https://github.com/pintsized/lua-resty-http/archive/v0.10.tar.gz
-           dest=/usr/local/libdata/ansible/downloads/lua-resty.http-0.10.tar.gz
-           sha256sum=6917ab4fd0dcd99df076e238f591aeaa9e2d7e0bca4904ebeb3c1bd418e7c1b9
+  get_url:
+    url: https://github.com/pintsized/lua-resty-http/archive/v0.10.tar.gz
+    dest: /usr/local/libdata/ansible/downloads/lua-resty.http-0.10.tar.gz
+    sha256sum: 6917ab4fd0dcd99df076e238f591aeaa9e2d7e0bca4904ebeb3c1bd418e7c1b9
 
 - name: extract resty.http
   command: tar -xvzf /usr/local/libdata/ansible/downloads/lua-resty.http-0.10.tar.gz
            -C /usr/local/libdata/ansible/downloads/
-           creates=/usr/local/libdata/ansible/downloads/lua-resty-http-0.10
+  args:
+    creates: /usr/local/libdata/ansible/downloads/lua-resty-http-0.10
 
 # *.lua files are expected to be in /usr/local/share while *.so files are expected to be in /usr/local/lib
 # The resty.http Makefile is a bit weird and installs its *.lua files to ../lib,
 # so we fix that with LUA_LIB_DIR=...
 - name: install resty.http
   command: make install LUA_INCLUDE_DIR=/usr/local/include/luajit-2.0/ LUA_LIB_DIR=/usr/local/share/luajit-2.0.5/
-           chdir=/usr/local/libdata/ansible/downloads/lua-resty-http-0.10
-           creates=/usr/local/share/luajit-2.0.5/resty/http.lua
+  args:
+    chdir: /usr/local/libdata/ansible/downloads/lua-resty-http-0.10
+    creates: /usr/local/share/luajit-2.0.5/resty/http.lua
 
 - name: copy google-oauth lua module to nginx
-  copy: src=access.lua dest=/usr/local/etc/nginx/reverse-proxy/google-oauth.lua
-        owner=root group=wheel mode=644
+  copy:
+    src: access.lua
+    dest: /usr/local/etc/nginx/reverse-proxy/google-oauth.lua
+    owner: root
+    group: wheel
+    mode: 0644
 
 - name: create google-oauth module configuration
-  template: src=google-oauth.conf dest=/usr/local/etc/nginx/reverse-proxy/google-oauth.conf
-            owner=root group=wheel mode=644
+  template:
+    src: google-oauth.conf
+    dest: /usr/local/etc/nginx/reverse-proxy/google-oauth.conf
+    owner: root
+    group: wheel
+    mode: 0644
   notify: reload nginx
   tags: [config]

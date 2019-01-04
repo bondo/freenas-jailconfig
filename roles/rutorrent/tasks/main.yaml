@@ -77,8 +77,10 @@
     dest: /usr/local/www/rutorrent/plugins/tracklabels/labels
     owner: root
     group: wheel
-    mode: 644
-  with_items: [couchpotato.png, sonarr.png]
+    mode: 0644
+  loop:
+  - couchpotato.png
+  - sonarr.png
 
 - name: configure rutorrent
   template:
@@ -86,7 +88,7 @@
     dest: /usr/local/www/rutorrent/conf/config.php
     owner: root
     group: wheel
-    mode: 644
+    mode: 0644
   tags: [config]
 
 - name: create php-fpm pool folder
@@ -109,7 +111,7 @@
     dest: /usr/local/etc/fpm-pool.d/rutorrent.conf
     owner: root
     group: wheel
-    mode: 644
+    mode: 0644
   notify: restart php-fpm
   tags: [config]
 
@@ -119,7 +121,7 @@
     dest: /usr/local/etc/nginx/sites-available/rutorrent
     owner: root
     group: wheel
-    mode: 644
+    mode: 0644
   notify: reload nginx
   tags: [config]
 
