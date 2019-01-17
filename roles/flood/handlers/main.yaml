@@ -1,0 +1,20 @@
+---
+
+- name: yarn install flood
+  yarn:
+    path: /usr/local/www/flood
+
+- name: yarn build flood
+  command: yarn run build
+  args:
+    chdir: /usr/local/www/flood
+
+- name: start flood
+  service:
+    name: flood
+    state: started
+
+- name: restart flood
+  service:
+    name: flood
+    state: restarted

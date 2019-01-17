@@ -20,7 +20,7 @@
   tags: [app]
 
 - hosts: rtorrent
-  roles: [rutorrent]
+  roles: [rtorrent]
   tags: [app]
 
 - hosts: sabnzbd

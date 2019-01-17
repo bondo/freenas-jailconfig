@@ -1,0 +1,7 @@
+---
+
+dependencies:
+- role: rutorrent
+  when: rtorrent_frontend == 'rutorrent'
+- role: flood
+  when: rtorrent_frontend == 'flood'

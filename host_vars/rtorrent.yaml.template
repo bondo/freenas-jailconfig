@@ -1,0 +1,5 @@
+---
+
+# Can be flood or rutorrent
+rtorrent_frontend: flood
+flood_jwt_secret: "{{ lookup('password', playbook_dir ~ '/assets/rtorrent/flood_jwt_secret length=32 chars=ascii_letters') }}"

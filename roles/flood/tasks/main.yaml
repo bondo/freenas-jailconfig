@@ -1,0 +1,102 @@
+---
+
+- name: install flood dependencies
+  pkgng:
+    name:
+    - node
+    - yarn
+    state: present
+
+- name: create flood user
+  user:
+    name: flood
+    groups:
+    - media
+    - rtorrent
+    state: present
+    home: /usr/local/www/flood
+    createhome: no
+
+- name: add the flood user to the rtorrent group
+  user:
+    name: flood
+    groups: rtorrent
+    append: yes
+  notify: restart flood
+
+- name: create flood webdir
+  file:
+    path: /usr/local/www/flood
+    state: directory
+    owner: root
+    group: wheel
+    mode: 0755
+
+- name: clone flood
+  git:
+    repo: https://github.com/jfurrow/flood.git
+    dest: /usr/local/www/flood
+    version: 2cd1aa63e70c15640f9007452b3b987eabd9c7b5
+    update: yes
+    force: yes
+  notify:
+    - yarn install flood
+    - yarn build flood
+
+- name: set owner of server/db/ to flood
+  file:
+    path: /usr/local/www/flood/server/db
+    state: directory
+    recurse: yes
+    owner: flood
+    group: wheel
+    mode: 'u=rwX,go=rX'
+
+- name: configure flood
+  template:
+    src: config.js
+    dest: /usr/local/www/flood/config.js
+    owner: root
+    group: wheel
+    mode: 0644
+  notify:
+  - yarn build flood
+  tags: [config]
+
+- name: create flood init script
+  template:
+    src: flood.sh
+    dest: /usr/local/etc/rc.d/flood
+    owner: root
+    group: wheel
+    mode: 0755
+  notify: restart flood
+
+- name: enable flood
+  service:
+    name: flood
+    enabled: yes
+  notify: start flood
+
+- name: create the nginx vhost
+  template:
+    src: nginx-vhost.conf
+    dest: /usr/local/etc/nginx/sites-available/flood
+    owner: root
+    group: wheel
+    mode: 0644
+  notify: reload nginx
+  tags: [config]
+
+- name: disable rutorrent vhost
+  file:
+    path: /usr/local/etc/nginx/sites-enabled/rutorrent
+    state: absent
+  notify: reload nginx
+
+- name: enable the vhost
+  file:
+    src: /usr/local/etc/nginx/sites-available/flood
+    dest: /usr/local/etc/nginx/sites-enabled/flood
+    state: link
+  notify: reload nginx

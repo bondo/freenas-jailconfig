@@ -126,6 +126,12 @@
   notify: reload nginx
   tags: [config]
 
+- name: disable flood vhost
+  file:
+    path: /usr/local/etc/nginx/sites-enabled/flood
+    state: absent
+  notify: reload nginx
+
 - name: enable the vhost
   file:
     src: /usr/local/etc/nginx/sites-available/rutorrent
