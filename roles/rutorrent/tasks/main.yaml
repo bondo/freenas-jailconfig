@@ -6,6 +6,7 @@
     - ffmpeg
     - mediainfo
     - unrar
+    - sox
     state: present
 
 - name: create rutorrent user
