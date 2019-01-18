@@ -24,6 +24,13 @@
     append: yes
   notify: restart flood
 
+- name: add the www user to the rtorrent group
+  user:
+    name: www
+    groups: rtorrent
+    append: yes
+  notify: restart nginx
+
 - name: create flood webdir
   file:
     path: /usr/local/www/flood
