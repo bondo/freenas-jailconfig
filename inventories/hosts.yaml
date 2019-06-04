@@ -2,7 +2,8 @@
 all:
   hosts:
     freenas:
-      ansible_ssh_host: freenas.local
+      ansible_ssh_host: freenas
+      ansible_user: bba
       ansible_python_interpreter: /usr/local/bin/python3
   children:
     jails:
@@ -17,21 +18,21 @@ all:
           ansible_ssh_host: sabnzbd.local
           ansible_python_interpreter: /usr/local/bin/python3
         plex:
-          ansible_ssh_host: plex.local
+          ansible_ssh_host: plex
           ansible_python_interpreter: /usr/local/bin/python3
         sonarr:
           ansible_ssh_host: sonarr.local
           ansible_python_interpreter: /usr/local/bin/python3
-        dnscrypt-proxy:
-          ansible_ssh_host: dnscrypt-proxy.local
-          ansible_python_interpreter: /usr/local/bin/python3
-        stats:
-          ansible_ssh_host: stats.local
-          ansible_python_interpreter: /usr/local/bin/python3
+        # dnscrypt-proxy:
+        #   ansible_ssh_host: dnscrypt-proxy.local
+        #   ansible_python_interpreter: /usr/local/bin/python3
+        # stats:
+        #   ansible_ssh_host: stats.local
+        #   ansible_python_interpreter: /usr/local/bin/python3
     media:
       hosts:
         rtorrent:
         sabnzbd:
         plex:
         sonarr:
-        radarr:
+        # radarr:
